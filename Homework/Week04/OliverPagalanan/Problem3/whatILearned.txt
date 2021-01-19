@@ -1,0 +1,7 @@
+What I Learned:
+
+1. I learned that git has three main states of where the files can reside in which are modified, staged and committed.
+
+2.I learned that you can undo commits and some things that have been happening and changing in git by using the "git commit --amend" command.
+
+3.I learned that remote repositories are actually versions of a project that are hosted on the Internet or network.

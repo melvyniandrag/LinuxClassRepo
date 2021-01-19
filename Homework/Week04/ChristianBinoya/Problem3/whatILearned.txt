@@ -1,0 +1,5 @@
+First off, I did not know Version Control is extremely revolutionary and incredibly beneficial and essential to programmers. This allows someone to go baack through their previous ideas they had from the previous state of their data and can search and fix some errors they made before the current state. Also, you can use VCs to go visit or even edit previous states of a file.
+
+Second, I learned that git can let a user make changes locally and can be then update these changes when you are connected to a network. This lowers the chances of making grave mistakes when a user makes changes.
+
+Third, I learned that it is difficult to make git erase or delete files or versions of files which adds on to the safety of using it and preventing mistakes that can affect multiple projects that you are working on. 

@@ -1,0 +1,9 @@
+7:00 - 7:30 Homework 5 Review
+7:30 - 7:45 First programs
+7:45 - 8:15 Signal Handlers
+8:15 - 8:30 break
+8:30 - 8:45 Return to signal handlers
+8:45 - 9:15 setuid setgid
+9:15 - 9:20 fork, exec, fork bomb
+9:20 - 9:30 homework 6 discussion. Make sure that all the lecture notes are pushed to the class repo.
+9:30 - 9:55 extra stuff / install from source if time.

@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "runForever.py", line 5, in <module>
+    sys.err.write("still running . . .")
+AttributeError: module 'sys' has no attribute 'err'

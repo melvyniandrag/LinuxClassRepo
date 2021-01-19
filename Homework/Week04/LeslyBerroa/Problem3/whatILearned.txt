@@ -1,0 +1,15 @@
+3 things that I learned from reading chapter 1 and 2 are:
+
+
+1- When talking about the history of Git it is surprising to learn that before 2005 it was a place that was harder to understand and use. As a beginer programmer and user of GitBash I can't imagine how it would be to use another "harder" version of the program. I am slowly addapting and gettin used to all the commands and extensive vocabulary so I am grateful for the way it has evoled. Git has been able to evolve and continue to have it's principal qualities such as incredible speed, a great branching system for nonlinear development, lastly it also provides a great advantage when it comes to large projects.
+
+2-I have learned that for a Windows user while using GitBash if the person wants to change the text editor they can do so with the following line:
+ $ git config --global core.editor nameOfSpecificEditorText
+It might vary and be different dependin gin how the editor installed is packaged.
+
+3- The third thing that was interesting to learn was that you can tell Git to ignore certain files. You can do tus vt creating a file listing pattern to match their names to ".gitignore."
+The book provides the following example:
+$ cat .gitignore
+*.[oa] #This line is telling the system to ignore any files that end with ".o" or ".a".
+*~  #This line tells the system to ignore any files that with the tilder(~).
+

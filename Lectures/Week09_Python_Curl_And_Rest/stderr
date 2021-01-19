@@ -1,0 +1,93 @@
+Note: Unnecessary use of -X or --request, GET is already inferred.
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 172.217.3.100...
+* TCP_NODELAY set
+* Connected to www.google.com (172.217.3.100) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: /etc/ssl/certs/ca-certificates.crt
+  CApath: /etc/ssl/certs
+} [5 bytes data]
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+} [512 bytes data]
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+{ [122 bytes data]
+* TLSv1.3 (IN), TLS Unknown, Certificate Status (22):
+{ [1 bytes data]
+* TLSv1.3 (IN), TLS handshake, Unknown (8):
+{ [15 bytes data]
+* TLSv1.3 (IN), TLS handshake, Certificate (11):
+{ [2339 bytes data]
+* TLSv1.3 (IN), TLS handshake, CERT verify (15):
+{ [79 bytes data]
+* TLSv1.3 (IN), TLS handshake, Finished (20):
+{ [52 bytes data]
+* TLSv1.3 (OUT), TLS change cipher, Client hello (1):
+} [1 bytes data]
+* TLSv1.3 (OUT), TLS Unknown, Certificate Status (22):
+} [1 bytes data]
+* TLSv1.3 (OUT), TLS handshake, Finished (20):
+} [52 bytes data]
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use h2
+* Server certificate:
+*  subject: C=US; ST=California; L=Mountain View; O=Google LLC; CN=www.google.com
+*  start date: Oct 10 20:56:23 2019 GMT
+*  expire date: Jan  2 20:56:23 2020 GMT
+*  subjectAltName: host "www.google.com" matched cert's "www.google.com"
+*  issuer: C=US; O=Google Trust Services; CN=GTS CA 1O1
+*  SSL certificate verify ok.
+* Using HTTP2, server supports multi-use
+* Connection state changed (HTTP/2 confirmed)
+* Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
+} [5 bytes data]
+* TLSv1.3 (OUT), TLS Unknown, Unknown (23):
+} [1 bytes data]
+* TLSv1.3 (OUT), TLS Unknown, Unknown (23):
+} [1 bytes data]
+* TLSv1.3 (OUT), TLS Unknown, Unknown (23):
+} [1 bytes data]
+* Using Stream ID: 1 (easy handle 0x562696ff3580)
+} [5 bytes data]
+* TLSv1.3 (OUT), TLS Unknown, Unknown (23):
+} [1 bytes data]
+> GET /doesntExist HTTP/2
+> Host: www.google.com
+> User-Agent: curl/7.58.0
+> Accept: */*
+> 
+{ [5 bytes data]
+* TLSv1.3 (IN), TLS Unknown, Certificate Status (22):
+{ [1 bytes data]
+* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+{ [256 bytes data]
+* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+{ [256 bytes data]
+* TLSv1.3 (IN), TLS Unknown, Unknown (23):
+{ [1 bytes data]
+* Connection state changed (MAX_CONCURRENT_STREAMS updated)!
+} [5 bytes data]
+* TLSv1.3 (OUT), TLS Unknown, Unknown (23):
+} [1 bytes data]
+* TLSv1.3 (IN), TLS Unknown, Unknown (23):
+{ [1 bytes data]
+< HTTP/2 404 
+< content-type: text/html; charset=UTF-8
+< referrer-policy: no-referrer
+< content-length: 1572
+< date: Fri, 01 Nov 2019 01:09:54 GMT
+< alt-svc: quic=":443"; ma=2592000; v="46,43",h3-Q049=":443"; ma=2592000,h3-Q048=":443"; ma=2592000,h3-Q046=":443"; ma=2592000,h3-Q043=":443"; ma=2592000
+< 
+{ [5 bytes data]
+* TLSv1.3 (IN), TLS Unknown, Unknown (23):
+{ [1 bytes data]
+* TLSv1.3 (IN), TLS Unknown, Unknown (23):
+{ [1 bytes data]
+* TLSv1.3 (IN), TLS Unknown, Unknown (23):
+{ [1 bytes data]
+* TLSv1.3 (OUT), TLS Unknown, Unknown (23):
+} [1 bytes data]
+100  1572  100  1572    0     0  36558      0 --:--:-- --:--:-- --:--:-- 36558
+* Connection #0 to host www.google.com left intact

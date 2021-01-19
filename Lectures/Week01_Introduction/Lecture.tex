@@ -1,0 +1,333 @@
+\documentclass[10pt]{article}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage{hyperref}
+\usepackage[margin=0.75in]{geometry}
+
+\usepackage{multicol}
+\usepackage{textcomp}
+\usepackage{color}
+\usepackage{graphicx}
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.5,0}
+\definecolor{pred}{rgb}{0.9,0,0}
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+
+\usepackage{listings}
+\lstdefinestyle{term}{language=bash,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  numbers=left,
+  stepnumber=1,
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+\lstdefinestyle{sh}{language=bash,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  numbers=left,
+  stepnumber=1,
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\lstdefinestyle{py}{language=python,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  numbers=left,
+  stepnumber=1,
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\title{\textbf{Week 01} \\
+INTRODUCTION} 
+\author{
+	Melvyn Ian Drag
+}
+\date{\today}
+
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Today we'll discuss what lies ahead of us this semester. We'll look at some
+motivating examples, peek at the syllabus, and then jump into it.
+\end{abstract}
+
+\section{Why Learn Linux?}
+Here's one cool thing you can do:
+
+\begin{lstlisting}[style=term]
+melvyn@machine$ telnet towel.blinkenlights.nl
+(exit with CTRL + ], then quit)
+\end{lstlisting}
+
+
+\*nix refers to a family of similar operating systems that have an interesting
+history. They are different from Windows, but are as or more popular than
+windows on personal computers and on servers. It's not just Linux either, there
+are also the BSD's that are all under the same family of operating systems.
+MacOS is a type of BSD. I'm personally quite interested in a newer one called
+DragonflyBSD, but we'll talk more about that later. Even Windows is becoming
+more and more Linux like - we're doing todays lecture without many of you even
+having a linux machine because you can do Linuxy things on Windows for now.
+Anyway, all these OSs like the BSDs and your Linuxes are different operating
+systems that emulate old school Unix machines and then do so much more.
+
+For me, \*nix isn't about operating systems and stuff - it's about \textit{doing
+cool stuff}, and Linux/BSD gives you power to do cool stuff. I'll just show you
+a few things you can do here with Linux:
+
+Demos:
+1. Website running linux
+2. Robot running linux ( youtube )
+3. Cars run Linux
+\url{https://events19.linuxfoundation.org/events/automotive-linux-summit-2018/}
+4. Laptop runs linux ( show T series laptops )
+5. Raspberry Pi + Beagleboard demos
+6. Playstation4 runs a Unix operating system
+7. telnet starwars ( you already saw)
+8. There is alot of money to be made ( can't demo money, but if you look at
+salaries on indeed for Linux pros you'll see there is a nice amount of cash out
+there for you if you aren't a bonehead.
+
+You can do anything in \*nix, and whatever can't be done - you can code it yourself and share it with the community. You may not have a grasp of how powerful computers are if you are early in your career and all you've done is surf the web and play games.
+
+
+\section{7:20 - 7:30 About this class}
+\[ run through the syllabus \]
+
+I'll not give `bathroom breaks' in this class because it usually leads to the
+class getting derailed. Some folks don't have to pee and then get bored of 10
+minutes of nothing, others decide to take a walk, then come back late having
+missed alot of material and then disturb the lecture, I get anxious sitting here
+doing nothing, etc. So I'll just punctuate lectures with periods of activities
+for you all to do and you can leave the class during those periods of time. Of
+course you can leave whenever, but I want to make sure you be able to see the
+light at the end of the tunnel if you have to pee - if you can hold it, there
+will be a break in 20 minutes or so, so you don't need to worry. Also I don't
+want you to sit for 3 hours listening to me talk.
+
+We're going to use digital ocean servers in this class. I don't have time to
+show you one right now, next week we'll discuss it. This will either be free to
+you or at most cost \$50 or so for the semester. It will probably be free though.
+More details next week. I'm not requiring a text book for this class so you've
+already saved about \$150 right there, and I don't think you'll need to pay for
+these servers we'll use, but if you do it will be a tiny amount of money,
+espectially compared to the crazy stuff I'm going to show you how to do with
+this cheap machine.
+
+\section{7:30 - 8:00 Getting started with the terminal in Linux}
+\begin{multicols}{4}
+\begin{enumerate}
+\item ls
+\item ls -l
+\item ls -ltr
+\item ls -a
+\item ls -la
+\item cd $~$
+\item cd
+\item cd .
+\item cd ..
+\item cd ../../
+\item cp
+\item cp -r
+\item mv
+\item mkdir
+\item mkdir -p
+\item touch
+\item rm 
+\item rm -r
+\item which 
+\end{enumerate}
+\end{multicols}
+\section{8:00 - 8:05 5 minutes to practice commands. }
+
+\begin{itemize}
+\item practice the above commands
+\item \[put some structured activities here \]
+\end{itemize}
+
+
+\section{8:05 - 8:30 Bash commands part 2}
+
+\begin{multicols}{4}
+\begin{enumerate}
+\item cat \$file1
+\item cat \$file2 \$file3
+\item echo ``hello"
+\item echo ``my path \$PATH"
+\item man
+\item wc
+\item wc -c \$fileName
+\item wc -l
+\item wc -w
+\item md5sum
+\item more
+\item less
+\item unzip
+\item zip
+\item tar
+\item tar -xvzf
+\item cut -b
+\item cut -c 
+\item tree
+\item lsblk ( plug in a usb stick and see that it changes )
+\item du - list disk usage globally
+\item df - list disk usage by file
+\item wget
+\end{enumerate}
+\end{multicols}
+
+Note about cut: cut -c is just like cut -b on every machine I've seen. In the future -b ( byte) and -c ( character) will be different. Ill give some insight on that later in the class, and if you know Java + C you will likely have a bit of insight on the definitions of byte and character, where they are the same, and where they are different. There is no time for that now, and if you already have insight, just keep it to yourself for now haha.
+
+\section*{8:30 - 9:00 vim}
+\subsection{8:30 - 8:35 Why learn vim?}
+
+As you've seen a major part of working on Linux is doing stuff on the command line. 
+If you're on your laptop, you might use other graphical tools. You can create a directory, for example, by right clicking and going to 'create directory' or whatever as you do on windows, but you'll often work on the command line, or create directories in your code, and things like 'mkdir' are useful for that. 
+If you are a web developer maintaining a website, youll often connect to a command line interface and do things there, because you won't have a monitor in front of you. 
+If you remotely connect to a computer, you'll maybe need to edit a file. for
+this you'll need a command line editor. Here's your first dose of linux/unix/bsd
+culture! There is alot of playful fighting in the \*nix world about the best way
+to edit files on the command line. Mainly the war is around two editors,
+\url{https://en.wikipedia.org/wiki/Editor_war, emacs and vim}. I like vim. Some folks like emacs. I started on emacs a decade ago, but when I learned vim I found that I liked it more and I haven't looked back in about 10 years. I'm going to teach you vim, and if you want to learn Emacs you'll have to do it on your own time. 
+If you get a job and have to edit a file on a server, and you fire up vim and edit it smoothly you'll instantaneously become the celebrity of the office. You'll be one of the cool cats. Emacs would also get you cool points.
+
+But vim is featured in every standard linux distro, while emacs is not! 
+Whatever, too much said already. We're using vim for this class.
+There are simpler editors like pico and nano, but I know vim by heart so that's what I use and teach!
+
+\subsection*{8:35 - 8:40 Basic Vim workflow}
+Look at the stupid vim memes. They are dumb and frustrating. Memes in the
+foloder here. Memes about not knowing how to exit vim. So many `hackers'
+want to complain that they can't even remember the following:
+
+To open a file with vim type
+
+\begin{lstlisting}[style=term]
+melvyn@computer$ ls
+filename otherfilename dirname otherstuff
+melvyn@computer$ vim filename
+# vim will open a file with name 'filename'
+# if the file exists, it will create the file.
+\end{lstlisting}
+
+Vim is a 'mode based' editor. 
+Hit i to enter insert mode. Start typing as normal.
+Hit esc to get out of insert mode.
+Type :wq to save and quit. 
+Thats 99\% of what you'll do in this class.
+
+\subsection*{ 8:40 - 9:00 More vim commands to make your work better.}
+\begin{itemize}
+\item h, j, k, l
+\item I prefer to just use the arrow keys
+\item modes i, esc
+\item quit with :q. To save and quit you use :wq or :x. If you want to know the difference, google the diff between :wq and :x. there is a slight difference, but it doesnt matter.
+\item dd to delete a line
+\item y is copy.
+\item p is paste after the cursor
+\item shift p is paste before the cursor
+\item u is undo
+\item CTRL + r is to redo.
+\end{itemize}
+
+Here is some more functionality that is so powerful and unique to vim that it
+will make you feel scared. You've never had this power before and this is going
+to make you think vim is hard. It's not. You can ignore the following for now,
+but within 2 weeks when you've mastered the above you'll be ready to appreciate
+how great the below commands are. I'm just showing you now to plan the seed so
+that it can start to develop in your subconscious.
+
+\begin{itemize}
+\item w to go forward a word
+\item e to go to the end of the next word
+\item b to go to the previous word beginning.
+\item to go forward 5 words, 5w
+\item To go back 5 words, 5b.
+\end{itemize}
+
+\section*{ 9:00 - 9:05 Experiment with Vim}
+Now is your time to try allthe things I've shown you and ask me questions if you
+don't get it.
+
+\section*{ 9:05 - 9:10 Bash Part 3 }
+
+Return value of last command is : \$?. All these linux commands I've shown you
+return information to the terminal. They tell the terminal if the command was
+successful or not. To check the return code you type `echo \$?'.
+
+\begin{lstlisting}[style=term]
+melvyn@machine$ echo "hello world"
+hello world 
+melvyn@machine$? echo $?
+0
+melvyn@machine$ ehco "aksljdg"
+# error
+melvyn@machine$ echo $?
+127
+#the 127 indicates an error. There was an error because ehco is not a command,
+echo is.
+\end{lstlisting}
+
+\section{ 9:10 - 9:30 More vim and the inevitable questions }
+The coupe de gras. Registers in vim. Vim remembers the things you've yanked in the past. Type :reg
+See that vim remembers the stuff you've put on your clipboard in the past.
+Exercise
+Type:
+Hello
+World
+Foo
+Bar
+Baz
+dd Hello
+dd World
+highlight and yank the other three
+Then look at clip board.
+Paste world
+Paste Baz
+Foo
+Bar
+Baz
+Look at :reg and see what it remembers. I think it remembers the dd stuff but only remembers the latest yanked stuff.
+Paste the things from your registers with <reg id>p e.g. ( when  in normal mode, not insert mode ) "1p, see what happens. 
+
+
+\section*{ 9:30 - 9:45 Homework Discussion and further questions and answers }
+Look at and discuss homework.
+\end{document}

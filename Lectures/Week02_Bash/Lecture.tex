@@ -1,0 +1,414 @@
+\documentclass[10pt]{article}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage{hyperref}
+\usepackage[margin=0.75in]{geometry}
+
+\usepackage{multicol}
+\usepackage{textcomp}
+\usepackage{color}
+\usepackage{graphicx}
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.5,0}
+\definecolor{pred}{rgb}{0.9,0,0}
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+
+\usepackage{listings}
+\lstdefinestyle{term}{language=bash,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+\lstdefinestyle{sh}{language=bash,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  numbers=left,
+  stepnumber=1,
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\lstdefinestyle{py}{language=python,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  numbers=left,
+  stepnumber=1,
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\lstdefinestyle{txt}{
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  numbers=left,
+  stepnumber=1,
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\usepackage[T1]{fontenc}
+
+\title{\textbf{Week 02} \\
+More about the command line and shell scripting} 
+\author{
+	Melvyn Ian Drag
+}
+\date{\today}
+
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+For tonight's class we'll learn more about the Linux command line and shell
+scripting.
+\end{abstract}
+
+\section*{Working on the Linux Command Line}
+You know some commands already:
+\begin{multicols}{4}
+\begin{enumerate}
+\item cat
+\item ls
+\item cd
+\item cp
+\item cut
+\item cut -c
+\item cut -b
+\item echo
+\item touch
+\item \textbf{What else?}
+\end{enumerate}
+\end{multicols}
+
+Here are some more commands that are useful:
+\begin{multicols}{4}
+\begin{enumerate}
+\item sort
+\item uniq
+\item tee
+\item history
+\item grep 
+\end{enumerate}
+\end{multicols}
+
+these commands are particularly useful in the context of \textbf{pipes}. Pipes
+are one of the defining features of Unix systems, they are one of the things
+that make unix great. A major tenet of Unix philosophy is that programs should
+be very simple and do one thing - just one simple thing - but do it incredibly
+efficiently and always get the correct result. Then these simple
+programs can be strung together to make more interesting programs that are fast
+and correct, because the tiny programs  (like cat and sort and ls and cd, etc. )
+are fast and correct.
+
+\section*{Pipes}
+
+TODO 
+here put a quote from this video: \url{https://www.youtube.com/watch?v=bKzonnwoR2I}
+
+Theres a couple of good lines in there at 3:24. Kernighan just says how pipes are an integral 
+part of unix systems and have been since 19XX. Good quote to emphasize.
+
+Consider the following file:
+
+\lstinputlisting[style=txt]{Code/NumbersPipeExample/numbers.txt}
+
+There are many things you can do with this file. By the way, I have it saved in
+my current working directory as `numbers.txt' - you should do the same. Then
+type the following commands and note the output for each one. Use the output to
+think about what the various commands do.
+
+\begin{lstlisting}[style=term]
+melvyn@laptop$ cat numbers.txt | sort
+melvyn@laptop$ cat numbers.txt | sort -n
+melvyn@laptop$ cat numbers.txt | sort -g
+melvyn@laptop$ cat numbers.txt | sort | uniq
+melvyn@laptop$ cat numbers.txt | uniq # note that this does not work.
+\end{lstlisting}
+
+So you see the idea of pipes? We used a few linux commands together, separated
+by a `|' to achieve a cool result. I showed you above a few ways to sort, and
+then the correct and the wrong way to find the uniq numbers in a file. 
+
+Let's continue with this discussion of pipes:
+
+\begin{lstlisting}[style=term]
+melvyn@laptop$ echo hello | cut -b1-2
+melvyn@laptop$ echo hello | cut -c1-4
+melvyn@laptop$ echo "hello world" | cut -d" " -f1
+melvyn@laptop$ te how cut with d and f is finicky
+melvyn@laptop$ echo "hello      world" | cut -d" " -f2 # many spaces between hello and world.
+melvyn@laptop$  default cut uses TAB ( \t ) as delimiter.
+melvyn@laptop$ cat file  | md5sum
+melvyn@laptop$ md5sum file
+melvyn@laptop$ cat file | sha256
+melvyn@laptop$ history | grep "that cool command I can only remember part of" # I do this at least 50 times a day
+\end{lstlisting} 
+
+...this bit about `cut' is super important.... let's play with it more to make
+sure you understand it... heck... to make sure \textit{I} understand it.
+
+
+\textbf{Spend 5 minutes playing with cut and pipes to extract various bits of
+information}
+
+\section*{stdin, stdout, stderr}
+\subsection*{Intro}
+What a great time to be in a class. In the next few minutes you're going to hear
+about what all the Linux people know.
+
+So far I've shown you stdout, but I never told you what it was.
+\begin{lstlisting}[style=term]
+melvyn@laptop$ # the > is for stdout
+melvyn@laptop$ echo "hello" > hello.txt
+melvyn@laptop$ cat hello.txt
+hello
+\end{lstlisting} 
+
+The greater than sign indicated stdout (standard out ). It takes the output of a
+command and routes it somewhere. In this case, the standard out of `echo' was
+routed to a file called `hello.txt'.
+
+Another interesting thing to note is that if you repeatedly use this operator,
+it does not append to the output file, it overwrites it.
+
+\begin{lstlisting}[style=term]
+melvyn@laptop$ # the > is for stdout
+melvyn@laptop$ echo "hello" > hello.txt
+melvyn@laptop$ echo "hello" > hello.txt
+melvyn@laptop$ echo "hello" > hello.txt
+melvyn@laptop$ echo "hello" > hello.txt
+melvyn@laptop$ wc -l hello.txt
+\end{lstlisting} 
+
+What do you expect? 4 lines or 1 line? Try it for yourself! You will find that
+there is only one line. If you want to append output and not overwrite, you have
+to use this operator:
+
+\begin{lstlisting}[style=term]
+melvyn@laptop$ # the > is for stdout
+melvyn@laptop$ echo "hello" >> output.txt
+melvyn@laptop$ echo "hello" >> output.txt
+melvyn@laptop$ echo "hello" >> output.txt
+melvyn@laptop$ echo "hello" >> output.txt
+melvyn@laptop$ wc -l hello.txt
+\end{lstlisting} 
+
+Now you will see there are four lines!
+
+\subsection*{Details}
+All linux processes have at least 3 "file descriptors" or communication channels with the outside world. Does anyone not know what they are? Then Ill tell you. You have standard in, standard out, and standard error. We've already begun using them in this class briefly with the > operator. 
+
+Open vim and create a file. Type a couple of words in it, we're going to use that file for the next exercise.
+
+\begin{lstlisting}[style=term]
+melvyn@laptop$ wc fileThatExists > log
+\end{lstlisting}
+
+ You see nothing. Running cat log will show you the output of the wc tool
+
+\begin{lstlisting}[style=term]
+melvyn@laptop$ wc filethatdoesntexist > log
+\end{lstlisting}
+
+ You see an error in the shell, cat log shows nothing. There was no std out of wc, but there was err output
+
+\begin{lstlisting}[style=term]
+melvyn@laptop$ wc filethatdoesntexist 1>log 2>errLog
+\end{lstlisting}
+
+ Now there is no error on the screen, but cat errLog shows the error from wc.
+
+\begin{lstlisting}[style=term]
+melvyn@laptop$ wc filethatdoesntexist >log 2>errLog
+\end{lstlisting}
+
+ You can put the 1 or not, it assumes the 1 is for stdout, 2 is for stderr.
+
+A common "idiom" you'll see is
+
+\begin{lstlisting}[style=term]
+melvyn@laptop$ wc file 1>place 2>&1
+\end{lstlisting}
+
+ that redirects both stdout and stderr to the same location.
+
+You can also write 
+\begin{lstlisting}[style=term]
+melvyn@laptop$ wc filethatdoesntexist &>place
+\end{lstlisting}
+
+ to redirect both to 'place'.
+
+As an aside look what vim does to the files. Not essential stuff, but this is just to deepen your knowledge of vim and how much attention to detail is required in programming. What if you are working on a project and there is a datafile that shouldn't have newlines. Then you peek in the file with vim and absent mindedly close it with :wq. You could cause an error that could take days to debug!!
+
+\begin{lstlisting}[style=term]
+wc errLog
+0 blah blah
+\end{lstlisting}
+
+There are no newlines
+
+Not open errLog with vim and quit immediately with :q
+
+\begin{lstlisting}[style=term]
+melvyn@laptop$ wc errLog
+0 blah blah
+\end{lstlisting}
+
+Now open errLog with vim and close with wq. Then 
+
+\begin{lstlisting}[style=term]
+melvyn@laptop$ wc errLog
+1 blah blah
+\end{lstlisting}
+
+Now there is a newline! Writing with vim - vim always puts a newline at the end of the file.
+
+Now lets move on to standard in. We've already seen alot of it. Pipes use standard in!! You can always pipe the stdout of one process to the stdin of another!
+
+\begin{lstlisting}[style=term]
+username@computer$ cat file | wc
+\end{lstlisting}
+
+The stdin of wc picks up the stdout of file! Processes can take inputs and give outputs.
+
+There are various ways to feed a process's standardin. Some tools allow you to just give it as a positional argument, like wc.
+
+\begin{lstlisting}[style=term]
+student@computer$ wc file
+\end{lstlisting}
+
+'file' goes to the stdin of wc.
+
+You can also be more explicit. We saw that stdout is "1" for some mysterious reason, and stderr is "2" for an equally mysterious reason. Well, not a mystery, this is just boring technical stuff. Some programmer way back when made the decision to associate these numbers with the indicated channels, and that's the way it is! Why do we type "cp" to copy a file??? Just another boring technical reason, that's how the computer program was written , right?? Well, stdin is 0. Also, output is associated with > and >>, input is associated with <
+
+So we can also type `wc < file` or `wc 0< file`
+
+I don't know if I've ever written this syntax, maybe once or twice. I'm an application and operating system developer mainly. It certainly isn't in my day to day work, but it's good to know in case you come across it in a script, an exam, or have to teach it!
+
+
+Of course, you can mix these things
+
+\begin{lstlisting}[style=term]
+melvyn@laptop$ wc 0< file > log`
+\end{lstlisting}
+
+Also, don't forget about "append" vs write when it comes to the stderr/stdout stuff
+
+\begin{lstlisting}[style=term]
+melvyn@laptop$ wc filethatdoesntexist 2>> err
+melvyn@laptop$ wc filethatdoesntexist 2>> err
+melvyn@laptop$ wc filethatdoesntexist 2>> err
+melvyn@laptop$ wc filethatdoesntexist 2>> err
+melvyn@laptop$ cat err
+\end{lstlisting}
+
+You'll see alot of error messages logged in "err"
+
+An aside, maybe you're interested? How to pipe standard error?
+\url{https://stackoverflow.com/questions/1507816/with-bash-how-can-i-pipe-standard-error-into-another-process}
+
+A common thing you'll see and maybe want to do is make your processes shoosh! If a process is running and giving alot of output you don't want you can throw away the output channels.
+
+\begin{lstlisting}[style=term]
+melvyn@laptop$ wc f 2>/dev/null 
+\end{lstlisting}
+
+A common place to send unwanted output is to /dev/null, it just writes your output to the ether and you don't see it and it isn't logged anywhere.
+
+The above command should give an error, but you won't see it, its just gone. There are many times you'll want to do this. I won't dream up some big situation right now to illustrate this to you, just know you'll see this all over the place in bash scripts and there will come a time, if there hasn't already, where you'll just want to throw away either stdout or stderr and never hear about it.
+
+
+
+\section*{ 9:00 More vim commands to make your work better.}
+\begin{itemize}
+\item h, j, k, l
+\item I prefer to just use the arrow keys
+\item modes i, esc
+\item quit with :q. To save and quit you use :wq or :x. If you want to know the difference, google the diff between :wq and :x. there is a slight difference, but it doesnt matter.
+\item dd to delete a line
+\item y is copy.
+\item p is paste after the cursor
+\item shift p is paste before the cursor
+\item u is undo
+\item CTRL + r is to redo.
+\end{itemize}
+
+Here is some more functionality that is so powerful and unique to vim that it
+will make you feel scared. You've never had this power before and this is going
+to make you think vim is hard. It's not. You can ignore the following for now,
+but within 2 weeks when you've mastered the above you'll be ready to appreciate
+how great the below commands are. I'm just showing you now to plan the seed so
+that it can start to develop in your subconscious.
+
+\begin{itemize}
+\item w to go forward a word
+\item e to go to the end of the next word
+\item b to go to the previous word beginning.
+\item to go forward 5 words, 5w
+\item To go back 5 words, 5b.
+\end{itemize}
+
+
+\section*{ Review return codes in Bash }
+
+Return value of last command is : \$?. All these linux commands I've shown you
+return information to the terminal. They tell the terminal if the command was
+successful or not. To check the return code you type `echo \$?'.
+
+\begin{lstlisting}[style=term]
+melvyn@machine$ echo "hello world"
+hello world 
+melvyn@machine$? echo $?
+0
+melvyn@machine$ ehco "aksljdg"
+# error
+melvyn@machine$ echo $?
+127
+#the 127 indicates an error. There was an error because ehco is not a command,
+echo is.
+\end{lstlisting}
+
+\end{document}

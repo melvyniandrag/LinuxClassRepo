@@ -1,0 +1,13 @@
+1.5e3
+1.5e+3
+1.4e-3
+0
++0
+-0
++0
+three point four
+three point three
+three point four
+3.4
+3.3
+3.3e0

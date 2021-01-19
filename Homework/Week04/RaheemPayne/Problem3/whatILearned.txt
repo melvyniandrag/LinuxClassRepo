@@ -1,0 +1,3 @@
+1. In 2005 relationships between the community and the developers who created BitKeeper ended which caused the tools that were free to be revoked. So naturally the linux community developed their own tools with the knowledge they gained from BigKeeper and then Git was created. 
+2. I also learned with tagging if you forgot to add a tag at some point in your project you can always go back and add a tag. I also learned abou the two different types of tagging which are lightweight and annotated tags.
+

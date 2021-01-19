@@ -1,0 +1,8 @@
+find start with 1
+grep "^1" mygrepfile.txt
+find start with a-c
+grep "^[a-c]" mygrepfile.txt
+find end with c
+grep "c$" mygrepfile.txt
+find line with aa
+grep "aa\{2\}" mygrepfile.txt

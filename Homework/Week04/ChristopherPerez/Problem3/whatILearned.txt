@@ -1,0 +1,12 @@
+The History of Git
+Write 3 things that you learned from chapters 1 and 2 from the Git Book.
+https://git-scm.com/book/en/v2
+
+Git is extremely convenient if you are someone who likes to keep track of every version of their file. In the case that there is a compliation error, bad bug, or oversight, you will be able to back to any version that you know worked and figure out what you did right. 
+It's also impossible to change a file without Git knowing, as every change is checksummed.
+
+It's helpful to provide some documentary or commentary with your git files, so you should add a readme.md along with major folders if you know many people will be accessing your documents. It's important for someone with no context to be able to figure out what your files are for if it's the first time they will be seeing it.
+
+A lot of git's commands can have modifiers which will change the output of a command, for example git commit's -m, which skips the new screen process and adds the message on the same line as the commit. Another example may be git log --oneline, which gives you a more summarized view of your log.
+
+Remotes are a great way to get your files onto somewhere more easier to manage. Git Hub executes this very well, by having a great layout and showing you all of the changes of your files color-coded line by line for absolute detail.

@@ -1,0 +1,4 @@
+Three things that i learned when I read chapter 1-2
+1.One of the first things that caught my attention was -p or --patch, which shows the difference in each commit or the changes between two files after you’ve edited it out. You can also limit the number of log entries shown, such as using -2 to show only the last two entries.
+2. Another thing I learned is : Git commit --amend which lets you redo a commit because maybe you did it too early or didn’t completely add what you wanted.
+3. Tags are a way to mark release points, different versions, to differentiate each change/ save you make and the easiest way to call it is by typing git tag -l or --list. There are two different types of tags: annotated and lightweight. While lightweight is just like a pointer to a commit, annotated has different important information about tagger. To run an annotated tag is: git tag -a and whatever version -m ”some message” and to create a lightweight tag, just add a name to it.

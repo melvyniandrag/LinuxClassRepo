@@ -1,0 +1,15 @@
+3 things I leanred from reading chapetrs 1 + 2
+
+1- You can ignore files by typing
+$ cat .gitignore
+*.[oa] -this line tells the system to ignore any files ending with ".o" or ".a"
+*~ -this tells Git to ignore all files whose names end with a tilde (~)
+
+2-Git is an improved system of BitKeeper, which was made to be simple, faster, able to
+handle large projects and strong to support non-linear development.
+
+3-Also learned that Git has the ability to 
+tag specific points in a repository’s history
+as being important, and that there are different
+types of tagging like sharing, deleting, annotated,
+lightweigth etc.

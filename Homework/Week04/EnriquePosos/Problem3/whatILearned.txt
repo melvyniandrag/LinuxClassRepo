@@ -1,0 +1,4 @@
+The first thing I actually learned while reading this is how to install git on a Mac OS, considering its different than Windows and Linux. 
+I also learned that there are different types of editors you can use with the command "git config --global core.editor". Currently I use vim as an editor but you can use other types like emacs and such. 
+A useful tip I learned is that you can use the command "git status -s" to list a quick and short way of your git status files and such.
+These are the 3 things I learned while reading this text. 

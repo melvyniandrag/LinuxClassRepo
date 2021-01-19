@@ -1,0 +1,121 @@
+\documentclass[12pt]{article}
+\usepackage[breaklinks=true]{hyperref}
+\usepackage[margin=1in]{geometry}
+
+\usepackage{color}
+
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.5,0}
+\definecolor{pred}{rgb}{0.9,0,0}
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+
+\usepackage{listings}
+\lstset{language=bash,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  basicstyle=\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%}
+}
+
+\title{\textbf{Week 09} \\
+\Large How Does The Internet Work? Python, cURL and a REST API}
+\author{
+	Melvyn Ian Drag
+}
+\date{\today}
+
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This Lecture is preamble to the next one in which we will set up an apache webserver. We'll take a peek at Python, revisit cURL, and make some web requests.
+\end{abstract}
+
+
+\section{Exam finish by 7:15}
+Folks who missed the exam last week can come early and work until 7:15 to get it done.
+
+\section{Python}
+\subsection{Learn Python 3, not Python 2}
+There are two Pythons out there, one is Python 2 and the other is Python 3. Don't learn Python 2, learn Python 3. Python 2 is being retired next year. They've been asking the community to move to Python 3 for about a decade now and they've said after 2020 they aren't going to maintain the language anymore. So, the language will still work, but if it turns out that there is some security flaw or something wrong with it, they are not going to fix it. All energy is on Python 3 now. 
+
+You might ask if that's the case, then why is Python 2 still coming as the default Python on many linux distributions. That is because many Linux tools depend on Python 2 and until all the Linux tools are ported over to Python 3, they can't remove it from the OS. It will definitely be gone in the next few years though. To be honest, it might be gone already in things like Ubuntu 19, I just haven't checked.
+
+\subsection{Intro and Using Github to Test}
+What is HTTP/HTTPS?
+
+A prototcol used on the internet. You send some data to a server, the server responds with some data. As you will see with many data transmission technologies with computers, there is a header and a body. The header typically has meta data and bytes required by certain bits of computer hardware to process the body. Then the body contains the actual information.
+
+HTTP/HTTP work with a few verbs. We'll just focus on two of them for now, but there are ( at least ) 4. 
+
+Make some get, post requests. 
+
+We're going to use this tutorial here:
+\url{https://gist.github.com/joyrexus/85bf6b02979d8a7b0308}
+
+Do one with authentication and a REST API.
+
+\subsection{What kind of headers does curl take?}
+What kind of header does it take?
+
+Can we do two factor authentication with the REST API?
+
+\subsection{}
+
+\section{Cron}
+8:45 - 9:30
+
+Schedule a cowsay
+
+Schedule a system backup
+
+\section{Homework}
+9:44 - 9:45 discuss homework
+
+\section{Recap of what you know}
+\begin{enumerate}
+\item A bit about the Bash programming language
+\item grep \& regular expressions
+\item What a user is on Linux
+\item What a group is on Linux
+\item What is git?
+\item You're comfortable using a command line interface now
+\item There are a few different languages on the command line - we've used bash and dash
+\item What permissions are and how to modify them
+\item What is a root user
+\item What is a process
+\item What is a job
+\item How to send signals to processes ( kill, CTRL+C, CTRL+Z )
+\item How to make code ignore or block signals
+\item How to install software on Linux
+\item A cool trick for using setuid / setgid to make a non-root user do some root stuff
+\item basics of relational dbs and how to configure one on Linux
+\item What is cron
+\item curl
+\item some vocabulary like API, REST, regex, SQL, DB
+\item A bit about python programming
+\end{enumerate}
+
+\section{Coming Up In This Class}
+
+We have a few more important things to cover
+\begin{enumerate}
+\xxd
+\item set up apache webserver
+\item set up a git server
+\item Linux and Text encodings
+\item The AWK programming language
+\item The hows and whys of formatting harddrives, usb sticks, solid state drives, etc.
+\item Encryption with gpg + pgp. How it relates to ssh and other pub/priv key schemes.
+\end{enumerate}
+
+\end{document}

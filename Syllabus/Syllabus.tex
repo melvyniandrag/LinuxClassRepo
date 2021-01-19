@@ -1,0 +1,305 @@
+% Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage[left=1in,top=1in,right=1in,bottom=1in,headheight=3ex,headsep=3ex]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+
+\newcommand{\blankline}{\quad\pagebreak[2]}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Modify Course title, instructor name, semester here %%%%%%%%
+
+\title{Linux Shell Programming}
+\author{Melvyn Drag}
+\date{Spring 2019}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[sc]{mathpazo}
+\linespread{1.05} % Palatino needs more leading (space between lines)
+\usepackage[T1]{fontenc}
+\usepackage[mmddyyyy]{datetime}% http://ctan.org/pkg/datetime
+\usepackage{advdate}% http://ctan.org/pkg/advdate
+\newdateformat{syldate}{\twodigit{\THEMONTH}/\twodigit{\THEDAY}}
+\newsavebox{\MONDAY}\savebox{\MONDAY}{Mon}% Mon
+\newcommand{\week}[1]{%
+%  \cleardate{mydate}% Clear date
+% \newdate{mydate}{\the\day}{\the\month}{\the\year}% Store date
+  \paragraph*{\kern-2ex\quad #1, \syldate{\today} - \AdvanceDate[4]\syldate{\today}:}% Set heading  \quad #1
+%  \setbox1=\hbox{\shortdayofweekname{\getdateday{mydate}}{\getdatemonth{mydate}}{\getdateyear{mydate}}}%
+  \ifdim\wd1=\wd\MONDAY
+    \AdvanceDate[7]
+  \else
+    \AdvanceDate[7]
+  \fi%
+}
+\usepackage{setspace}
+\usepackage{multicol}
+%\usepackage{indentfirst}
+\usepackage{fancyhdr,lastpage}
+\usepackage{url}
+\pagestyle{fancy}
+\usepackage{hyperref}
+\usepackage{lastpage}
+\usepackage{amsmath}
+\usepackage{layout}
+\usepackage{multicol}
+
+
+\lhead{}
+\chead{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Modify header here %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\rhead{\footnotesize Linux Shell Programming}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lfoot{}
+\cfoot{\small \thepage/\pageref*{LastPage}}
+\rfoot{}
+
+\usepackage{array, xcolor}
+\usepackage{color,hyperref}
+\definecolor{clemsonorange}{HTML}{EA6A20}
+\hypersetup{colorlinks,breaklinks,linkcolor=clemsonorange,urlcolor=clemsonorange,anchorcolor=clemsonorange,citecolor=black}
+
+\begin{document}
+
+\maketitle
+
+\blankline
+
+\begin{tabular*}{.93\textwidth}{@{\extracolsep{\fill}}lr}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Modify information %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+E-mail: \texttt{mdrag1@njcu.edu} & Web: \href{melvyniandrag.github.io}{\tt\bf melvyniandrag.github.io}  \\
+
+ Office Hours: Th 6-7 \& Fri 10-1  &  Class Hours: Th 7-9:45pm \\
+
+ Office: CS Adjunct Office & Class Room: TBD \\
+ & \\
+\hline
+\end{tabular*}
+
+\vspace{5 mm}
+
+% First Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Course Description}
+
+In this fun, fast-paced class you're going to become a "Linux Rockstar". Within a few short months you'll get lots of great information to make you more employable and more efficient on Linux machines. We will learn about *nix operating systems and programming in this environment.  When possible we will explore topics in depth. More complex topics will be briefly touched upon to acquaint you with important *nix vocabulary words and key concepts.
+
+% Second Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Required Materials}
+
+\begin{itemize}
+\item Access to a Google Cloud Virtual Machine ( provided and free ).
+\end{itemize}
+
+% Fourth Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Course Objectives}
+You will master many aspects of Linux/Unix, and acquaint yourself with others. You will learn:
+\begin{multicols}{2}
+\begin{enumerate}
+\item bash
+\item vim
+\item awk
+\item sed
+\item network programming
+\item file system management
+\item version control
+\item webservers
+\item Linux account management
+\item run scheduled tasks
+\item ( a little ) C.
+\item kernel driver development
+\item containerization/virtualization.
+\item ...and more...
+\end{enumerate}
+\end{multicols}
+
+% Fifth Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Course Structure}
+
+\subsection*{Class Structure}
+
+This material will likely be new to you, and it's very interesting. There will be weekly lectures and assignments as well as two exams. Every week we will cover a new aspect of Linux / Unix / Programming / System Administration and there will be a related assignment due the following lecture. In the event that you miss a class there will be related reading materials posted online so you can still complete your assignment.
+
+\subsubsection*{Lecture}
+
+Each week in class we will log on to our virtual machines and explore a specific aspect of programming in Linux.
+
+\subsection*{Assessments}
+
+Weekly programming assignments based on the materials covered in class. 2 exams bringing together various aspects of topics taught. No late assignments. Lowest weekly assignment grade will be dropped. Multiple choice midterm and final exams.
+
+\subsection*{Grading Policy}
+Grading is as follows:
+
+\begin{itemize}
+	\item \underline{\textbf{20\%}} Midterm exam.
+	\item \underline{\textbf{20\%}} Final exam.
+	\item \underline{\textbf{60\%}} Average of weekly assignments. 
+\end{itemize}
+
+For example, if you get an 80 on exam 1, an 85 on exam 2, and ( to simplify assume there were only two weekly assignments ) your weekly assignment scores are [ 90, 95 ], your final score will be 20pts * 0.80 + 20pts * 0.85 + 60pts * ( 0.90 + 0.95) / 2 = 88.5 pts, and will be translated to the appropriate letter grade following NJCU guidelines.
+
+\newpage
+\section*{Schedule and weekly learning goals}
+
+The schedule is tentative and subject to change. The learning goals below should be viewed as the key concepts you should grasp after each week, and also as a study guide before each exam.
+\newpage
+
+\subsection*{Date: 01/24 - Introduction to Linux, Bash, Vim }
+\begin{itemize}
+\item Setup and connect to computer
+\item How to use github + git ( brief intro )
+\item Learn basic BASH commands:
+\begin{multicols}{2}
+\begin{enumerate}
+    \item ls (-l -la -a)
+    \item hidden files
+    \item cd
+    \item cp
+    \item mv
+    \item whoami
+    \item which
+    \item mkdir
+    \item touch
+    \item rm
+    \item touch
+    \item cat (assignment1)
+    \item echo (assignment1)
+    \item man
+    \item wc (assignment1)
+    \item md5sum (assignment1)
+    \item df
+    \item du
+    \item uniq
+    \item sort
+    \item find
+    \item xargs
+    \item more
+    \item less
+    \item grep ( no regex yet )
+    \item unzip (assignment1)
+    \item tar
+    \item cut (assignment1)
+    \item if (assignment1)
+    \item arrays
+    \item Return values and \$? (assignment1)
+    \item tree
+    \item etc.
+\end{enumerate}
+\end{multicols}
+\item wildcards
+\item bash variables ( export vs without export and subshells )
+\item bash eq, not equal
+\item vim ( modes, p, shif+p, :wq, :x, i, a, dd, arrows, <esc>, skipping around. set nu/nonu. ctrl+v. search+replace s///g s///gc. :sort. :sort n. u for undo, ctrl+r. ctrl+a to increment. split vs vsplit. +/- for next line. 5w = 5 words. 5l = 5 letters. )
+\item pipes | (assignment1)
+\item telnet starwars
+\item csh, zsh, sh, dash, etc.
+\end{itemize}
+
+\subsection*{Date: 01/24 - Introduction to Linux, Bash, Vim }
+\begin{itemize}
+	\item Review last week + a Little More Bash
+	\item Review git usage
+	\item File Descriptors ( stdin, stdout, stderr )
+	\item Processes
+\end{itemize}
+
+\subsection*{Date: 01/24 - Introduction to Linux, Bash, Vim }
+\begin{itemize}
+	\item cron
+	\item more bash
+	\item about git
+\end{itemize}
+
+
+\subsection*{Date: 01/24 - Introduction to Linux, Bash, Vim }
+\begin{itemize}
+	\item more bash
+	\item ssh + sftp
+\end{itemize}
+
+\subsection*{Week 5}
+\begin{itemize}
+	\item File System Hierarchy
+	\item Mounting and Partitioning
+	\item Move Home directory
+	\item PATH
+	\item Swap space
+\end{itemize}
+
+\subsection*{Week 6}
+\begin{itemize}
+	\item FileDescriptors
+	\item First Programs
+	\item Signal handlers
+	\item setuid + setgid
+\end{itemize}
+
+\subsection*{Week 7}
+\begin{itemize}
+	\item Installing software
+	\item symlinks
+	\item ASCII
+	\item more bash
+\end{itemize}
+
+\subsection*{Week 8}
+\begin{itemize}
+	\item cURL
+	\item Install cURL from source
+	\item HTTP verbs
+	\item REST
+\end{itemize}
+
+\subsection*{Week 9}
+\begin{itemize}
+	\item playing with curl, setting up servers
+	\item set up a simple webserver with PythonSimpleHTTP
+	\item set up a simple webserver with Flask
+	\item make requests to our servers.
+	\item set up website with Apache
+\end{itemize}
+
+\subsection*{Week 10}
+\begin{itemize}
+	\item Awk
+\end{itemize}
+
+\subsection*{Week 11}
+\begin{itemize}
+	\item UTF-8
+	\item sed
+\end{itemize}
+
+\subsection*{Week 12}
+\begin{itemize}
+	\item init
+	\item services
+	\item systemd vs sysvinit vs upstart
+\end{itemize}
+
+\subsection*{Week 13}
+\begin{itemize}
+	\item gpg
+	\item encryption
+\end{itemize}
+
+\subsection*{Week 14}
+\begin{itemize}
+	\item Set up a docker container
+	\item Set up a personal git server
+\end{itemize}
+\end{document}

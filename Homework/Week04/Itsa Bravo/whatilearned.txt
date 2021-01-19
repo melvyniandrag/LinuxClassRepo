@@ -1,0 +1,5 @@
+For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files.
+
+If you have a project directory that is currently not under version control and you want to start controlling it with Git, you first need to go to that project’s directory.
+
+Remote repositories are versions of your project that are hosted on the Internet or network somewhere.

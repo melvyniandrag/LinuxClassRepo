@@ -1,0 +1,42 @@
+"""
+Very simple HTTP server in python (Updated for Python 3.7)
+
+Usage:
+
+		./dummy-web-server.py -h
+		./dummy-web-server.py -l localhost -p 8000
+
+Send a GET request:
+
+		curl http://localhost:8000
+
+Send a HEAD request:
+
+		curl -I http://localhost:8000
+
+Send a POST request:
+
+		curl -d "foo=bar&bin=baz" http://localhost:8000
+
+
+Some tips about curl usage
+https://gist.github.com/subfuzion/08c5d85437d5d4f00e58
+
+Heres where this code came from 
+https://gist.githubusercontent.com/bradmontgomery/2219997/raw/256b09ce3d6639c9fb325eaf92d79fb709f51e32/dummy-web-server.py
+
+And see the comment here:
+https://gist.github.com/bradmontgomery/2219997#file-dummy-web-server-py
+
+
+>> Just one thing to add to it, if you want access to the POSTed data you do so like this:
+
+	def do_POST(self):
+					# Doesn't do anything with posted data
+					content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
+					post_data = self.rfile.read(content_length) # <--- Gets the data itself
+					self._set_headers()
+					self.wfile.write("<html><body><h1>POST!</h1></body></html>")
+
+"""
+
