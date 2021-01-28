@@ -97,61 +97,51 @@ melvyn@machine$ telnet towel.blinkenlights.nl
 \end{lstlisting}
 
 
-\*nix refers to a family of similar operating systems that have an interesting
-history. They are different from Windows, but are as or more popular than
-windows on personal computers and on servers. It's not just Linux either, there
-are also the BSD's that are all under the same family of operating systems.
-MacOS is a type of BSD. I'm personally quite interested in a newer one called
-DragonflyBSD, but we'll talk more about that later. Even Windows is becoming
-more and more Linux like - we're doing todays lecture without many of you even
-having a linux machine because you can do Linuxy things on Windows for now.
-Anyway, all these OSs like the BSDs and your Linuxes are different operating
-systems that emulate old school Unix machines and then do so much more.
+Linux distros like Fedora, Debian, Redhat, Ubuntu, Slackware, Puppy Linux are
+all operating systems, and you might use them instead of Windows or macOS.
 
-For me, \*nix isn't about operating systems and stuff - it's about \textit{doing
-cool stuff}, and Linux/BSD gives you power to do cool stuff. I'll just show you
-a few things you can do here with Linux:
+This class is based around Debian 10 because it's my favorite.
+
+The stuff you'll learn in this class will generally help you with *nix operating
+systems, including the BSDs like dragonflyBSD, FreeBSD, etc. as well as using
+the terminal in macOS.
+
+I like Linux because it's free, you can do alot of cool things with it, etc..
 
 Demos:
-1. Website running linux
-2. Robot running linux ( youtube )
-3. Cars run Linux
+\begin{enumerate}
+\item Website running linux. Most webservers in the world run some type of
+Linux.
+\item Beaglebone Black
+\item Raspberry Pi
+\item Cars run Linux
 \url{https://events19.linuxfoundation.org/events/automotive-linux-summit-2018/}
-4. Laptop runs linux ( show T series laptops )
-5. Raspberry Pi + Beagleboard demos
-6. Playstation4 runs a Unix operating system
-7. telnet starwars ( you already saw)
-8. There is alot of money to be made ( can't demo money, but if you look at
+\item Laptop runs linux ( show T series laptops ). 
+\item You can save old hardware - show 2006 MacBook.
+\item Playstation4 runs a Unix operating system
+\item There is alot of money to be made ( can't demo money, but if you look at
 salaries on indeed for Linux pros you'll see there is a nice amount of cash out
 there for you if you aren't a bonehead.
+\end{enumerate}
 
-You can do anything in \*nix, and whatever can't be done - you can code it yourself and share it with the community. You may not have a grasp of how powerful computers are if you are early in your career and all you've done is surf the web and play games.
+You can do anything you want with Linux! Whatever you're interested in. So lets
+study hard so you learn all the basic stuff you need to know to use this
+wonderful family of operating systems.
 
-
-\section{7:20 - 7:30 About this class}
+\section{ About this class}
 \[ run through the syllabus \]
 
-I'll not give `bathroom breaks' in this class because it usually leads to the
-class getting derailed. Some folks don't have to pee and then get bored of 10
-minutes of nothing, others decide to take a walk, then come back late having
-missed alot of material and then disturb the lecture, I get anxious sitting here
-doing nothing, etc. So I'll just punctuate lectures with periods of activities
-for you all to do and you can leave the class during those periods of time. Of
-course you can leave whenever, but I want to make sure you be able to see the
-light at the end of the tunnel if you have to pee - if you can hold it, there
-will be a break in 20 minutes or so, so you don't need to worry. Also I don't
-want you to sit for 3 hours listening to me talk.
+\section{Tools we'll use in this class}
+Show digital ocean
 
-We're going to use digital ocean servers in this class. I don't have time to
-show you one right now, next week we'll discuss it. This will either be free to
-you or at most cost \$50 or so for the semester. It will probably be free though.
-More details next week. I'm not requiring a text book for this class so you've
-already saved about \$150 right there, and I don't think you'll need to pay for
-these servers we'll use, but if you do it will be a tiny amount of money,
-espectially compared to the crazy stuff I'm going to show you how to do with
-this cheap machine.
+Show Linode
 
-\section{7:30 - 8:00 Getting started with the terminal in Linux}
+Point out the free credits
+
+Make sure you only use digital ocean for now. We'll activate Linode later.
+Theres a timer on the free credits, so dont register for both now.
+
+\section{Getting started with the terminal in Linux}
 \begin{multicols}{4}
 \begin{enumerate}
 \item ls
@@ -175,15 +165,8 @@ this cheap machine.
 \item which 
 \end{enumerate}
 \end{multicols}
-\section{8:00 - 8:05 5 minutes to practice commands. }
 
-\begin{itemize}
-\item practice the above commands
-\item \[put some structured activities here \]
-\end{itemize}
-
-
-\section{8:05 - 8:30 Bash commands part 2}
+\section{Bash commands part 2}
 
 \begin{multicols}{4}
 \begin{enumerate}
@@ -197,40 +180,37 @@ this cheap machine.
 \item wc -l
 \item wc -w
 \item md5sum
-\item more
-\item less
-\item unzip
-\item zip
-\item tar
-\item tar -xvzf
 \item cut -b
 \item cut -c 
 \item tree
-\item lsblk ( plug in a usb stick and see that it changes )
-\item du - list disk usage globally
-\item df - list disk usage by file
 \item wget
 \end{enumerate}
 \end{multicols}
 
 Note about cut: cut -c is just like cut -b on every machine I've seen. In the future -b ( byte) and -c ( character) will be different. Ill give some insight on that later in the class, and if you know Java + C you will likely have a bit of insight on the definitions of byte and character, where they are the same, and where they are different. There is no time for that now, and if you already have insight, just keep it to yourself for now haha.
 
-\section*{8:30 - 9:00 vim}
-\subsection{8:30 - 8:35 Why learn vim?}
+\section*{vim}
+\subsection{Why learn vim?}
 
-As you've seen a major part of working on Linux is doing stuff on the command line. 
-If you're on your laptop, you might use other graphical tools. You can create a directory, for example, by right clicking and going to 'create directory' or whatever as you do on windows, but you'll often work on the command line, or create directories in your code, and things like 'mkdir' are useful for that. 
-If you are a web developer maintaining a website, youll often connect to a command line interface and do things there, because you won't have a monitor in front of you. 
-If you remotely connect to a computer, you'll maybe need to edit a file. for
-this you'll need a command line editor. Here's your first dose of linux/unix/bsd
+Vim is a text editor. You use it to edit files. We'll use Vim instead of
+Notepad++, WordPad, Eclipse, PyCharm, etc.. On our Linux servers, whenever we
+need to edit a file we'll use vim.
+
+Here's your first dose of linux/unix/bsd
 culture! There is alot of playful fighting in the \*nix world about the best way
 to edit files on the command line. Mainly the war is around two editors,
-\url{https://en.wikipedia.org/wiki/Editor_war, emacs and vim}. I like vim. Some folks like emacs. I started on emacs a decade ago, but when I learned vim I found that I liked it more and I haven't looked back in about 10 years. I'm going to teach you vim, and if you want to learn Emacs you'll have to do it on your own time. 
+\url{https://en.wikipedia.org/wiki/Editor_war, emacs and vim}. I like vim. Some folks like emacs.
+I started on emacs a decade ago, but when I learned vim I found that I liked it more and I haven't looked back in about 10 years. I'm going to teach you vim, and if you want to learn Emacs you'll have to do it on your own time. 
 If you get a job and have to edit a file on a server, and you fire up vim and edit it smoothly you'll instantaneously become the celebrity of the office. You'll be one of the cool cats. Emacs would also get you cool points.
 
 But vim is featured in every standard linux distro, while emacs is not! 
 Whatever, too much said already. We're using vim for this class.
 There are simpler editors like pico and nano, but I know vim by heart so that's what I use and teach!
+
+If you happen to install Linux on a Laptop or in a Virtual Machine on your
+computer, you can use graphical editors like VSCode or Sublime or Geany. I
+used Geany during my first year or so on Linux, Anyway, we're on the command
+line so we can't use graphical editors.
 
 \subsection*{8:35 - 8:40 Basic Vim workflow}
 Look at the stupid vim memes. They are dumb and frustrating. Memes in the
@@ -253,7 +233,9 @@ Hit esc to get out of insert mode.
 Type :wq to save and quit. 
 Thats 99\% of what you'll do in this class.
 
-\subsection*{ 8:40 - 9:00 More vim commands to make your work better.}
+Here's a youtuber making fun of people who complain about getting out of vim. \url{https://youtu.be/8bGiiLW_ss4i}
+
+\subsection*{ More vim commands to make your work better.}
 \begin{itemize}
 \item h, j, k, l
 \item I prefer to just use the arrow keys
@@ -282,10 +264,6 @@ that it can start to develop in your subconscious.
 \item To go back 5 words, 5b.
 \end{itemize}
 
-\section*{ 9:00 - 9:05 Experiment with Vim}
-Now is your time to try allthe things I've shown you and ask me questions if you
-don't get it.
-
 \section*{ 9:05 - 9:10 Bash Part 3 }
 
 Return value of last command is : \$?. All these linux commands I've shown you
@@ -305,7 +283,15 @@ melvyn@machine$ echo $?
 echo is.
 \end{lstlisting}
 
+\section{Homework}
+Show homework and end lecture.
+
 \section{ 9:10 - 9:30 More vim and the inevitable questions }
+TODO move this to another lecture! 
+This is too much too soon, these folks will be confused about the i / esc stuff.
+END LECTURE NOW AND SAY GOOD NIGHT
+
+
 The coupe de gras. Registers in vim. Vim remembers the things you've yanked in the past. Type :reg
 See that vim remembers the stuff you've put on your clipboard in the past.
 Exercise
@@ -328,6 +314,4 @@ Look at :reg and see what it remembers. I think it remembers the dd stuff but on
 Paste the things from your registers with <reg id>p e.g. ( when  in normal mode, not insert mode ) "1p, see what happens. 
 
 
-\section*{ 9:30 - 9:45 Homework Discussion and further questions and answers }
-Look at and discuss homework.
 \end{document}

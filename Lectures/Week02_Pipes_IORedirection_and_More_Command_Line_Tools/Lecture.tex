@@ -1,7 +1,11 @@
-\documentclass[10pt]{article}
+\documentclass[12pt,a4paper]{article}
+\usepackage{lipsum}
+\usepackage{authblk}
+\usepackage[marginparwidth=1.5in,top=2cm, bottom=2cm, left=2cm, right=2.5in,
+marginparsep=1cm]{geometry}
+
 \PassOptionsToPackage{hyphens}{url}
 \usepackage{hyperref}
-\usepackage[margin=0.75in]{geometry}
 
 \usepackage{multicol}
 \usepackage{textcomp}
@@ -12,7 +16,30 @@
 \definecolor{pred}{rgb}{0.9,0,0}
 \definecolor{pgrey}{rgb}{0.46,0.45,0.48}
 
+\newcommand{\lectnote}[1]{\marginpar{\texttt{{\small{ #1 } }}}}
+
 \usepackage{listings}
+\lstdefinestyle{java}{
+  language=Java,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  basicstyle=\small\ttfamily,
+  numbers=left,
+  stepnumber=1,
+  frame=shadowbox,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
 \lstdefinestyle{term}{language=bash,
   columns=fullflexible,
   showspaces=false,
@@ -89,111 +116,227 @@
 
 \usepackage[T1]{fontenc}
 
-\title{\textbf{Week 02} \\
-More about the command line and shell scripting} 
-\author{
-	Melvyn Ian Drag
+\newcommand{\schedule}[2]{\textbf{#1} \textit{#2}}
+
+\usepackage{fancyhdr}
+%
+\pagestyle{fancy}
+%
+\renewenvironment{abstract}{%
+\hfill\begin{minipage}{0.95\textwidth}
+\rule{\textwidth}{1pt}}
+{\par\noindent\rule{\textwidth}{1pt}\end{minipage}}
+%
+\makeatletter
+\renewcommand\@maketitle{%
+\hfill
+
+\begin{minipage}{0.95\textwidth}
+\vskip 1em
+\let\footnote\thanks 
+{\LARGE \@title \par }
+\vskip 0.5em
+%{\large \@author \par}
+%\vskip 0.5em
+{\large \@date \par}
+\end{minipage}
+\vskip 1em \par
 }
-\date{\today}
 
-
+\makeatother
+%
 \begin{document}
+%
+%title and author details
+\title{\textbf{Week02 - Pipes, I/O Redirection, and a Few More Tools}}
+%\author[1]{Melvyn Ian Drag}
+\date{\today}
+%
 \maketitle
-
+%
 \begin{abstract}
-For tonight's class we'll learn more about the Linux command line and shell
-scripting.
+This week we'll look a couple of quintessential parts of Unix scripting, which
+are pipes and I/O ( input/output ) redirection. Then we'll spend a few minutes
+looking a few command line programs we were'nt able to cover last week.
 \end{abstract}
 
-\section*{Working on the Linux Command Line}
-You know some commands already:
-\begin{multicols}{4}
-\begin{enumerate}
-\item cat
-\item ls
-\item cd
-\item cp
-\item cut
-\item cut -c
-\item cut -b
-\item echo
-\item touch
-\item \textbf{What else?}
-\end{enumerate}
-\end{multicols}
+\section{Setup}
+Turn on a Debian 10 server and connect with ssh. 
 
-Here are some more commands that are useful:
-\begin{multicols}{4}
-\begin{enumerate}
+After the class you can try to go through these notes with your Macbook, with
+the gitbash terminal you installed on your PC, or with a different Linux/BSD
+distribution. You'll find most ( if not all ) of the things we do will work just
+as well on those platforms.
+
+\section{Learn as we go}
+I said I'd teach you a few new commands tonight. We'll just learn them as we go.
+You'll learn to use:
+\begin{itemize}
+\item history
+\item grep
+\item head
+\item tail
+\item cut
 \item sort
 \item uniq
-\item tee
-\item history
-\item grep 
-\end{enumerate}
-\end{multicols}
+\end{itemize}
 
-these commands are particularly useful in the context of \textbf{pipes}. Pipes
-are one of the defining features of Unix systems, they are one of the things
-that make unix great. A major tenet of Unix philosophy is that programs should
-be very simple and do one thing - just one simple thing - but do it incredibly
-efficiently and always get the correct result. Then these simple
-programs can be strung together to make more interesting programs that are fast
-and correct, because the tiny programs  (like cat and sort and ls and cd, etc. )
-are fast and correct.
+\section{Pipes}
+Pipes are one of the famous/important/fantastic command line tools you use on
+Linux. They allow you to create beautiful little programs  by stringing together
+the basic programs you know like "cat", "echo", "cut", etc..
 
-\section*{Pipes}
+The pipe symbol is ``\textbar{} ".
 
-TODO 
-here put a quote from this video: \url{https://www.youtube.com/watch?v=bKzonnwoR2I}
+You put this between the different commands you want to run to cause the data to
+flow through them like water through a pipe.
+ 
+\url{https://www.youtube.com/watch?v=bKzonnwoR2I}{Later you could watch this
+video of Brian Kernighan talking about pipes.} He's one of the creators of many
+of the things you are learning this semester.
 
-Theres a couple of good lines in there at 3:24. Kernighan just says how pipes are an integral 
-part of unix systems and have been since 19XX. Good quote to emphasize.
+Here are a few examples in no particular order.
 
-Consider the following file:
+\subsection{Searching your history.}
 
-\lstinputlisting[style=txt]{Code/NumbersPipeExample/numbers.txt}
+\textbf{history} - this commands tells you all the things you've typed into your
+terminal. Go ahead and try it! Type history and you'll see all the things you
+previously typed.
 
-There are many things you can do with this file. By the way, I have it saved in
-my current working directory as `numbers.txt' - you should do the same. Then
-type the following commands and note the output for each one. Use the output to
-think about what the various commands do.
+\textbf{grep} - this cool program is for searching.
+
+You might rename a PNG image to a new name. Now you can't remember what you
+renamed it to. So use a pipe!
 
 \begin{lstlisting}[style=term]
-melvyn@laptop$ cat numbers.txt | sort
-melvyn@laptop$ cat numbers.txt | sort -n
-melvyn@laptop$ cat numbers.txt | sort -g
-melvyn@laptop$ cat numbers.txt | sort | uniq
-melvyn@laptop$ cat numbers.txt | uniq # note that this does not work.
+root@machine$ history
+# all of the things you typed
+root@machine$ history | grep "mv"
+# all of the mv commands you typed
+root@machine$ history | grep "mv" | grep "png"
+# all of the mv commands you typed that also contain the letters "png"
 \end{lstlisting}
 
-So you see the idea of pipes? We used a few linux commands together, separated
-by a `|' to achieve a cool result. I showed you above a few ways to sort, and
-then the correct and the wrong way to find the uniq numbers in a file. 
-
-Let's continue with this discussion of pipes:
+I often forget the ip address of the last machine I ssh-ed into. Use the same
+trick with history, grep and a pipe!
 
 \begin{lstlisting}[style=term]
-melvyn@laptop$ echo hello | cut -b1-2
-melvyn@laptop$ echo hello | cut -c1-4
-melvyn@laptop$ echo "hello world" | cut -d" " -f1
-melvyn@laptop$ te how cut with d and f is finicky
-melvyn@laptop$ echo "hello      world" | cut -d" " -f2 # many spaces between hello and world.
-melvyn@laptop$  default cut uses TAB ( \t ) as delimiter.
-melvyn@laptop$ cat file  | md5sum
-melvyn@laptop$ md5sum file
-melvyn@laptop$ cat file | sha256
-melvyn@laptop$ history | grep "that cool command I can only remember part of" # I do this at least 50 times a day
-\end{lstlisting} 
+root@machine$ history | grep ssh
+# all of the old ssh connections I made
+\end{lstlisting}
 
-...this bit about `cut' is super important.... let's play with it more to make
-sure you understand it... heck... to make sure \textit{I} understand it.
+\subsection{Count the letters in the second word}
+
+Maybe you want to know how many letters are in the second word of a sentence.
+
+\begin{lstlisting}[style=term]
+root@machine$ sentence="the quick brown fox jumps over the lazy dog"
+root@machine$ echo $sentence
+the quick brown fox jumps over the lazy dog
+root@machine$ echo $sentence | cut -d" " -f2 | wc -c
+6
+\end{lstlisting}
+
+Actually we know the word "quick" has 5 letters - don't forget that cut appends
+a "\\n" character.
+
+In the above example we also learned a little bit more about ``cut". ``cut"
+takes a `-d' flag, which means `delimiter'. In this case our delimiter was " ".
+It also takes an `-f' flag, which means `field'. We cut the sentence on spaces,
+and grabbed the second one.
+
+\subsection{How many words on the third line?}
+Assume you want to know how many words are in the third line of a text file.
+
+\begin{lstlisting}[style=term]
+root@machine$ cat sentences.txt
+whose woods these are I think I know
+his house is in the valley though
+he will not see me stopping here
+to watch his woods fill up with snow
+root@machine$ head -n3 | tail -n1 | wc -w
+7
+\end{lstlisting}
+
+The head command gives us the first three lines. From there we use the tail
+command to trim off just the last line. Then we use wordcount to count the
+words.
+
+\subsection{What is the largest number in Column 2?}
+
+Assume we have a CSV file ( Comma Separated Values ) and for some reason we want
+to know the largest value in column 2.
+
+\begin{lstlisting}[style=term]
+root@machine$ cat data.csv
+1,2,3,4
+4,5,6,7
+7,8,9,0
+4,4,4,4
+root@machine$ cut -d "," -f2 data.csv | sort -gr | head -n1
+8
+\end{lstlisting}
+ 
+In this example we use cut to extract the second column. Then we pass the second
+column on to the sort program and we sort it in general numeric order ( g ) and
+descending ( r ), and then we pass that sorted data on to `head' and take the
+first line. This gives us the largest number.
+
+\subsection{How many unique numbers in numbers.txt?}
+
+The uniq command takes a bunch of lines of sorted data and outputs just the
+unique elements. The input must must must be sorted
+
+\begin{lstlisting}[style=term]
+root@machine$ cat numbers.txt
+1
+2
+3
+2
+1
+root@machine$ uniq numbers.txt
+1
+2
+3
+2
+1
+\end{lstlisting}
 
 
-\textbf{Spend 5 minutes playing with cut and pipes to extract various bits of
-information}
+See? It doesn't work. Make sure to sort first.
 
-\section*{stdin, stdout, stderr}
+\begin{lstlisting}[style=term]
+root@machine$ cat numbers.txt
+1
+2
+3
+2
+1
+root@machine$ sort -g numbers.txt | uniq
+1
+2
+3
+\end{lstlisting}
+
+\subsection{The Message}
+All of the above examples show that we can quickly write useful little programs
+on the command line by just piping data through the basic programs we already
+know.
+
+This is a major part of Unix philosophy.
+
+We have a bunch of simple, seemingly boring tools - but then we glue them
+together into a more meaningful program. And it is easy!
+
+\textbf{How long would it take you to write, compile and run a Java program to
+read a .csv file, find the largest value in a column, and then print the
+output? And how much typing would you have to do?}
+
+\section*{ IO Redirection }
+
+In this section we learn about \textbf{stdin}, \textbf{stdout} and
+\textbf{stderr}
+
 \subsection*{Intro}
 What a great time to be in a class. In the next few minutes you're going to hear
 about what all the Linux people know.
@@ -361,54 +504,56 @@ A common place to send unwanted output is to /dev/null, it just writes your outp
 The above command should give an error, but you won't see it, its just gone. There are many times you'll want to do this. I won't dream up some big situation right now to illustrate this to you, just know you'll see this all over the place in bash scripts and there will come a time, if there hasn't already, where you'll just want to throw away either stdout or stderr and never hear about it.
 
 
+\section*{Using Stdout, Stderr in Your Own Programs}
 
-\section*{ 9:00 More vim commands to make your work better.}
-\begin{itemize}
-\item h, j, k, l
-\item I prefer to just use the arrow keys
-\item modes i, esc
-\item quit with :q. To save and quit you use :wq or :x. If you want to know the difference, google the diff between :wq and :x. there is a slight difference, but it doesnt matter.
-\item dd to delete a line
-\item y is copy.
-\item p is paste after the cursor
-\item shift p is paste before the cursor
-\item u is undo
-\item CTRL + r is to redo.
-\end{itemize}
+\subsection*{Java}
 
-Here is some more functionality that is so powerful and unique to vim that it
-will make you feel scared. You've never had this power before and this is going
-to make you think vim is hard. It's not. You can ignore the following for now,
-but within 2 weeks when you've mastered the above you'll be ready to appreciate
-how great the below commands are. I'm just showing you now to plan the seed so
-that it can start to develop in your subconscious.
+\lstinputlisting[style=java]{StdoutStderrExample.java}
 
-\begin{itemize}
-\item w to go forward a word
-\item e to go to the end of the next word
-\item b to go to the previous word beginning.
-\item to go forward 5 words, 5w
-\item To go back 5 words, 5b.
-\end{itemize}
-
-
-\section*{ Review return codes in Bash }
-
-Return value of last command is : \$?. All these linux commands I've shown you
-return information to the terminal. They tell the terminal if the command was
-successful or not. To check the return code you type `echo \$?'.
+You can use vim to write that program. Then you can compile it, run it, and use
+the io redirect operators to send the output to different files.
 
 \begin{lstlisting}[style=term]
-melvyn@machine$ echo "hello world"
-hello world 
-melvyn@machine$? echo $?
-0
-melvyn@machine$ ehco "aksljdg"
-# error
-melvyn@machine$ echo $?
-127
-#the 127 indicates an error. There was an error because ehco is not a command,
-echo is.
+$ apt install default-jdk # this will install your java tools.
+$ javac StdoutStderrExample.java
+$ java StdoutStderrExample 1>java_out.log 2> java_err.log
+$ cat java_out.log
+I went to stdout
+$ cat java_err.log
+I went to stderr
+\end{lstlisting}
+
+\subsection*{C++}
+
+\lstinputlisting[style=java]{StdoutStderrExample.cpp}
+
+You can use vim to write that program. Then you can compile it, run it, and use
+the io redirect operators to send the output to different files.
+
+\begin{lstlisting}[style=term]
+$ apt install build-essential # this will install your c plus plus tools.
+$ g++ StdoutStderrExample.cpp
+$ ./a.out 1>cpp_out.log 2>cpp_err.log
+$ cat cpp_out.log
+I went to stdout
+$ cat cpp_err.log
+I went to stderr
+\end{lstlisting}
+
+\subsection*{Python3}
+
+\lstinputlisting[style=java]{StdoutStderrExample.py}
+
+You can use vim to write that program. Then you can  run it and use
+the io redirect operators to send the output to different files.
+
+\begin{lstlisting}[style=term]
+$ apt install python3-dev # python3
+$ python3 StdoutStderrExample.py 1>py_out.log 2>py_err.log
+$ cat py_out.log
+I went to stdout
+$ cat py_err.log
+I went to stderr
 \end{lstlisting}
 
 \end{document}
