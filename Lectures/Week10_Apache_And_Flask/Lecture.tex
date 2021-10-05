@@ -87,6 +87,7 @@
 Last class we took a look at the toy `SimpleHTTPServer' in Python3. Tonight we'll use a real website backend - Flask - and we'll server content on a real server - Apache2. As before, we'll make \textbf{GET} and \textbf{POST} requests using the command line tool cURL.
 \end{abstract}
 
+
 \section{What's a Webserver?}
 The term is overloaded. A server is a computer, connected to a network, that
 other computers can access. It also refers to software than responds to client
@@ -135,7 +136,15 @@ Too many acronyms in CS, right?
 Scary stuff to look at, but we'll take a peek today.
 
 \section{What we'll do today}
-Today we'll bring a real website online. Last week we made a trivial website with Python's SimpleHTTPServer, but today we're going to use a real, professional-grade server ( Apache2 ) and a real backend web framework ( Flask ). There are other servers like NGINX and there are other backend webframeworks like Django, Play, Spring, Ruby on Rails, etc., I've just chosen this pair because it's the easiest to code of the few things I know. Spring on NGINX would be considerably harder to configure.
+Today we'll bring a real website online. Last week we made a trivial website
+with Python's SimpleHTTPServer, but today we're going to use a real,
+professional-grade server ( Apache2 ) and a real backend web framework ( Flask
+). There are other servers like NGINX and there are other backend webframeworks
+like Django, Play, Spring, Ruby on Rails, etc., I've just chosen this pair
+because it's the easiest to code of the few things I know. Deploying a Spring
+app on an NGINX server is probably as simple as what I've prepared for you
+today, and if you want to be a web developer then you should totally go research
+how to do it!
 
 \begin{figure}[h]
   \centering
@@ -143,12 +152,14 @@ Today we'll bring a real website online. Last week we made a trivial website wit
   \caption{A website running on my server at IP address
 http://167.99.63.105/testFlask/ . This is the first website we will build
 together today. It will run on Linux using Python, Flask and Apache2}
+\label{fig:firstsite}
 \end{figure}
 
 
 Plan for today:
 \begin{enumerate}
-\item Example 1: Boring website that just returns text
+\item Example 1: Boring website that just returns text. See figure
+\ref{fig:firstsite}
 \item Example 2: Little more interesting website that returns HTML
 \item Example 3: Even more interesting website that returns JSON.
 \end{enumerate}
@@ -157,7 +168,7 @@ Plan for today:
 So let's begin building our Flask + Apache2 website. Get a debian 10 server on
 digital ocean. Then run these commands:
 
-\begin{lstlisting}[style=term]
+\begin{lstlisting}[style=term, caption=configure your server, label=lst:install]
 root@machine$ apt update
 root@machine$ apt install git apache2 libapache2-mod-wsgi-py3 python3-dev
 python3-pip curl
@@ -183,6 +194,7 @@ Open a browser on a laptop or computer. Go to the server ip address, make sure t
   \centering
     \includegraphics[width=0.8\textwidth]{defaultApache.png}
   \caption{default webpage provided by a fresh Apache2 install}
+	\label{fig:default}
 \end{figure}
 
 So we've installed all the software we need! That was easy. Now we can build a little website and then connect the website code to the apache server we just installed and activated.
@@ -200,7 +212,7 @@ The first thing we need to do is create a non root user for managing this stuff.
 \begin{lstlisting}[style=term]
 root@machine$ adduser webdeveloper
 root@machine$ usermod -a -G sudo webdeveloper
-root@machine$ sudo su - webdeveloper
+root@machine$ su - webdeveloper
 webdeveloper@machine$ cd ~
 webdeveloper@machine$ git clone https://github.com/melvyniandrag/LinuxClassRepo.git
 webdeveloper@machine$ cp -r
@@ -211,30 +223,78 @@ webdeveloper@machine$ ls ExampleFlask
 __init__.py my_flask_app.py my_flask_app.wsgi
 \end{lstlisting}
 
-{\Large TAKE SOME TIME TO INSPECT THE CONTENTS OF THESE FILES  WITH THE CLASS}
+Let's take a quick minute to inspect these files. These files will be confusing
+to you, but they're important. I'm just going to show them to you on the off
+chance that you're curiosity gets piqued so you can go out and learn more.
 
-\section{Connect Flask to Apache2}
-Now we need to wire up our Flask application to the Apache webserver software. You will need to know your machine's ip address. I showed you a website you can curl that will tell you your ipaddress
+\subsection{\_\_init\_\_.py}
+What is this empty file doing here? You'll need to go find a good Python book or
+online tutorial if you want to know. There's no time to discuss what this is
+now.
 
-\begin{lstlisting}[style=term]
-webdeveloper@machine$ curl ipinfo.io/ip
-# returns your external ip address
+\begin{lstlisting}[style=term, caption=Notice that \_\_init\_\_.py is empty]
+webdeveloper@machine$ pwd 
+/home/webdeveloper/ExampleFlask
+webdeveloper@machine$ cat __init__.py
+webdeveloper@machine$ 
 \end{lstlisting}
 
-Then you need to create the file /etc/apache2/sites-available/ExampleFlask.conf, and put the proper ip address. Note that
-you'll need to run vim with sudo as this is a privileged file. This file is also
-provided in the class repo in Lectures/Week10*/Example1
+\subsection{my\_flask\_app.py}\label{sec:example1python}
 
-\subsection{/etc/apache2/sites-available/ExampleFlask.conf}
-At this point, you need to create the file
-\textit{/etc/apache2/sites-available/ExampleFlask.conf}. The contents of the
-file are shown below. \textbf{Make sure you change the ip address in the file to the
-ipaddress of your machine!!!!}
+This is the Python code for our website. It contains a single function
+\textit{hello()} that is available at the route "/". So, assume we have a
+domain name \textit{www.mydomain.com} for this little website. To access the
+\textit{hello()} function, we have to go to \textit{www.mydomain.com/} ( note
+the slash at the end ). We could put other routes like \textit{/otherroute}, and
+indeed we will do this in the next exercise. Be patient!
 
-\lstinputlisting[style=sh]{Example1/ExampleFlask.conf}
+\lstinputlisting[style=sh, caption=Flask is such a cool framework. Look how
+short the code is!]{Example1/ExampleFlask/my_flask_app.py}
+
+
+\subsection{my\_flask\_app.wsgi}
+\label{sec:example1wsgi}
+I believe we already said that python apps dont run on the internet by default.
+You need a "little something extra" to make it work. That something extra is
+WSGI and you'll see that we already installed it at the beginning of the lecture
+when you installed \textit{libapache2-mod-wsgi-py3}. This library lets python3
+apps run on your webserver. Anyway, this .wsgi file contains some configuration
+stuff to get the website working. You'll need to study Flask in depth to
+understand what this file is and how I created it.
+
+\lstinputlisting[style=sh, caption=Deploying Flask apps on Linux servers is
+easy! This configuration file is so short and sweet!]{Example1/ExampleFlask/my_flask_app.wsgi}
+
+
+\section{Connect Flask to Apache2}
+Now we need to wire up our Flask application to the Apache webserver software. You will need to know your machine's ip address.
+
+\begin{lstlisting}[style=term, caption=Run this command to get your server's ip
+address., label=lst:ip]
+webdeveloper@machine$ curl ipinfo.io/ip
+192.34.61.215
+\end{lstlisting}
+
+Now you need to get a configuration file for the website into the \textit{/etc}
+directory. The configuratin file is provided in the class repo in
+Lectures/Week10*/Example1. Just copy it over.
+
+\begin{lstlisting}[style=term, caption=Get the configuration file]
+webdeveloper@machine$ sudo su -
+root@machine$ cp \
+/home/webdeveloper/LinuxClassRepo/Lectures/Week10/Example1/ExampleFlask.conf \
+/etc/apache2/sites-available/ExampleFlask.conf
+\end{lstlisting}
+
+Now you must change the ip address in this file to the ip address of your
+server. Remember when we got the ip address above in listing \ref{lst:ip}?
+Here's what the file looks like. Don't forget to change the ip address! This is
+the configuration file used by Apache2 to run your website.
+
+\lstinputlisting[style=sh, caption=Apache2 configuration file, label=lst:example1conf]{Example1/ExampleFlask.conf}
 
 \subsection{Turn on and Test the Website}
-Run these commands as the user `webdeveloper'
+Alright then, let's do this! Run these commands as the user `webdeveloper'
 \begin{lstlisting}[style=term]
 webdeveloper@machine$ sudo a2ensite ExampleFlask
 webdeveloper@machine$ sudo a2enmod wsgi
@@ -247,7 +307,9 @@ Then, open a browser on your laptop or the NJCU PC in front of you and go to
 \textit{my.ip.addr.ess/testFlask}
 \end{center}
 
-You should see a message saying you've made your first website with Linux, flask, apache and python. You can share the link to show off your website to your friends and family! You could now also go to godaddy or namecheap, buy a domain name, and wire that up to your server so people can go to website.com instead of a scary looking ip address.
+You should see a message saying you've made your first website with Linux,
+flask, apache and python, just like I showed you at the beginning of lecture in
+figure \ref{fig:firstsite} . You can share the link to show off your website to your friends and family! You could now also go to godaddy or namecheap, buy a domain name, and wire that up to your server so people can go to website.com instead of a scary looking ip address.
 
 \subsection{Additional Considerations for Example 1}
 So we have a simple flask app running on apache now. As you've probably seen by now, Linux servers are very particular about groups and permissions. I'm not sure about all of the ins and outs of the permissions for Flask and Apache. I'm showing the permisisons and groups I've set up on my machine. If you do something else I'm not sure it will work, and I don't know why it owuld be broken. We could experiment with permissions if you have something else.
@@ -274,7 +336,9 @@ def hello():
  
 This says that when we GET the location "/" in our domain name, the webserver will respond with the return value.
 
-We have to go to "ipaddress/testFlask" to see this data because in our config file we have the line
+But then why do we have to go to \textit{192.34.61.215/testFlask} and not just
+\textit{192.34.61.215/} ( as we said in section \ref{sec:example1python} ? We
+have to go to \textit{192.34.61.215/testFlask/} to see this data because in our config file we have the line
 
 \begin{lstlisting}[style=sh]
 ...
@@ -282,72 +346,143 @@ WSGIScriptAlias /testFlask /home/webdeveloper/ExampleFlask/my_flask_app.wsgi
 ...
 \end{lstlisting}
 
-and this registers the base end point for our website as /testFlask. If there's time we can change this. Right now apache is serving the default apache website on /, so we had to put our website at a different location on our server. Well need to delete some config files and change this config file so that we can see our website when we go to "/" instead of having to go to "/testFlask".
+and this registers the base end point for our website as /testFlask.
 
-The contents of the .wsgi file is boilerplate stuff that won't matter to you unless you want to become a serious python developer. Also, the purpose of the .wsgi file is interesting, but probably won't matter to you. Python applications can't run natively on webservers. So, about 20 years ago, some developers go together and wrote some middleware that allowds Python applications to communicate with webserver software like Apache2. The details are complicated - you can read about it if you're curious. 
+The contents of the .wsgi file shown in section \ref{sec:example1wsgi} is boilerplate stuff that won't matter to you unless you want to become a serious python developer. Also, the purpose of the .wsgi file is interesting, but probably won't matter to you. Python applications can't run natively on webservers. So, about 20 years ago, some developers go together and wrote some middleware that allowds Python applications to communicate with webserver software like Apache2. The details are complicated - you can read about it if you're curious. 
 
 \url{https://en.wikipedia.org/wiki/Web_Server_Gateway_Interface}
 
-I think php can talk right to the webserver, but I'm not sure. I've never written a line of php in my life. All I know is that PYhton needs a thing called wsgi ( which we installed at the beginning of this lecture with libapache-mod-wsgi-py3 ). You'll note that there are different version for python3 and python2.
 
 \section{Example2: Adding Endpoints and Serving HTML}
-To do this
-\begin{enumerate}
-\item Change the ExampleFlask.conf file to the one below.
-\item Create the /home/webdeveloper/Example2 directory add the files from the class repo
-\item Restart apache2
-\end{enumerate}
+In the last exercise we just had our website return text - but websites
+typically return either HTML ( if you're using a browser ) or JSON ( if you're
+talking to the website via a REST API with a tool like curl. Let's start by
+making a website that returns HTML, since it's not much harder than the last one
+we set up.
+
+Luckily for you I've prepared a simple website that returns HTML. Let's set it
+up:
+
+\begin{lstlisting}[style=term, caption=Deploying our second website]
+webdeveloper@machine$ pwd
+/home/webdeveloper
+webdeveloper@machine$ ls
+LinuxClassRepo ExampleFlask
+webdeveloper@machine$ cp -r
+LinuxClassRepo/Lectures/Week10_Apache2_And_Flask/Example2/ExampleFlask2
+ExampleFlask2
+webdeveloper@machine$ ls
+LinuxClassRepo ExampleFlask ExampleFlask2
+webdeveloper@machine$ ls ExampleFlask2
+__init__.py my_flask_app.py my_flask_app.wsgi
+\end{lstlisting}
+
+Good, we have the new code in place. Now let's copy over the new configuration
+file too.
+
+\pagebreak
+
+{\LARGE LISTEN!!!!}
+
+\begin{itemize}
+\item Don't forget top change the ip address in ExampleFlask.conf to the ip
+address of your server.
+\item Don't forget to change the ip address.
+\item Change the ip address.
+\item Change the ip address.
+\item Change the ip address.
+\end{itemize}
+
+\pagebreak
+
+\begin{lstlisting}[style=term, caption=Get the configuration file]
+webdeveloper@machine$ sudo su -
+root@machine$ cp \
+/home/webdeveloper/LinuxClassRepo/Lectures/Week10/Example2/ExampleFlask.conf \
+/etc/apache2/sites-available/ExampleFlask.conf
+\end{lstlisting}
+
+
+Also, let's delete the old default webpage config files so we don't see the
+stuff we saw in figure \ref{fig:default} anymore. We don't care about the
+default apache page, that was just there to let us know it installed right.
+
+\begin{lstlisting}[style=term,caption=get rid of default site]
+root@machine$ a2dissite 000-default.conf
+root@machine$ rm /etc/apache2/sites-available/000-default.conf
+\end{lstlisting}
+
+Okay, good to go! Let's just restart apache and then the new site will be
+active!
+
+\begin{lstlisting}[style=term, caption=Restart the apache2 service.]
+webdeveloper@machine$ sudo service apache2 restart
+\end{lstlisting}
+
+If you want to skip ahead and see what it should look like, jump ahead and look
+at figure \ref{fig:sameold} and figure \ref{fig:returnshtml}.
+
+{\Large \color{red} NOTE! Browser \textit{cache} stuff. Since we already visited
+your.ip.address before, back when it was the Apache default page, your browser
+may have cached that. So when you try to go to your.ip.address now, you might
+still see the default page. But we disabled that thing!! How the heck is it
+still coming up in our browser?? Caching. Thats how. Clear your browser cache.
+On firefox you do that by hitting CTRL + F5. If that doesn't work for you use
+google to figure out how. It's easy to, there will be a button to click or
+something. }
+
 
 \subsection{New /etc/apache2/sites-available/ExampleFlask.conf}
-Note that this file now serves two webpages! You can host multiple websites on one webserver.
-\lstinputlisting[style=sh]{Example2/ExampleFlask.conf}
+We've made a couple of changes to the Apache2 config file. Nothing major. 
+Note that now we are serving the website at \textit{/} and not at
+\textit{/testFlask}. Compare the WSGIScriptAlias line from listing
+\ref{lst:example2conf} and listing \ref{lst:example1conf}. 
+ 
+\lstinputlisting[style=sh, caption=new config file, label=lst:example2conf]{Example2/ExampleFlask.conf}
 
 \subsection{my\_flask\_app.py}
-\lstinputlisting[style=py]{Example2/ExampleFlask2/my_flask_app.py}
+This is interesting! Now the website has two functions in it, and two routes!
+You see the same old one from Example 1, but we've added a second on that
+returns HTML. This website still stinks, but we're getting somewhere! 
+
+\lstinputlisting[style=py, caption=new Python file, label=lst:example2py]{Example2/ExampleFlask2/my_flask_app.py}
 
 \subsection{my\_flask\_app.wsgi}
-\lstinputlisting[style=py]{Example2/ExampleFlask2/my_flask_app.wsgi}
+\lstinputlisting[style=py, caption=new wsgi file]{Example2/ExampleFlask2/my_flask_app.wsgi}
 
 \subsection{\_\_init\_\_.py}
-Blank as before. To be honest I haven't given it thought if this is required or
-not. Just put the file. If you know python you can remove it and then meditate
-on why it works / doesn't work if you remove this file. I should have spent more
-time researching, but this code works, I'm not too invested in web development,
-so I'm happy enough that this just works.
+Blank as before. If you are curious, go read a Python textbook to understand what this strange file
+is doing here.
 
 \subsection{ Results }
-Here are some images showing your new site in action. The /testFlask endpoint still works, but now so do /somewhereElse and /somewhereElse/returnsHTML.
+Here are some images showing your new site in action. Check out the two routes
+you created in your .py file! Here they are in the browser:
 
 \begin{figure}[h]
   \centering
     \includegraphics[width=0.8\textwidth]{somewhereElse.png}
   \caption{somewhereElse now works}
+	\label{fig:sameold}
 \end{figure}
 
 \begin{figure}[h]
   \centering
     \includegraphics[width=0.8\textwidth]{somewhereElse_returnsHTML.png}
   \caption{We can now return HTML from our Flask website too!}
+\label{fig:returnshtml}
 \end{figure}
 
 {\LARGE Wait for class to all be caught up and have their servers running again}
 
-
-{\LARGE for CoronaVirus lecture skip this part. just go on to sed }
-
-\section{Example3: A Rest API}
-{\LARGE Only do this section if the class is caught up and it's before 9 PM}
+\section{Example3: A Rest API using the Flask-RESTful Library}
 \subsection{Introduction}
-You've seen a REST API in class. Last week's homework involved making a couple
-of HTTP requests to api.github.com, and you saw that it returned some stuff
-between curly braces. That was JSON, and the github api you were making requests
-to was a REST API. Now go google to make sure I haven't messed up - I think REST
-means ``Representational State Transfer''. What does that mean? At this point we
-don't care about this important CS concept of \textbf{state}, so just forget
-about it. At some point in your CS life this topic will be important to you, but
-for now we just want to get a website running that returns some JSON. 
+Last week you saw a rest api in action when we talked to the github rest api.
+You saw that a website returned you JSON, and not the HTML you are likely used
+to receiving. When you go on amazon.com and click stuff, what you're seeing is
+HTML and CSS. But when you work with a rest api (typically via curl or a simliar
+tool like Postman ), you typically send and receive JSON.
 
-JSON looks like this:
+What is JSON? Its a data format that looks like this:
 
 \begin{verbatim}
 {
@@ -360,13 +495,61 @@ JSON looks like this:
 }
 \end{verbatim}
 
+What's a REST API? Can REST APIs exchange other data besides JSON? 
+
+If you're curious about this, then go find a good book or online lesson about
+it! It's such interesting stuff but now is not the time.
+
+\subsection{What websites offer REST APIs?}
+A whole bunch. Github. Reddit. Twitter. Facebook. Urban dictionary. NASA. Give
+it a google. Maybe you'll be bored one day and you can play with a REST api for
+a new site besides github.
+
+Today we're going to put a REST API on YOUR website.
+
+\subsection{What's Flask-RESTful?}
+It's a python library that allows you to implemet a REST api with the Flask
+framework. You'll remember we installed it a long time ago as shown in listing
+\ref{lst:install}
+
+Read more here: \url{https://flask-restful.readthedocs.io/en/latest/}.
 
 \subsection{Let's get started}
-So far we've returned plain text and text formatted as HTML from our website. A popular thing to do now is to pass around JSON data. JSON is used all over. I showed it to you last week just to wet your feet, but you'll see it everywhere. You'll use it for web programming, internally in Python code, passing data between applications running on a laptop, for exchanging data files with scientists - everywhere. I avoided JSON for a while because I thought it was just a stupid buzz word that the nerds used to show off, but it truly is an ubiquitous data format. Now you've seen it. You'll see it again, mark my words. 
-
 So we'll just see how to return json from a Flask application.
+Same process as last time. Copy the files from Example3 to the appropriate
+locations.
 
-Just as we did in example 2, set up your server with Example3 now. Get the Example3 code from github, copy the new ExampleFlask.conf file to the proper location in /etc, create the /home/webdeveloper/Example3 directory, and put the proper code in it. 
+\begin{lstlisting}[style=term, caption=Deploying our third website]
+webdeveloper@machine$ pwd
+/home/webdeveloper
+webdeveloper@machine$ ls
+LinuxClassRepo ExampleFlask
+webdeveloper@machine$ cp -r
+LinuxClassRepo/Lectures/Week10_Apache2_And_Flask/Example3/ExampleFlask3
+ExampleFlask3
+webdeveloper@machine$ ls
+LinuxClassRepo ExampleFlask ExampleFlask2 ExampleFlask3
+webdeveloper@machine$ ls ExampleFlask3
+__init__.py my_flask_app.py my_flask_app.wsgi
+\end{lstlisting}
+
+Good, we have the new code in place. Now let's copy over the new configuration
+file too.
+
+\begin{lstlisting}[style=term, caption=Get the configuration file for example 3]
+webdeveloper@machine$ sudo su -
+root@machine$ cp \
+/home/webdeveloper/LinuxClassRepo/Lectures/Week10/Example3/ExampleFlask.conf \
+/etc/apache2/sites-available/ExampleFlask.conf
+\end{lstlisting}
+
+
+Restart apache and it will work!
+
+\begin{lstlisting}[style=term, caption=Restart the apache2 service.]
+webdeveloper@machine$ sudo service apache2 restart
+\end{lstlisting}
+
 
 \subsection{The Flask Application: my\_flask\_app.py}
 You can skim the code to see what it does. It has some code for handling the GET and POST requests. A GET request will echo back to you the entire contents of the TODOS data it's maintaining. A POST request will add to the TODOS data set. You can verify after POSTing that your data was added by sending a GET request.
@@ -514,70 +697,10 @@ user@machine$ sed 's/\(^[a-zA-Z]\)/\xF0\x9F\x98\x82\1\xF0\x9F\x98\x82/' oldFile
 
 But this may or may not work on your computer, we'll talk about this in depth if there is time this semester.
 
-\subsection{It's not Halloween, I don't want to scare you}
-So far today I've showed you what to type to turn on an Apache webserver and we copy and pasted some Python Flask code. Then I showed you a whole new programming language called `sed'. Well, sed isn't quite a language. It is and it isn't, depends on what you want to define as a programming language. You've seen it can be used for search and replace. And you've seen that it can use regexes.
-
-\begin{center}
-{\LARGE Questoin for class: What is REGEX short for?What are some tools you already know that use regular expressions?}
-\end{center}
-
-
-Here is a site that will teach you a ton about sed:
-http://www.grymoire.com/Unix/Sed.html
-
-in fact, you will need to read this website for your homework. Theres so much to know, I've only shown you the tip of the iceberg. You can go now and learn as much as you care to, I think you understand enough to hit the ground running. There is also a super famous book out there about sed \& a related language called awk:
-
-You could spend 20-30 bucks here for it:
-https://www.amazon.com/sed-awk-Dale-Dougherty/dp/1565922255
-
-Or you can take it for free from this class repo! Inthe reading materials directory you will find the book sedandawk.pdf
-
-There is alot to know to be a power Linux user and you already know alot, that's great, good for you!
-
-\section{Recap of what you know}
-\begin{enumerate}
-\item A bit about the Bash programming language
-\item grep \& regular expressions
-\item What a user is on Linux
-\item What a group is on Linux
-\item What is git?
-\item You're comfortable using a command line interface now
-\item There are a few different languages on the command line - we've used bash and dash
-\item What permissions are and how to modify them
-\item What is a root user
-\item What is a process
-\item What is a job
-\item How to send signals to processes ( kill, CTRL+C, CTRL+Z )
-\item How to make code ignore or block signals
-\item How to install software on Linux
-\item A cool trick for using setuid / setgid to make a non-root user do some root stuff
-\item basics of relational dbs and how to configure one on Linux
-\item What is cron
-\item curl
-\item some vocabulary like API, REST, regex, SQL, DB
-\item A bit about python programming
-\item What is a website backend? Set up a website backend with Apache2 + Flask
-\item What is sed?
-\end{enumerate}
-
-\section{Coming Up In This Class}
-
-We have a few more important things to cover
-\begin{enumerate}
-\item set up a git server
-\item add a gitlab front end to the git server
-\item Linux and Text encodings
-\item xxd, everyone's favorite binary packet analyzer
-\item The AWK programming language
-\item The hows and whys of formatting harddrives, usb sticks, solid state drives, etc.
-\item Encryption with gpg + pgp. How it relates to ssh and other pub/priv key schemes.
-\end{enumerate}
-
 \section{References}
 This lecture was based on what I read  on these websites:
 
 \url{https://www.codementor.io/abhishake/minimal-apache-configuration-for-deploying-a-flask-app-ubuntu-18-04-phu50a7ft}
-
 
 
 There were some bugs in the tutorials above that I sorted out to make sure our lecture had a good flow.
