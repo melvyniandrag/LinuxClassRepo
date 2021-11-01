@@ -10,14 +10,13 @@ def secondEndPoint():
     return """
 <html>
 	<body>
-		<h1>What I learned about sed</h1>
-		<p><a href="https://www.grymoire.com/Unix/Sed.html">I learned it all here!</a> 
+		<h1>What I learned about Linux this year:</h1>
 		<h2>First thing I learned</h2>
-		<p> TODO FILL THIS IN </p>
+		<p> TODO FILL ME IN </p>
 		<h2>Second thing I learned</h2>
-		<p> TODO FILL THIS IN </p>
+		<p> TODO FILL ME IN </p>
 		<h2>Third thing I learned</h2>
-		<p> TODO FILL THIS IN </p>
+		<p> TODO FILL ME IN </p>
 	</body>
 </html>
 """
