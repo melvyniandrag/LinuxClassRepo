@@ -1,75 +1,6 @@
 \documentclass[10pt]{article}
-\PassOptionsToPackage{hyphens}{url}
-\usepackage{hyperref}
-\usepackage[margin=0.75in]{geometry}
-
-\usepackage{textcomp}
-\usepackage{color}
-\usepackage{graphicx}
-\definecolor{pblue}{rgb}{0.13,0.13,1}
-\definecolor{pgreen}{rgb}{0,0.5,0}
-\definecolor{pred}{rgb}{0.9,0,0}
-\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
-
-\usepackage{listings}
-\lstdefinestyle{term}{language=bash,
-  columns=fullflexible,
-  showspaces=false,
-  showtabs=false,
-  breaklines=true,
-  showstringspaces=false,
-  tabsize=2,
-  breakatwhitespace=true,
-  commentstyle=\color{pgreen},
-  keywordstyle=\color{pblue},
-  stringstyle=\color{pred},
-  numbers=left,
-  stepnumber=1,
-  basicstyle=\small\ttfamily,
-  frame=single,
-  moredelim=[il][\textcolor{pgrey}]{$$},
-  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
-  upquote=true
-}
-\lstdefinestyle{sh}{language=bash,
-  columns=fullflexible,
-  showspaces=false,
-  showtabs=false,
-  breaklines=true,
-  showstringspaces=false,
-  tabsize=2,
-  breakatwhitespace=true,
-  commentstyle=\color{pgreen},
-  keywordstyle=\color{pblue},
-  stringstyle=\color{pred},
-  numbers=left,
-  stepnumber=1,
-  basicstyle=\small\ttfamily,
-  frame=single,
-  moredelim=[il][\textcolor{pgrey}]{$$},
-  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
-  upquote=true
-}
-
-\lstdefinestyle{py}{language=python,
-  columns=fullflexible,
-  showspaces=false,
-  showtabs=false,
-  breaklines=true,
-  showstringspaces=false,
-  tabsize=2,
-  breakatwhitespace=true,
-  commentstyle=\color{pgreen},
-  keywordstyle=\color{pblue},
-  stringstyle=\color{pred},
-  numbers=left,
-  stepnumber=1,
-  basicstyle=\small\ttfamily,
-  frame=single,
-  moredelim=[il][\textcolor{pgrey}]{$$},
-  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
-  upquote=true
-}
+%\PassOptionsToPackage{hyphens}{url}
+\input{the_workbook_preamble}
 
 \title{\textbf{Week 09} \\
 \LARGE Apache2 and Flask \\
@@ -104,36 +35,6 @@ people giving us this Flask code.
 
 There are other backend frameworks. In Python lots of people use Django. In Java
 lots of folks use Play, Spring, and a bunch of others.
-
-\section{What's a REST API? What's JSON? }
-REST is an acronym for a beautiful but complex
-topic. For the rest of the lecture just understand that if you get JSON from a
-webserver, you're probably talking to it's REST API. We saw a REST API last week
-when you made requests with curl to api.github.com and it responded with some
-stuff that looked like:
- 
-\begin{verbatim}
-{
-	"name": {
-		"first": "melvyn",
-		"last": "drag"
-	},
-	"profession": "programmer",
-	"favoriteLanguages": ["C++", "Python"]
-}
-\end{verbatim}
-
-That's what JSON looks like, and it's fantastic stuff.
-
-Too many acronyms in CS, right?
-
-\begin{itemize}
-\item JSON - JavaScript Object Notation
-\item API - Application Programming Interface
-\item REST - REpresentational State Transfer
-\end{itemize}
-
-Scary stuff to look at, but we'll take a peek today.
 
 \section{What we'll do today}
 Today we'll bring a real website online. Last week we made a trivial website
@@ -215,11 +116,12 @@ root@machine$ usermod -a -G sudo webdeveloper
 root@machine$ su - webdeveloper
 webdeveloper@machine$ cd ~
 webdeveloper@machine$ git clone https://github.com/melvyniandrag/LinuxClassRepo.git
-webdeveloper@machine$ cp -r
-LinuxClassRepo/Lectures/Week10_Apache2_And_Flask/Example1/ExampleFlask ExampleFlask
+webdeveloper@machine$ cp -r \
+LinuxClassRepo/Lectures/Week10_Apache2_And_Flask/WebsiteThatReturnsText/CodeForWebsiteThatReturnsText \
+CodeForWebsiteThatReturnsText
 webdeveloper@machine$ ls
-LinuxClassRepo ExampleFlask
-webdeveloper@machine$ ls ExampleFlask
+LinuxClassRepo CodeForWebsiteThatReturnsText 
+webdeveloper@machine$ ls CodeForWebsiteThatReturnsText
 __init__.py my_flask_app.py my_flask_app.wsgi
 \end{lstlisting}
 
@@ -234,7 +136,7 @@ now.
 
 \begin{lstlisting}[style=term, caption=Notice that \_\_init\_\_.py is empty]
 webdeveloper@machine$ pwd 
-/home/webdeveloper/ExampleFlask
+/home/webdeveloper/WebsiteThatReturnsText
 webdeveloper@machine$ cat __init__.py
 webdeveloper@machine$ 
 \end{lstlisting}
@@ -249,7 +151,7 @@ the slash at the end ). We could put other routes like \textit{/otherroute}, and
 indeed we will do this in the next exercise. Be patient!
 
 \lstinputlisting[style=sh, caption=Flask is such a cool framework. Look how
-short the code is!]{Example1/ExampleFlask/my_flask_app.py}
+short the code is!]{WebsiteThatReturnsText/CodeForWebsiteThatReturnsText/my_flask_app.py}
 
 
 \subsection{my\_flask\_app.wsgi}
@@ -263,7 +165,8 @@ stuff to get the website working. You'll need to study Flask in depth to
 understand what this file is and how I created it.
 
 \lstinputlisting[style=sh, caption=Deploying Flask apps on Linux servers is
-easy! This configuration file is so short and sweet!]{Example1/ExampleFlask/my_flask_app.wsgi}
+easy! This configuration file is so short and
+sweet!]{WebsiteThatReturnsText/CodeForWebsiteThatReturnsText/my_flask_app.wsgi}
 
 
 \section{Connect Flask to Apache2}
@@ -277,13 +180,13 @@ webdeveloper@machine$ curl ipinfo.io/ip
 
 Now you need to get a configuration file for the website into the \textit{/etc}
 directory. The configuratin file is provided in the class repo in
-Lectures/Week10*/Example1. Just copy it over.
+Lectures/Week10*/WebsiteThatReturnsText. Just copy it over.
 
 \begin{lstlisting}[style=term, caption=Get the configuration file]
 webdeveloper@machine$ sudo su -
 root@machine$ cp \
-/home/webdeveloper/LinuxClassRepo/Lectures/Week10/Example1/ExampleFlask.conf \
-/etc/apache2/sites-available/ExampleFlask.conf
+/home/webdeveloper/LinuxClassRepo/Lectures/Week10/WebsiteThatReturnsText/WebsiteThatReturnsText.conf \
+/etc/apache2/sites-available/WebsiteThatReturnsText.conf
 \end{lstlisting}
 
 Now you must change the ip address in this file to the ip address of your
@@ -291,12 +194,12 @@ server. Remember when we got the ip address above in listing \ref{lst:ip}?
 Here's what the file looks like. Don't forget to change the ip address! This is
 the configuration file used by Apache2 to run your website.
 
-\lstinputlisting[style=sh, caption=Apache2 configuration file, label=lst:example1conf]{Example1/ExampleFlask.conf}
+\lstinputlisting[style=sh, caption=Apache2 configuration file, label=lst:example1conf]{WebsiteThatReturnsText/WebsiteThatReturnsText.conf}
 
 \subsection{Turn on and Test the Website}
 Alright then, let's do this! Run these commands as the user `webdeveloper'
 \begin{lstlisting}[style=term]
-webdeveloper@machine$ sudo a2ensite ExampleFlask
+webdeveloper@machine$ sudo a2ensite WebsiteThatReturnsText 
 webdeveloper@machine$ sudo a2enmod wsgi
 webdeveloper@machine$ sudo service apache2 restart
 \end{lstlisting}
@@ -315,7 +218,7 @@ figure \ref{fig:firstsite} . You can share the link to show off your website to 
 So we have a simple flask app running on apache now. As you've probably seen by now, Linux servers are very particular about groups and permissions. I'm not sure about all of the ins and outs of the permissions for Flask and Apache. I'm showing the permisisons and groups I've set up on my machine. If you do something else I'm not sure it will work, and I don't know why it owuld be broken. We could experiment with permissions if you have something else.
 
 
-I'm also not sure about all the details of the ExampleFlask.conf file. There are many options to it. I've always set mine up by scouring the internet for information and banging in what ever details I found. I hope to one day understand this file in depth, but for now all I know is how to make it work.
+I'm also not sure about all the details of the WebsiteThatReturnsText.conf file. There are many options to it. I've always set mine up by scouring the internet for information and banging in what ever details I found. I hope to one day understand this file in depth, but for now all I know is how to make it work.
 
 \begin{figure}[h]
   \centering
@@ -342,7 +245,7 @@ have to go to \textit{192.34.61.215/testFlask/} to see this data because in our 
 
 \begin{lstlisting}[style=sh]
 ...
-WSGIScriptAlias /testFlask /home/webdeveloper/ExampleFlask/my_flask_app.wsgi
+WSGIScriptAlias /Example1 /home/webdeveloper/CodeForWebsiteThatReturnsText/my_flask_app.wsgi
 ...
 \end{lstlisting}
 
@@ -369,11 +272,11 @@ webdeveloper@machine$ pwd
 webdeveloper@machine$ ls
 LinuxClassRepo ExampleFlask
 webdeveloper@machine$ cp -r
-LinuxClassRepo/Lectures/Week10_Apache2_And_Flask/Example2/ExampleFlask2
-ExampleFlask2
+LinuxClassRepo/Lectures/Week10_Apache2_And_Flask/WebsiteThatReturnsHTML/CodeForWebsiteThatReturnsHTML
+CodeForWebsiteThatReturnsHTML
 webdeveloper@machine$ ls
-LinuxClassRepo ExampleFlask ExampleFlask2
-webdeveloper@machine$ ls ExampleFlask2
+LinuxClassRepo ExampleFlask CodeForWebsiteThatReturnsHTML
+webdeveloper@machine$ ls CodeForWebsiteThatReturnsHTML
 __init__.py my_flask_app.py my_flask_app.wsgi
 \end{lstlisting}
 
@@ -398,8 +301,8 @@ address of your server.
 \begin{lstlisting}[style=term, caption=Get the configuration file]
 webdeveloper@machine$ sudo su -
 root@machine$ cp \
-/home/webdeveloper/LinuxClassRepo/Lectures/Week10/Example2/ExampleFlask.conf \
-/etc/apache2/sites-available/ExampleFlask.conf
+/home/webdeveloper/LinuxClassRepo/Lectures/Week10/WebsiteThatReturnsHTML/WebsiteThatReturnsJSON.conf \
+/etc/apache2/sites-available/WebsiteThatReturnsJSON.conf
 \end{lstlisting}
 
 
@@ -432,23 +335,24 @@ google to figure out how. It's easy to, there will be a button to click or
 something. }
 
 
-\subsection{New /etc/apache2/sites-available/ExampleFlask.conf}
+\subsection{New /etc/apache2/sites-available/WesiteThatReturnsHTML.conf}
 We've made a couple of changes to the Apache2 config file. Nothing major. 
 Note that now we are serving the website at \textit{/} and not at
 \textit{/testFlask}. Compare the WSGIScriptAlias line from listing
 \ref{lst:example2conf} and listing \ref{lst:example1conf}. 
  
-\lstinputlisting[style=sh, caption=new config file, label=lst:example2conf]{Example2/ExampleFlask.conf}
+\lstinputlisting[style=sh, caption=new config file,
+label=lst:example2conf]{WebsiteThatReturnsHTML/WebsiteThatReturnsHTML.conf}
 
 \subsection{my\_flask\_app.py}
 This is interesting! Now the website has two functions in it, and two routes!
 You see the same old one from Example 1, but we've added a second on that
 returns HTML. This website still stinks, but we're getting somewhere! 
 
-\lstinputlisting[style=py, caption=new Python file, label=lst:example2py]{Example2/ExampleFlask2/my_flask_app.py}
+\lstinputlisting[style=py, caption=new Python file, label=lst:example2py]{WebsiteThatReturnsHTML/CodeForWebsiteThatReturnsHTML/my_flask_app.py}
 
 \subsection{my\_flask\_app.wsgi}
-\lstinputlisting[style=py, caption=new wsgi file]{Example2/ExampleFlask2/my_flask_app.wsgi}
+\lstinputlisting[style=py, caption=new wsgi file]{WebsiteThatReturnsHTML/CodeForWebsiteThatReturnsHTML/my_flask_app.wsgi}
 
 \subsection{\_\_init\_\_.py}
 Blank as before. If you are curious, go read a Python textbook to understand what this strange file
@@ -516,7 +420,7 @@ Read more here: \url{https://flask-restful.readthedocs.io/en/latest/}.
 
 \subsection{Let's get started}
 So we'll just see how to return json from a Flask application.
-Same process as last time. Copy the files from Example3 to the appropriate
+Same process as last time. Copy the files from WebsiteThatReturnsJSON to the appropriate
 locations.
 
 \begin{lstlisting}[style=term, caption=Deploying our third website]
@@ -525,11 +429,11 @@ webdeveloper@machine$ pwd
 webdeveloper@machine$ ls
 LinuxClassRepo ExampleFlask
 webdeveloper@machine$ cp -r
-LinuxClassRepo/Lectures/Week10_Apache2_And_Flask/Example3/ExampleFlask3
-ExampleFlask3
+LinuxClassRepo/Lectures/Week10_Apache2_And_Flask/WebsiteThatReturnsJSON/WebsiteThatReturnsJSON
+CodeForWebsiteThatReturnsJSON
 webdeveloper@machine$ ls
-LinuxClassRepo ExampleFlask ExampleFlask2 ExampleFlask3
-webdeveloper@machine$ ls ExampleFlask3
+LinuxClassRepo WebsiteThatReturnsText CodeForWebsiteThatReturnsHTML CodeForWebsiteThatReturnsJSON
+webdeveloper@machine$ ls CodeForWebsiteThatReturnsJSON
 __init__.py my_flask_app.py my_flask_app.wsgi
 \end{lstlisting}
 
@@ -539,7 +443,7 @@ file too.
 \begin{lstlisting}[style=term, caption=Get the configuration file for example 3]
 webdeveloper@machine$ sudo su -
 root@machine$ cp \
-/home/webdeveloper/LinuxClassRepo/Lectures/Week10/Example3/ExampleFlask.conf \
+/home/webdeveloper/LinuxClassRepo/Lectures/Week10/WebsiteThatReturnsJSON/ExampleFlask.conf \
 /etc/apache2/sites-available/ExampleFlask.conf
 \end{lstlisting}
 
@@ -554,7 +458,7 @@ webdeveloper@machine$ sudo service apache2 restart
 \subsection{The Flask Application: my\_flask\_app.py}
 You can skim the code to see what it does. It has some code for handling the GET and POST requests. A GET request will echo back to you the entire contents of the TODOS data it's maintaining. A POST request will add to the TODOS data set. You can verify after POSTing that your data was added by sending a GET request.
 
-\lstinputlisting[style=py]{Example3/ExampleFlask3/my_flask_app.py}
+\lstinputlisting[style=py]{WebsiteThatReturnsJSON/CodeForWebsiteThatReturnsJSON/my_flask_app.py}
 
 \subsection{Accessing Our REST API}
 Then you can get JSON data in the browser as shown below:
