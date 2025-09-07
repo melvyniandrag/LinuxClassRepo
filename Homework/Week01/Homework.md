@@ -2,8 +2,6 @@
 
 In this homework you will demonstrate knowledge of bash and vim. You will submit a short document and a short video.
 
-Here are the lecture videos.
-
 ## Document
 
 Write a word/google docs document. For each question I'm asking for a screenshot of your terminal output, and an explanation.
