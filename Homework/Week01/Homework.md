@@ -25,7 +25,7 @@ Use OBS or any other screen recording software. Or have someone record you with 
 Shouldn't be longer than 30 seconds. Just show off to me that you know these basic things about vim!
 
 ## Submit
-
+Submit the following on blackboard:
 * Your document
 * Your video
 
