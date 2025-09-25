@@ -1,0 +1,15 @@
+semester plan
+1 - bash and digital ocean
+2 - bash and vim
+3 - i/o redirection, pipes, python, installing software
+4 - vimtutor, git, github, ssh activity(everyone pushes their public keys to a git repo). Students create a git repo called WhatILearnedInCS407. Make a Readme.md
+5 - programming on linux in python, c++, more git
+6 - users, permissions, python, more git. We start by looking at users, groups, permissions. 
+7 - django and apache. Take the content from your what I learned in cs407 repo and make a website with it.
+8 - django rest API, curl
+9 - sqlite murder mystery. Play around with sqlite joins. Look at a django website and see that it is writing to the sqlite database.
+10 - postgresql. add to django site. After adding stuff to the db, inspect the data in the db.
+11 - file systems, disks, partitions, bash scripting.
+12 - docker and docker compose with a website. 
+13 - set up a gitlab server from scratch. set up a gitlab server with docker.
+14 - recap. vim, python, git, django, sql
