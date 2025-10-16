@@ -131,6 +131,13 @@ Play around with a python script and toggling the x permission so it's executabl
 
 Make files for your user and see how you can play with permissions such that when you `su` to a different user, that user can't read or execute the file.
 
+File permissions vs directory permissions
+file r, w, x obvious
+
+Directory Permission	What it lets you do
+r	List file names inside the directory
+w	Add/remove/rename files inside the directory
+x	Enter and access contents of the directory
 
 ### git + ssh group activity
 Students all pull down a git repo I made that will hold public keys.
