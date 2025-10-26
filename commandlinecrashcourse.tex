@@ -1,0 +1,407 @@
+\documentclass[12pt,letter]{article}
+\usepackage{lipsum}
+\usepackage{authblk}
+\usepackage[top=2cm, bottom=1.5cm, left=1cm, right=1cm]{geometry}
+\usepackage{xcolor}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage{hyperref}
+
+\usepackage{multicol}
+\usepackage{textcomp}
+\usepackage{graphicx}
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.5,0}
+\definecolor{pred}{rgb}{0.9,0,0}
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+\definecolor{crimson}{rgb}{0.86,0.07,0.23}
+
+\newcommand{\shellname}[1]{\textcolor{black}{\textbf{#1}}}
+\newcommand{\directory}[1]{\textcolor{black}{\textbf{#1}}}
+\newcommand{\bashcommand}[1]{\textcolor{crimson}{\textbf{#1}}}
+\newcommand{\lectnote}[1]{\textcolor{orange}{\texttt{{\small{#1} }}}}
+
+\usepackage{listings}
+
+\lstset{
+  numbers=left,          % Position of line numbers (none, left, right)
+  numberstyle=\tiny,     % Style of the line numbers
+  stepnumber=1,          % Number every line
+  numbersep=15pt,         % Space between line numbers and code
+}
+
+\lstdefinestyle{java}{
+  language=Java,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  basicstyle=\small\ttfamily,
+  numbers=left,
+  stepnumber=1,
+  frame=shadowbox,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\lstdefinestyle{term}{language=bash,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+\lstdefinestyle{sh}{language=bash,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  numbers=left,
+  stepnumber=1,
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\lstdefinestyle{py}{language=python,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  numbers=left,
+  stepnumber=1,
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\lstdefinestyle{txt}{
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  numbers=left,
+  stepnumber=1,
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\usepackage[T1]{fontenc}
+
+\newcommand{\schedule}[2]{\textbf{#1} \textit{#2}}
+
+\usepackage{fancyhdr}
+%
+\pagestyle{fancy}
+%
+\renewenvironment{abstract}{%
+\hfill\begin{minipage}{0.95\textwidth}
+\rule{\textwidth}{1pt}}
+{\par\noindent\rule{\textwidth}{1pt}\end{minipage}}
+%
+\makeatletter
+\renewcommand\@maketitle{%
+\hfill
+
+\begin{minipage}{0.95\textwidth}
+\vskip 1em
+\let\footnote\thanks 
+{\LARGE \@title \par }
+\vskip 0.5em
+%{\large \@author \par}
+%\vskip 0.5em
+{\large \@date \par}
+\end{minipage}
+\vskip 1em \par
+}
+
+\usepackage{mdframed}  % optional, if you want a border
+
+\newcommand{\myfig}[3]{%
+\begin{figure}[h]
+    \centering
+    \begin{mdframed}[linewidth=1pt, linecolor=black]  % optional border
+        \includegraphics[width=0.8\textwidth]{#1}
+    \end{mdframed}
+    \caption{\small \texttt{#2}}
+    \label{#3}
+\end{figure}
+}
+
+\makeatother
+%
+\begin{document}
+%
+%title and author details
+\title{\textbf{Command Line Crash Course}}
+%\author[1]{Melvyn Ian Drag}
+\date{\today}
+%
+\maketitle
+%
+\begin{abstract}
+In this assignment you will learn about important bash commands and essential command line utilities. Section \ref{sec:intro} is an introduction, section \ref{sec:assignment} explains the assignment, and the subsequent sections give you important information.
+\end{abstract}
+
+\section{Bash vs Command Line Utilities}
+\label{sec:intro}
+You know you use the command line on Linux to do stuff. It usually doesn't matter what is a Bash command, and what is a command line utility, but it's important that you're aware of the difference.
+
+\subsection{Bash}
+\shellname{Bash} is a programming language. It can do many things you are familiar with, such as for loops and if statements.
+
+\myfig{Images/bash001.png}{Bash!}{fig:bash001}
+
+But Bash is a special programming language. Bash was designed to allow you to directly control Unix-like operating systems, such as Linux. Typically when you think about using Linux or other Unix-like operating systems, you imagine typing commands into black window. This black window with a blinking cursor - that's a Bash shell.
+The shell is the interactive prompt that you type commands into. 
+
+Note, you can also write Bash commands into a file much like you would a Python or JavaScript program. These files are referred to as scripts and are given the .sh extension.
+
+There are many other languages like Bash, such as \shellname{zsh} \shellname{ksh}, and they are all primarily used as shells for controlling your *nix computer.
+
+Open a Bash shell and type \textit{help} to see a full list of what Bash can do. See figure \ref{fig:bash002}
+
+\myfig{Images/bash002_help.png}{Output of help}{fig:bash002}
+
+
+\subsection{Common Utilities}
+Bash cannot do everything. After looking through the output of the \bashcommand{help} command you will see some important things are missing, such as \bashcommand{mkdir} and \bashcommand{mv}. These other essential programs are referred to as "system utilities", and they are installed somewhere on your computer. You can use the \bashcommand{which} program to locate them. In figure \ref{fig:which_mkdir} you see that \bashcommand{mkdir} can be found in the \directory{/usr/bin} directory.
+
+\myfig{Images/which_mkdir.png}{Where is mkdir?}{fig:which_mkdir}
+
+\newpage
+\section{Your Assignment}
+\label{sec:assignment}
+Your assignment is to create the directory structure shown in figure \ref{fig:tree}. Make sure that the md5sums of the files match the md5sums shown in \ref{fig:md5sums}. If you can do this, you understand the basics of using the command line.
+
+\myfig{Images/md5sums.png}{md5sum for each of the files.}{fig:md5sums}
+\myfig{Images/tree.png}{tree command showing the directory structure}{fig:tree}
+
+\newpage
+\section{Commands}
+Play around with the following commands in your terminal until you are comfortable with them.
+
+\subsection{pwd}
+The \bashcommand{pwd} command tells you your present working directory. It's the folder you're currently in on your computer.
+\begin{lstlisting}[style=term]
+root@machine:~$ pwd
+/root
+\end{lstlisting}
+
+\subsection{cd}
+The \bashcommand{cd} command is used for changing your directory.
+
+\begin{lstlisting}[style=term]
+root@machine$ cd /
+root@machine$ pwd
+/
+root@machine$ cd $HOME
+root@machine$ pwd
+/root
+root@machine$ cd
+# cd with no arguments is the same as cd $HOME
+root@machine$ pwd
+/root
+root@machine$ cd /usr/local/bin
+root@machine$ pwd
+/usr/local/bin
+#\end{lstlisting}
+
+\subsection{mkdir}
+\begin{lstlisting}[style=term]
+root@machine$ cd $HOME
+root@machine$ mkdir class
+root@machine$ cd class
+root@machine$ pwd
+/root/class
+root@machine$ mkdir first
+root@machine$ cd first
+root@machine$ pwd
+/root/class/first
+root@machine$ mkdir dir1
+root@machine$ cd /root/class
+root@machine$ mkdir -p second/{a,b}
+root@machine$ mkdir -p third/text
+root@machine$ cd $HOME
+\end{lstlisting}
+
+\subsection{ls}
+The \bashcommand{ls} command is for listing the files in your current directory. You can give different flags to the command to change the way it outputs information.
+\begin{lstlisting}[style=term]
+root@machine$ cd 
+root@machine$ ls 
+class
+root@machine$ ls class
+first second third
+root@machine$ ls -R
+# alot of information about all of the directories you've created.
+root@machine$ ls /
+bin dev home ... and many more directories are shown
+\end{lstlisting}
+
+\subsection{cp}
+The \bashcommand{cp} command is used for copying files.
+\begin{lstlisting}[style=term]
+root@machine$ cd 
+root@machine$ pwd
+/root
+root@machine$ mkdir junk
+root@machine$ ls
+class junk
+root@machine$ cd junk
+root@machine$ echo "hi" > hi.txt
+root@machine$ ls
+hi.txt
+root@machine$ cp hi.txt hiagain.txt
+root@machine$ ls
+hi.txt hiagain.txt
+root@machine$ pwd
+/root/junk
+\end{lstlisting}
+
+Note that you copied hi.txt to a file called hiagain.txt. \bashcommand{cp} can also be used for copying directories.
+
+\begin{lstlisting}[style=term]
+root@machine$ cd 
+root@machine$ pwd
+/root
+root@machine$ cp -r junk junk_copy
+root@machine$ ls
+class junk junk_copy
+\end{lstlisting}
+Note that you now have a copy of the junk directory.
+
+\subsection{cat}
+\bashcommand{cat} is used for ``concatenating" files. In other words, cat is used for combining files. However, it is also commonly used for quickly viewing the contents of a file.
+\begin{lstlisting}[style=term]
+root@machine$ cd /root/junk
+root@machine$ cat hi.txt
+hi
+root@machine$ cat hi.txt hiagain.txt
+hi
+hi
+root@machine$ ls
+hi.txt hiagain.txt
+root@machine$ cat hi.txt hiagain.txt > combined.txt
+root@machine$ ls
+combined.txt hi.txt hiagain.txt
+root@machine$ cat combined.txt
+hi
+hi
+\end{lstlisting}
+
+\subsection{rm}
+The \bashcommand{rm} command is for deleting files and directories.
+\begin{lstlisting}[style=term]
+root@machine$ cd /root/junk
+root@machine$ ls
+hi.txt hiagain.txt
+root@machine$ rm hi.txt
+root@machine$ ls
+hiagain.txt
+root@machine$ rm hiagain.txt
+root@machine$ ls
+# nothing
+\end{lstlisting}
+
+To delete directories, you use the r flag.
+
+\begin{lstlisting}[style=term]
+root@machine$ cd 
+root@machine$ ls
+class junk junk_copy
+root@machine$ rm junk
+# error message
+root@machine$ rm -r junk
+root@machine$ ls
+class junk_copy
+root@machine$ rm -r junk_copy
+root@machine$ ls
+class
+\end{lstlisting}
+
+\subsection{apt install}
+In this class we are focusing on Debian Linux. To install packages on Debian Linux, you use the \bashcommand{apt} package manager. Let's install the \bashcommand{tree} program.
+
+\begin{lstlisting}[style=term]
+root@machine$ tree /root
+# error message. tree is not installed
+root@machine$ apt install tree
+# tree will install
+\end{lstlisting}
+
+\subsection{tree}
+The \bashcommand{tree} command gives you output similar to \bashcommand {ls -R}, but in a nicer format.
+
+\begin{lstlisting}[style=term]
+root@machine$ tree /root
+/root
+|_ class
+    |_ first
+    |  |_ dir1
+    |_ second
+    |  |_ a
+    |  |_ b
+    |_ third
+       |_ text
+\end{lstlisting}
+
+\subsection{md5sum}
+The \bashcommand{md5sum} command is an important command that gives you a hash of a file. It is used to quickly determine if 2 files are the same. Two files might \textit{appear} to be the same, but one could be a virus and the other one not. To check, you will compare the md5sum of a good file to a suspicious one. If they match, you know the file is good. If not, you can guess the suspicious one is broken or a virus.
+
+\begin{lstlisting}[style=term]
+root@machine$ md5sum /usr/bin/python3
+643699f374b7ef7f1bbf2ef3d1867d99  /usr/bin/python3
+\end{lstlisting}
+
+In this assignment, I'm asking you to create some files and verify that they match the files I asked you to create. A quick way to make sure that your file is the same as the one I want you to make, is to use the md5sum command.
+
+\section{Files To Create}
+As part of the assignment I've asked you to create some files. Below are screenshots of what the files should look like. Use vim to create the files and verify the md5sum using the md5sum command. Compare your sum to the sum I showed in the beginning of this document.
+
+In the pictures I use \bashcommand{cat} to print out the file contents so you can see what you need to type.
+
+If your md5sums don't match mine, you probably have a space wrong or other minor error.
+
+\myfig{Images/java.png}{HelloWorld.java}{fig:helloworldjava}
+\myfig{Images/bash.png}{hello.sh}{fig:helloworldbash}
+\myfig{Images/python.png}{hello.py}{fig:helloworldpython}
+\end{document}

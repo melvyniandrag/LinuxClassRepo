@@ -1,0 +1,8 @@
+vimtips.txt
+
+dit - delete in tag
+dat - delete including tag
+cit/cat - like delete, but puts you in insert mode
+vit/vat - visually select a tag or inside the tag.
+
+Consider showing the matchit plugin and things like % and [t and ]t
