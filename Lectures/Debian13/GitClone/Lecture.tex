@@ -1,0 +1,217 @@
+\documentclass[12pt]{article}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}     % modern 8-bit font encoding
+\usepackage[utf8]{inputenc}  % allow UTF-8 characters in the source
+\usepackage{textcomp} 
+\usepackage{fullpage}
+\usepackage[letterpaper, margin=0.5in]{geometry}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{upquote}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{url}
+\title{Cloning Git Repos}
+\author{CS 407 Intro To Linux}
+
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.5,0}
+\definecolor{pred}{rgb}{0.9,0,0}
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+\definecolor{crimson}{rgb}{0.86,0.07,0.23}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{purple}{rgb}{0.5,0,0.5}
+\definecolor{darkgray}{rgb}{0.1,0.1,0.1}
+
+\lstset{
+  numbers=left,          % Position of line numbers (none, left, right)
+  numberstyle=\tiny,     % Style of the line numbers
+  stepnumber=1,          % Number every line
+  numbersep=15pt,         % Space between line numbers and code
+}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break, let},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstdefinestyle{java}{
+  language=Java,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  basicstyle=\small\ttfamily,
+  numbers=left,
+  stepnumber=1,
+  frame=shadowbox,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\lstdefinestyle{term}{language=bash,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+\lstdefinestyle{sh}{language=bash,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  numbers=left,
+  stepnumber=1,
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\lstdefinestyle{py}{language=python,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  numbers=left,
+  stepnumber=1,
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\lstdefinestyle{txt}{
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  numbers=left,
+  stepnumber=1,
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+\usepackage{mdframed}  % optional, if you want a border
+
+\newcommand{\myfig}[3]{%
+\begin{figure}[h]
+    \centering
+    \begin{mdframed}[linewidth=1pt, linecolor=black]  % optional border
+        \includegraphics[width=\textwidth]{#1}
+    \end{mdframed}
+    \caption{\small \texttt{#2}}
+    \label{#3}
+\end{figure}
+}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+If you and a friend want to share a bunch of code, how would you do it? Up until now, you probably don't have a good way.
+
+By this point in the semester you've seen how to upload code to github. Github is a popular way to share code. If you want to get a copy of someone's code from github, you can clone or download it as a zip.
+
+\section{Some cool repos}
+Here are some fun repos you might want to look at for this assignment. There is a bunch of cool code on github though.
+
+\begin{itemize}
+\item Source code for pokemon yellow gameboy game - \url{https://github.com/pret/pokeyellow}
+\item Linux kernel - \url{https://github.com/torvalds/linux}
+\item Awk programming language - \url{https://github.com/onetrueawk/awk}
+\item Repo of materials for this class: \url{https://github.com/melvyniandrag/LinuxClassRepo}
+\end{itemize}
+
+
+\section{Github}
+See figure \ref{fig:clone}. If you click the "Code" button on github, you can choose some options. In green you see you can choose to clone with ssh or https. In red you see the url for cloning. In blue you see there is a button to download a zip.
+\myfig{clone.png}{(green) ssh/https (red) clone (blue) download}{fig:clone}
+
+
+\section {Download}
+Clicking the download button will download a zip.
+
+\section{Clone}
+If you don't have git installed on your machine, install it. On a debian 13 droplet, you do this like
+\begin{lstlisting}[style=term]
+root@droplet$ apt install git
+\end{lstlisting}
+
+On windows, mac or other linux, the way to install git is different.
+
+Once you have git installed you can clone repos with it! In listing \ref{listing:https} we clone with https, in listing \ref{listing:ssh} we clone with ssh.
+
+
+\begin{lstlisting}[style=term, caption=clone with https,label=listing:https]
+root@droplet$ ls
+#nothing
+root@droplet$ git clone https://github.com/torvalds/linux
+# downloads the linux kernel code!!
+root@droplet$ ls
+linux
+\end{lstlisting}
+
+\begin{lstlisting}[style=term, caption=clone with ssh, label=listing:ssh]
+root@droplet$ ls
+#nothing
+root@droplet$ git clone git@github.com:pret/pokeyellow.git
+# will attempt to download with the ssh url
+# it will only work if you have ssh access to the repo
+root@droplet$ ls
+# depends if you have access or not.
+\end{lstlisting}
+\end{document}
+
