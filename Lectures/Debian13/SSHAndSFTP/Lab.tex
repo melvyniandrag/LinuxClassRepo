@@ -1,0 +1,440 @@
+\documentclass[12pt]{article}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}     % modern 8-bit font encoding
+\usepackage[utf8]{inputenc}  % allow UTF-8 characters in the source
+\usepackage{textcomp} 
+\usepackage{fullpage}
+\usepackage[letterpaper, margin=0.5in]{geometry}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{upquote}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{graphicx}
+
+\title{Understanding SSH and SFTP}
+\author{CS 407 Intro To Linux}
+
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.5,0}
+\definecolor{pred}{rgb}{0.9,0,0}
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+\definecolor{crimson}{rgb}{0.86,0.07,0.23}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{purple}{rgb}{0.5,0,0.5}
+\definecolor{darkgray}{rgb}{0.1,0.1,0.1}
+
+\lstset{
+  numbers=left,          % Position of line numbers (none, left, right)
+  numberstyle=\tiny,     % Style of the line numbers
+  stepnumber=1,          % Number every line
+  numbersep=15pt,         % Space between line numbers and code
+}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break, let},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstdefinestyle{java}{
+  language=Java,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  basicstyle=\small\ttfamily,
+  numbers=left,
+  stepnumber=1,
+  frame=shadowbox,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\lstdefinestyle{term}{language=bash,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+\lstdefinestyle{sh}{language=bash,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  numbers=left,
+  stepnumber=1,
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\lstdefinestyle{py}{language=python,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  numbers=left,
+  stepnumber=1,
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\lstdefinestyle{txt}{
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  numbers=left,
+  stepnumber=1,
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+\usepackage{mdframed}  % optional, if you want a border
+
+\newcommand{\myfig}[3]{%
+\begin{figure}[h]
+    \centering
+    \begin{mdframed}[linewidth=1pt, linecolor=black]  % optional border
+        \includegraphics[width=\textwidth]{#1}
+    \end{mdframed}
+    \caption{\small \texttt{#2}}
+    \label{#3}
+\end{figure}
+}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+In this lab you will strengthen your understanding of ssh and sftp.
+\begin{enumerate}
+    \item SSH - Secure SHell. Used for connecting to remote computers.
+    \item SFTP - Secure File Transfer Protocol. Used for sending and retrieving files to and from remote computers.
+\end{enumerate}
+
+SSH allows you to do alot of configuration. We'll look at just a couple of things you can configure, and well use sftp to send some files back and forth to a droplet.
+
+Create a brand new Debian 13 droplet now with ssh authentication (not password!) and then we'll begin.
+
+\section{SSH Configuration}
+
+\subsection{daemons}
+A \textit{daemon} ( pronounced like demon ) is a process that runs in the background doing work without user interaction, and there are many daemon processes that do important work on Linux computers, such as
+\begin{itemize}
+    \item sshd - ssh daemon
+    \item crond - runs cron jobs
+    \item udevd - handles hardware events like when devices are plugged in or unplugged
+    \item etc.
+\end{itemize}
+
+The ssh daemon \textbf{sshd} can be configured to control how ssh clients connect to your droplet, which is the ssh server. 
+
+\subsection{/etc/ssh/sshd\_config}
+The configuration file looks up a number of properties. The first match it finds is what it uses. So if you say "X" is true, but then later say it's false - sshd will think it's true. It uses the first match.
+
+\myfig{include.png}{Include}{fig:include}
+
+
+Let's use \textbf{vim} to inspect the ssh daemon configuration file, \textbf{/etc/ssh/sshd\_config}. Here I also show a few screenshots where I use \verb|grep -n| to show you a linenumber with something important. Figure \ref{fig:include} shows that we include additional config files in the \textbf{/etc/ssh/sshd\_config.d/} directory. Figure \ref{fig:passwordauthentication} shows that password authentication is off. But keep in mind, since we include the config files on line 12, but turn off password authentication on line 57, if an additional config file turns ON password authentication, this will stick. sshd uses the first match it finds.
+
+\myfig{passwordauthentication.png}{Include}{fig:passwordauthentication}
+
+\subsection{Additional Config Files}
+See in figure \ref{fig:additionalconfigs} that there is an additional configuration file. This is the file that is included by the main configuration file.
+
+Note that this file has a line turning off password authentication.
+
+Also note that this file starts with a 50. The files are included in sorted order, so if you want to include some setting first, save it in a file called 40-something.conf or 25-somethingelse.conf.
+
+Take some time now to inspect all of the files in \textbf{/etc/ssh/sshd\_config.d}. Note that it is customary to distinguish the config file \textbf{sshd\_config} from the directory \textbf{sshd\_config.d} by adding the .d to the end of the directory.
+\myfig{additionalconfigs.png}{50-cloud-init.conf}{fig:additionalconfigs}
+
+\subsection{Activity 1}
+Create a new user on your machine
+\begin{lstlisting}[style=term]
+root@droplet$ adduser student
+# set a password.
+# otherwise, just accept defaults.
+\end{lstlisting}
+
+Attempt to ssh in to this use from your windows or mac computer. It should fail.
+
+\begin{lstlisting}[style=term]
+me@myPC$ ssh student@droplet
+# error something something (Public Key Denied)
+\end{lstlisting}
+
+\subsection{Activity 2}
+
+Turn on password authentication in your \textbf{/etc/ssh/sshd\_config}. Then restart sshd. Then attempt to ssh in again as the student. It should fail, because the setting from \textbf{/etc/ssh/sshd\_config.d/50-cloud-init.conf} is overriding the setting.
+
+\begin{lstlisting}[style=term]
+root@droplet$ # use vim to edit /etc/ssh/sshd_config
+root@droplet$ grep "PasswordAuthentication" /etc/ssh/sshd_config
+PasswordAuthentication yes
+root@droplet$ systemctl restart sshd
+root@droplet$ exit
+me@myPC$ ssh student@droplet
+# error something something (Public Key Denied)
+\end{lstlisting}
+
+\subsection{Activity 3}
+This time, turn on PasswordAuthentication in the 50-cloud-init file.
+Then restart sshd and try to connect. It should now work!!
+
+\begin{lstlisting}[style=term]
+root@droplet$ # use vim to edit /etc/ssh/sshd_config.d/50-cloud-init.conf
+root@droplet$ grep "PasswordAuthentication" /etc/ssh/sshd_config.d/50-cloud-init.conf
+PasswordAuthentication yes
+root@droplet$ systemctl restart sshd
+root@droplet$ exit
+me@myPC$ ssh student@droplet
+# asks for your password, and you can get in!
+\end{lstlisting}
+
+\subsection{Activity 4}
+Create a new .conf file called X-my-config.conf, where X is a number between 01-49.
+Set PasswordAuthentication no and restart sshd. 
+
+Can you connect as student? You cannot! Because sshd will read your config before 50-cloud-init.conf.
+
+\subsection{Activity 5}
+ssh and sshd are very configurable. Note that there is a line for Port that is commented out in /etc/ssh/sshd\_config. Create a new file 02-port-config.conf and put the line  Port 2222. Then restart your sshd and exit. Try to ssh in again - you cannot! You have changed the port to 2222. 
+\begin{lstlisting}[style=term]
+root@droplet$ # use vim to edit /etc/ssh/sshd_config.d/02-port-config.conf
+root@droplet$ grep "Port" /etc/ssh/sshd_config.d/02-port-config.conf
+Port 2222
+root@droplet$ systemctl restart sshd
+root@droplet$ exit
+me@myPC$ ssh root@droplet
+# hangs, doesnt work
+me@myPC$ ssh root@droplet -p 2222
+# works!
+\end{lstlisting}
+
+ Remove the config and restart sshd to continue. Unless you want to continue using port 2222, that's fine too!
+
+\subsection{Activity 6}
+SSH and sshd are very configurable. Look in \textbf{/etc/motd} to see the message of the day. This text is shown when you ssh in. Don't believe me? use vim or cat to see the contents of /etc/motd. Then disconnect and reconnect to your droplet. You will see that message.
+
+Change this text, and reconnect to your droplet. You should see the message you created.
+
+Now let's have some fun...
+
+ \begin{lstlisting}[style=term]
+root@droplet$ apt install cowsay
+root@droplet$ /usr/games/cowsay "welcome to my droplet!"
+ ________________________
+< welcome to my droplet! >
+ ------------------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+root@droplet$ /usr/games/cowsay "welcome to my droplet!" > /etc/motd
+root@droplet$ exit
+me@myPC$ ssh root@droplet
+ ________________________
+< welcome to my droplet! >
+ ------------------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+root@droplet$
+\end{lstlisting}
+
+\section{SFTP}
+SFTP is the Secure File Transfer Protocol. It's a super useful tool for putting files on a server
+and getting them off. In this partr of the lab, we will get files off of the droplet, and put files onto the
+droplet.
+
+\subsection{How to use SFTP}
+\begin{lstlisting}[style=term]
+me@myPC$ sftp root@droplet
+# OR sftp -P 2222 root@droplet, if you didn't change the port back to 22. 
+# note the -P is capital
+sftp> exit
+me@myPC$ 
+
+\end{lstlisting}
+\subsection{What SFTP can do}
+
+SFTP works alot like what you're used to in the shell, but
+\begin{itemize}
+\item It has a limited set of commands
+\item Some commands are local, they run on your pc. For example, lls.
+\item Some commands run on the remote, your droplet. For example, ls.
+\end{itemize}
+
+\begin{tabular}{l l l}  % two columns, both left-aligned
+Local Command & Remote Command  & What It Does\\
+\hline
+lls & ls & list files and directories\\
+lcd & cd  & change directory\\
+lpwd & pwd & tell you your present working dir.\\
+lmkdir & mkdir & make a directory
+\end{tabular}
+
+The other 2 commands you need to know are 
+\begin{enumerate}
+\item get - download a file
+\item put - upload a file
+\end{enumerate}
+
+\subsection{Activity 1}
+Let's upload a file to the droplet. Use vim in the terminal on your pc to create a file called poem.txt. Then upload it to /root/poetry.
+
+\begin{lstlisting}[style=term]
+me@myPC$ vim poem.txt
+# create the file
+me@myPC$ cat poem.txt
+roses are red
+violets are blue
+me@myPC$ sftp root@droplet
+sftp> lls
+# use lls, lcd, lpwd to navigate to the location where the poem.txt file is saved.
+# then use mkdir to create /root/poetry on the remote.
+# then use cd to navigate to /root/poetry on the remote.
+sftp> put poem.txt
+# it uploads
+sftp> exit
+me@myPC$ ssh root@droplet
+me@myPC$ cd /root/poetry
+me@myPC$ ls
+poem.txt
+\end{lstlisting}
+
+\subsection{Activity 2}
+Try to upload a handful of other files onto your droplet. This is an absolutely critical skill. Make sure you are 100\% comfortable with this.
+
+\subsection{Activity 3}
+Download a handful of files off of your droplet using the get command. Make sure you are 100\% comfortable with this essential skill.
+
+\begin{lstlisting}[style=term]
+me@myPC$ sftp root@droplet
+sftp> cd /etc/ssh/sshd_config.d
+sftp> ls
+50-cloud-init.conf
+sftp> get 50-cloud-init.conf
+sftp> exit
+me@myPC$ ls
+stuff 50-cloud-init.conf other-stuff
+\end{lstlisting}
+
+\subsection{Activity 4}
+Let's have fun getting a tarball. Maybe you have to get 100 files off of a computer.. would be easier to download them as a single file rather than downloading 100 files.
+
+\begin{lstlisting}[style=term]
+me@myPC$ ssh root@droplet
+root@droplet$ mkdir importantFiles
+root@droplet$ echo hi > importantFiles/hi.txt
+root@droplet$ echo bye > importantFiles/bye.txt
+root@droplet$ ls importantFiles
+bye.txt hi.txt
+root@droplet$ tar cvf important.tar importantFiles
+root@droplet$ ls
+importantFiles important.tar
+root@droplet$ tar --list -f important.tar
+# this will just show you whats in the archive.
+root@droplet$ exit
+me@myPC$ sftp root@droplet
+sftp> get important.tar
+me@myPC$ ls
+stuff important.tar other-stuff
+\end{lstlisting}
+
+Isn't that great! You just stuffed all the files in importantFiles into a tarball and downloaded them with the get command.
+
+\section{Final Activity}
+Now let's exercise what you learned. Can you configure 2 droplets A and B such that A can ssh into B as user "student" like:
+
+\begin{lstlisting}[style=term,label=listing:ssh,caption=Goal: Make this work]
+root@A$ ssh student@B
+connected!
+\end{lstlisting}
+
+A rough sketch of how to do this:
+
+\begin{enumerate}
+\item ssh into A from your pc.
+\item On droplet A, run ssh-keygen.
+\item you need to get the public key from the A machine's .ssh directory into the 
+.ssh/authorized\_keys file on B
+\item ssh into B from your pc. NOT FROM A!!!
+\item On droplet B, add a user called student and set a password.
+\item create a folder /home/student/.ssh on B with permissions 700
+\item add a file called authorized\_keys to /home/student/.ssh on B. 
+\item The authorized key file should have permission 600.
+\item make sure that the .ssh folder and the authorized keys file on B are owned by student:student. You do this like \verb|chown -R student:student /home/student/.ssh|
+\item On droplet B, turn on password access for ssh so you're able to upload the pubkey.
+\item sftp into B from A as student
+\item Upload the pub key from A to B using the put command.
+\item Note: You turned on password authentication, so you can get into B from A using the student password.
+\item Then cat the pub key into /home/student/.ssh/authorized\_keys on B.
+\item now turn off password access on B.
+\item if all went well you can now ssh into B from A without a password just as shown in Listing \ref{listing:ssh}.
+\end{enumerate}
+
+
+\end{document}
+
+\end{document}
+
