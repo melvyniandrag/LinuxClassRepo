@@ -1,0 +1,369 @@
+\documentclass[12pt]{article}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}     % modern 8-bit font encoding
+\usepackage[utf8]{inputenc}  % allow UTF-8 characters in the source
+\usepackage{textcomp} 
+\usepackage{fullpage}
+\usepackage[letterpaper, margin=0.5in]{geometry}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{upquote}
+\usepackage{multicol}
+
+\title{Make a Static Webpage}
+\author{CS 407 Intro To Linux}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{purple}{rgb}{0.5,0,0.5}
+\definecolor{darkgray}{rgb}{0.1,0.1,0.1}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break, let},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color
+  basicstyle=\ttfamily\small,        % size of fonts used for the code
+  breaklines=true,                 % automatic line breaking only at whitespace
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  keywordstyle=\color{blue},       % keyword style
+  stringstyle=\color{mymauve},     % string literal style
+  upquote=false,
+  frame=single,
+  numbers=left,
+  numberstyle=\small\color{mygray},
+  stepnumber=1
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+In this lab you will write your first website. The website will be made with:
+\begin{enumerate}
+    \item HTML - Language for the website content.
+    \item CSS - Cascading Style Sheets. Used for styling the website.
+    \item Javascript - Language used for adding some interactivity to the website.
+    \item Apache2 - The webserver software that will handle the details of HTTP/HTTPS for us.
+    \item Debian 13 - The operating system we'll run on
+    \item vim - The text editor you'll use to write the code.
+\end{enumerate}
+
+In just a few minutes you'll have a real website on the internet! You'll be able to send a link to your website to friends and family to show off your work.
+
+\section{Setup}
+First you need to set up your machine. ssh into a Debian 13 droplet and run the following commands:
+\begin{lstlisting}[language=bash]
+root@machine$ apt install vim apache2
+\end{lstlisting}
+
+When you install apache2, it will start running a default web page. Go to the ip address of your droplet in your browser on your phone and pc. You'll see the default page!
+
+\textcolor{red}{TODO add picture here}
+
+Now let's change the webpage really quick to make sure things are working. The webpage being shown to you, by default, is in \textbf{/var/www/html}. Let's change it and restart apache.
+
+
+\begin{lstlisting}[language=bash]
+root@machine$ cd /var/www/html
+root@machine$ ls
+# you should see index.html
+root@machine$ rm index.html
+root@machine$ vim index.html
+# create a new file. Make the file say "I am learning Linux"
+root@machine$ cat index.html
+I am learning linux.
+root@machine$ service apache2 restart
+\end{lstlisting}
+
+Now go to your droplet ip address in your browser. You should now see "I am learning Linux" and NOT the default page. Congratulations!
+
+Note! Sometimes the browser will cache old versions of the webpage. If you are still seeing the default apache page, try the following:
+
+\begin{enumerate}
+\item Make absolutely sure that you followed the instructions above!! Are you sure you did everything?
+\item You can force clear the cache ( google for how, I think its something like CTRL + F5 ). 
+\item restart your browser
+\item try a private browser window
+\item try accessing the webpage on another device.
+\end{enumerate}
+
+\pagebreak
+\section{Your first HTML}
+HTML is \textit{Hyper Text Markup Language}. Its the language you use for specifying the content like words, images, etc. that are shown on your website.
+\subsection{HTML Summary}
+HTML has a handful of useful tags for specifying the content of your page. For example you have:
+\begin{enumerate}
+    \item h1 - header 1
+    \item h2 - header 2. A little smaller than header 1.
+    \item p - a paragraph
+    \item html - the tags that goes around the whole html
+    \item head - header infomation
+    \item body - the body of the webpage. The content the user will see.
+    \item ol - a numbered list of items
+    \item li - an item in the numbered list
+\end{enumerate}
+
+Note that some tags come in pairs, with an open and close tag, like \verb|<p></p>|, whereas other tags like the \verb|<meta charset="UTF-8">| do not have a closing tag.
+If you want to read more about which tags are void and which are not, or you want to know more about HTML, you can search around the internet. Today we will only be doing some basic things so you can practice vim and you can see that  your server works.
+
+\subsection{index.html}
+Let's replace index.html with some proper html instead of that text we put before. Open \textbf{/var/www/html/index.html} and put the following text:
+
+\begin{lstlisting}[language=html]
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Linux Class</title>
+</head>
+<body>
+    <h1>About Me!</h1>
+    <p>My name is Fulano and I'm learning Linux.</p>
+    <h2>What I know</h2>
+    <p>I know alot about Linux</p>
+</body>
+</html>
+\end{lstlisting}
+
+
+Then restart apache2 and reload your page in the browser. Do you see the new webpage?
+
+\begin{lstlisting}
+root@machine$ service apache2 restart
+\end{lstlisting}
+\textcolor{red}{TODO add picture here}
+
+\pagebreak
+
+\section{A Website With 2 Pages}
+Modify \textbf{index.html} so that it has a link to another page. The other page is called \textbf{linuxdetails.html} See below for the file contents. Make sure you save both files in \textbf{/var/www/html}.
+
+\subsection{index.html}
+\begin{lstlisting}[language=html]
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Linux Class</title>
+</head>
+<body>
+    <h1>About Me!</h1>
+    <p>My name is Fulano and I'm learning Linux.</p>
+    <h2>I know linux</h2>
+    <p><a href="linuxdetails.html">Click here for more information</a></p>
+</body>
+</html>
+\end{lstlisting}
+
+\subsection{linuxdetails.html}
+\begin{lstlisting}[language=html]
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Linux Details</title>
+</head>
+<body>
+    <h1>What I know</h1>
+    <p>Here are some things I know about Linux.</p>
+    <h2>mkdir</h2>
+    <p>Create a directory</p>
+    <h2>cp</h2>
+    <p>Copy a file</p>
+    <h2>mv</h2>
+    <p>Rename a file</p>
+    <h2>rm</h2>
+    <p>Delete a file</p>
+</body>
+</html>
+\end{lstlisting}
+
+\subsection{Make it Better!}
+
+At this point you know alot about Linux. Expand your \textbf{linuxdetails.html} page so it says 10 things you know. For inspiration, consider the following:
+\begin{multicols}{4}
+\begin{itemize}
+    \item cp
+    \item mkdir
+    \item mv
+    \item rm
+    \item cd
+    \item grep
+    \item pipes
+    \item awk
+    \item touch
+    \item echo
+    \item vim
+    \item bash
+    \item ssh
+    \item sftp
+\end{itemize}
+\end{multicols}
+
+\subsection{Can you Add a Third Page?}
+Why not add another link to index.html like this:
+
+\begin{lstlisting}[language=html]
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Linux Class</title>
+</head>
+<body>
+    <h1>About Me!</h1>
+    <p>My name is Fulano and I'm learning Linux.</p>
+    <h2>I know linux</h2>
+    <p><a href="linuxdetails.html">Click here for more information</a></p>
+    <h2>I also know how to cook</h2>
+    <p><a href="cooking.html">Click here for my recipes</a></p>
+</body>
+</html>
+\end{lstlisting}
+
+and then add another file \textbf{cooking.html}. I'm going to give you an example cooking.html below, but you should create your own.
+
+\begin{lstlisting}[language=html]
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipes</title>
+</head>
+<body>
+    <h1>My recipes</h1>
+
+    <h2>Grilled cheese</h2>
+    <ol>
+        <li>Put mayo on 2 slices of bread.</li>
+        <li>Put a few slices of meltable cheese like cheddar on the bread.</li>
+        <li>Melt some butter in a pan and toast the sandwich.</li>
+        <li>Remove when bread is golden brown and cheese is melted.</li>
+    </ol>
+    
+</body>
+</html>
+\end{lstlisting}
+
+
+\pagebreak
+\section{Adding CSS}
+CSS is \textit{Cascading Style Sheets} and is the language used for specifying the style of your webpage. You can do quite a bit with CSS! For now we'll just use it to change the page colors.
+
+Add a file called \textbf{style.css} to \textbf{/var/www/html} and add a link to it in the headers of your html pages. Below you can find an example of how \textbf{index.html} has the stylesheet in the header.
+
+\subsection{style.css}
+\begin{lstlisting}[language=css]
+body {
+    background-color: #F5F5F5;
+    color: #0A0A11;
+}
+
+h1 {
+    color: #0108A3;
+}
+
+h2 {
+    color: #0008EE;
+}
+\end{lstlisting}
+
+\subsection{index.html}
+Note how in the page head you now see a link to style.css
+
+\begin{lstlisting}[language=html]
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>Linux Class</title>
+</head>
+<body>
+    <h1>About Me!</h1>
+    <p>My name is Fulano and I'm learning Linux.</p>
+    <h2>I know linux</h2>
+    <p><a href="linuxdetails.html">Click here for more information</a></p>
+    <h2>I also know how to cook</h2>
+    <p><a href="cooking.html">Click here for my recipes</a></p>
+</body>
+</html>
+\end{lstlisting}
+
+\pagebreak
+\section{Javascript}
+And now we will add Javascript. Javascript is a language that allows you to add some functionality to the webpage. Some people like to write websites that don't use javascript, but perform all functionality on the server aka the "backend". Other people like to write javascript-heavy websites that do most of their work in the "frontend". In this example you'll get a peak at what javascript looks like.
+
+Add a file called \textbf{counter.js} to \textbf{/var/www/html} and then modify \textbf{index.html} so it incorporates the javascript.
+
+\subsection{counter.js}
+\begin{lstlisting}[language=JavaScript]
+let clickCount = 0;
+
+/*
+* This function gets the 'clickDisplay' element from your HTML
+* and changes the text. Have a look in index.html and you will see
+* a paragraph with id "clickDisplay".
+*/
+function countClicks() {
+    clickCount++;
+    document.getElementById('clickDisplay').innerText =
+         `Button clicked ${clickCount} time${clickCount === 1 ? '' : 's'}`;
+}
+\end{lstlisting}
+
+Be careful with the quotes in counter.js. Before the word "Button" and before the ";" there is a backtick, like \textasciigrave, and not a quote like '. The backticks are used in Javascript for string interpolation.
+
+\subsection{index.html}
+\begin{lstlisting}[language=html]
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>Linux Class</title>
+</head>
+<body>
+	<h1>About Me!</h1>
+	<p>My name is Fulano and I'm learning Linux.</p>
+
+	<h2>I know Linux</h2>
+	<p><a href="linuxdetails.html">Click here for more information</a></p>
+
+	<h2>I also know how to cook</h2>
+	<p><a href="cooking.html">Click here for my recipes</a></p>
+
+	<h2>Click Counter</h2>
+	<button onclick="countClicks()">Click me!</button>
+	<p id="clickDisplay">Button clicked 0 times</p>
+	<script src="counter.js" defer></script>
+
+</body>
+</html>
+\end{lstlisting}
+
+\section{Congratulations!}
+You reached the end! You were able to deploy a real static website on Debian Linux with the Apache2 webserver!
+Pat yourself on the back and feel proud! But know, this is just the tip of the iceberg. There's still a ton to learn. 
+
+While you wait for the next lesson, you should look into more about html. There are many more tags besides h1, h2, p, and a. And CSS can do many more things than you've seen.
+
+\end{document}
