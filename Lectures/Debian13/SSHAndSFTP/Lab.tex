@@ -11,6 +11,7 @@
 \usepackage{multicol}
 \usepackage{xcolor}
 \usepackage{graphicx}
+\usepackage{url}
 
 \title{Understanding SSH and SFTP}
 \author{CS 407 Intro To Linux}
@@ -171,7 +172,83 @@ SSH allows you to do alot of configuration. We'll look at just a couple of thing
 
 Create a brand new Debian 13 droplet now with ssh authentication (not password!) and then we'll begin.
 
+\section{Useful background information}
+By this point in the class you should be familiar with permissions and ownership of files and directories.
+
+If you run ls -l you will see the permissions and ownership/group of files/directories. ( TODO add picture )
+
+\subsection{ownership}
+All files / directories have an owner and a group.
+
+In the ls -l output you see the owner and group for each file ( add picture )
+
+To change the ownership/group you can do 
+
+chown user:group file\_or\_directory
+
+If you want to change the user/group RECURSIVELY for a directory and all it's contents, you do 
+
+chown -R user:group directory.
+
+\subsection{permissions}
+To change permissions you do 
+chmod xyz file\_or\_dir
+
+where xyz is a 3 digit number like 742, 600, 777, 000, etc.
+
+The digits mean something special.
+
+The first digit is for the user
+The second digit is for the group
+The last digit is for everyone else on the computer
+
+Each digit is a sum of 4, 2, 1. 
+
+4 - read
+2 - write
+1 - execute
+
+Show how read/write/execute work for files
+
+For directories its a bit different
+4 - 
+2 - 
+1- 
+
+For more info on permissions, see this link
+\url{https://github.com/melvyniandrag/LinuxClassRepo/blob/master/usersAndPermissions.md}
+
 \section{SSH Configuration}
+\subsection{How SSH Works}
+There's no time for the full story, but here's a little information. On your client machine (e.g. your laptop, pc, macbook, etc) you have a folder \textbf{\$HOME/.ssh} and in there you have an ssh keypair. In previous lectures we have used \textbf{ssh-keygen} to generate the key pair. One has file extension\textbf{.pub} and the other does not.
+
+\begin{itemize}
+\item id\_rsa ( or id\_ed22519, etc. ) is your private key
+\item id\_rsa.pub ( or another name, it is your private key with a .pub added) is your public key
+\end{itemize}
+
+TODO add image here of output of ls $\sim$/.ssh/
+
+CANT ADD PIC NOW, MY PC HAS A CUSTOM SSH CONFIG THAT WILL CONFUSE STUDENTS
+
+On your ssh server ( your digital ocean droplet, for example ), to be able to ssh in as a user (such as root), your public key must be on a line in the file
+
+$\sim$/.ssh/authorized\_keys
+
+The authorized\_keys file can contain one public key for line for each public key that allows logging in.
+
+So if the pub key on my laptop is 
+
+"id\_rsa asdlgkjaheliuyth melvyn@pc"
+
+and I want to ssh into my droplet like ssh root@192.334.223.445
+
+then there must be a line in the file /root/.ssh/authorized\_keys that contains my key.
+
+If I want to ssh in to melvyn@374.234.323.456, then on machine 374.234.323.456, my public key must be a line in the file 
+/home/melvyn/.ssh/authorized\_keys
+
+The permissions on the .ssh folder should be 700, the permissions on the authorized keys file must be 700, and the owner/group of both the directory and the file should be melvyn/melvyn.
 
 \subsection{daemons}
 A \textit{daemon} ( pronounced like demon ) is a process that runs in the background doing work without user interaction, and there are many daemon processes that do important work on Linux computers, such as
@@ -433,8 +510,6 @@ A rough sketch of how to do this:
 \item if all went well you can now ssh into B from A without a password just as shown in Listing \ref{listing:ssh}.
 \end{enumerate}
 
-
-\end{document}
 
 \end{document}
 
