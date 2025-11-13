@@ -1,0 +1,285 @@
+\documentclass[12pt,a4]{article}
+\usepackage{lipsum}
+\usepackage{authblk}
+\usepackage[top=2cm, bottom=1.5cm, left=1cm, right=1cm]{geometry}
+\usepackage{xcolor}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage{hyperref}
+
+\usepackage{multicol}
+\usepackage{textcomp}
+\usepackage{graphicx}
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.5,0}
+\definecolor{pred}{rgb}{0.9,0,0}
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+\definecolor{crimson}{rgb}{0.86,0.07,0.23}
+
+\newcommand{\shellname}[1]{\textcolor{black}{\textbf{#1}}}
+\newcommand{\directory}[1]{\textcolor{black}{\textbf{#1}}}
+\newcommand{\bashcommand}[1]{\textcolor{crimson}{\textbf{#1}}}
+\newcommand{\lectnote}[1]{\textcolor{orange}{\texttt{{\small{#1} }}}}
+
+\usepackage{listings}
+
+\lstset{
+  numbers=left,          % Position of line numbers (none, left, right)
+  numberstyle=\tiny,     % Style of the line numbers
+  stepnumber=1,          % Number every line
+  numbersep=15pt,         % Space between line numbers and code
+}
+
+\lstdefinestyle{java}{
+  language=Java,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  basicstyle=\small\ttfamily,
+  numbers=left,
+  stepnumber=1,
+  frame=shadowbox,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\lstdefinestyle{term}{language=bash,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+\lstdefinestyle{sh}{language=bash,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  numbers=left,
+  stepnumber=1,
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\lstdefinestyle{py}{language=python,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  numbers=left,
+  stepnumber=1,
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\lstdefinestyle{txt}{
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  numbers=left,
+  stepnumber=1,
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\usepackage[T1]{fontenc}
+
+\newcommand{\schedule}[2]{\textbf{#1} \textit{#2}}
+
+\usepackage{fancyhdr}
+%
+\pagestyle{fancy}
+%
+\renewenvironment{abstract}{%
+\hfill\begin{minipage}{0.95\textwidth}
+\rule{\textwidth}{1pt}}
+{\par\noindent\rule{\textwidth}{1pt}\end{minipage}}
+%
+\makeatletter
+\renewcommand\@maketitle{%
+\hfill
+
+\begin{minipage}{0.95\textwidth}
+\vskip 1em
+\let\footnote\thanks 
+{\LARGE \@title \par }
+\vskip 0.5em
+%{\large \@author \par}
+%\vskip 0.5em
+{\large \@date \par}
+\end{minipage}
+\vskip 1em \par
+}
+
+\usepackage{mdframed}  % optional, if you want a border
+
+\newcommand{\myfig}[3]{%
+\begin{figure}[h]
+    \centering
+    \begin{mdframed}[linewidth=1pt, linecolor=black]  % optional border
+        \includegraphics[width=\textwidth]{#1}
+    \end{mdframed}
+    \caption{\small \texttt{#2}}
+    \label{#3}
+\end{figure}
+}
+
+\makeatother
+%
+\begin{document}
+%
+%title and author details
+\title{\textbf{Users and Permissions}}
+%\author[1]{Melvyn Ian Drag}
+\date{\today}
+%
+\maketitle
+%
+\begin{abstract}
+In this assignment you will learn how to add users and control read, write and execute permissions. In the first section of the document, we describe the assignment. The subsequent sections give you relevant information to help you complete the task.
+\end{abstract}
+
+\section{Assignment}
+In figures \ref{fig:tree}, \ref{fig:checksums} and \ref{fig:closeup} you will find an image of the directory tree and the checksums of the files in the tree. Note that figure \ref{fig:closeup} is the same as \ref{fig:checksums}, just zoomed in so it's easier to read. Your job is to recreate this tree with the proper permissions and checksums.
+
+\myfig{Images/tree.png}{Reproduce this tree}{fig:tree}
+
+\myfig{Images/checksums.png}{Make sure the checksums match.}{fig:checksums}
+
+\myfig{Images/checksumcloseup.png}{Closeup of checksums so it's easier to read.}{fig:closeup}
+
+\subsection{The Files}
+In figures \ref{fig:homework}, \ref{fig:script}, \ref{fig:diary} annd \ref{fig:program} you will find information about the contents of the files.
+
+\myfig{Images/homework.png}{\directory{/home/jack/Documents/homework.txt}}{fig:homework}
+\myfig{Images/script.png}{\directory{/home/jack/MyCode/script.sh}}{fig:script}
+\myfig{Images/diary.png}{\directory{/home/jill/Documents/diary.txt}}{fig:diary}
+\myfig{Images/program.png}{\directory{/home/jill/MyCode/program.py}}{fig:program}
+
+
+\clearpage
+
+\section{Install programs}
+
+In this assignment you'll be using the \bashcommand{tree} and \bashcommand{xxd} programs. Install them like:
+
+\begin{lstlisting}[style=term]
+root@droplet$ apt install tree xxd
+\end{lstlisting}
+
+\begin{itemize}
+\item \bashcommand{tree} - lets you see your directory structure as a nice graphical tree.
+\item \bashcommand{xxd} - gives a hex dump of a file so you can see the file in hexadecimal. This is an important command you'll use when inspecting files. We present it in this docuument, which is likely your first exposure to the xxd command. 
+\end{itemize}
+
+\section{Creating the tree}
+
+
+\subsection{users}
+Linux is a multi-user operating system. Our droplets by default only come with one user - root - but you can add more users to your computer. 
+
+\subsection{adduser}
+To add a user, you use the \bashcommand{adduser} command. When you add a user you'll be prommpted to give a password. After providing the password, you're asked a bunch of questions. You can just hit ENTER repeatedly and not enter values for things like Room Number.
+
+See figure \ref{fig:adduser}. Note that in the beginning there are only directories for jack and jill. When I add the user bruno and \bashcommand{ls /home}, you see that there is now a home directory for bruno. When you run \bashcommand{adduser}, a home directory is added for the user.
+
+\myfig{Images/adduser.png}{adduser}{fig:adduser}
+
+\clearpage 
+
+\subsection{groups}
+Linux users can be binned into groups. This is an important topic, but will be left for a future lecture.  If we start discussing groups in this lecture, it might feel like too much material.
+
+\subsection{addgroup}
+
+You can add groups to your computer with \bashcommand{addgroup}. But, as mentioned above, that is outside of the scope of today's assignment.
+
+\subsection{File ownership}
+Every file in Linux has a user owner and a group owner. See figure \ref{fig:ownership}. The output of \bashcommand{ls -l} shows who is the user owner and who is the group owner of any file or directory.
+
+\myfig{Images/ownership.png}{See the output of \bashcommand{ls -l}. The user owner if highlighted in green, and group owner is highlighted in orange.}{fig:ownership}
+
+
+\subsection{chown}
+
+To change the owner of a file you can use chown. If figure \ref{fig:changeowner} you see how to change the file owner. If figure \ref{fig:changeownerandgroup} you see how to change the owner and the group. In figure \ref{fig:changerecursive} you see how to change ownership recursively for all of the contents of a directory.
+
+\myfig{Images/changeowner.png}{See highlighted in yellow that the owner was root. After running the chown command, the owner is bruno.}{fig:changeowner}
+
+\myfig{Images/changeownerandgroup.png}{See that the user/group of the file was bruno/root. But after \bashcommand{chown}, the user/group are melvyn/melvyn.}{fig:changeownerandgroup}
+
+\myfig{Images/changerecursive.png}{Instead of using \bashcommand{ls -l}, I use \bashcommand{tree -ug} so it's easier to see the ownership of a directory and its contents. We use \bashcommand{chown} with the \bashcommand{-R} flag to change the ownership of a directory and its contents.}{fig:changerecursive}
+
+\clearpage
+
+\subsection{Permissions}
+Linux files and directories have permissions. Files can directories can be:
+
+\begin{itemize}
+\item readable
+\item writable
+\item executable
+\end{itemize}
+
+These permissions are specified in three ways:
+
+\begin{itemize}
+\item owner
+\item group
+\item everyone else
+\end{itemize}
+
+So files and directories have 9 permission fields. They have readable, writable and executable for each of owner, group and everyone else. See figures \ref{fig:permission001} and \ref{fig:permission002} to see two examples of permissions. Permissions are show with 9 characters.
+
+\myfig{Images/permissions001.png}{See the circled area. 9 characters indicate read, write an execute for each of owner, group, and everyone else}{fig:permissions001}
+
+\myfig{Images/permissions002.png}{The red circle indicates permissions for owner. Blue indicates group. Green indicates everyone else}{fig:permissions002}
+
+
+\subsection{chmod}
+
+
+\section{The Checksums}
+\end{document}
