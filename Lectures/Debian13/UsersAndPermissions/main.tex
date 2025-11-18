@@ -182,7 +182,9 @@ In this assignment you will learn how to add users and control read, write and e
 \end{abstract}
 
 \section{Assignment}
-In figures \ref{fig:tree}, \ref{fig:checksums} and \ref{fig:closeup} you will find an image of the directory tree and the checksums of the files in the tree. Note that figure \ref{fig:closeup} is the same as \ref{fig:checksums}, just zoomed in so it's easier to read. Your job is to recreate this tree with the proper permissions and checksums.
+In figures \ref{fig:tree}, \ref{fig:checksums}, \ref{fig:closeup} and \ref{fig:treechecksum} you will find an image of the directory tree and the checksums of the files in the tree. Note that figure \ref{fig:closeup} is the same as \ref{fig:checksums}, just zoomed in so it's easier to read. Your job is to use your command line skills to recreate the directory structure and files shown in these images.
+
+This document is long, because it contains a description of some commands you could use to help you complete the assignment. They are provided as a reference and you can safely skip those sections if, for example, you already know how to use the \bashcommand{adduser} command.
 
 \myfig{Images/tree.png}{Reproduce this tree}{fig:tree}
 
@@ -190,8 +192,12 @@ In figures \ref{fig:tree}, \ref{fig:checksums} and \ref{fig:closeup} you will fi
 
 \myfig{Images/checksumcloseup.png}{Closeup of checksums so it's easier to read.}{fig:closeup}
 
+\myfig{Images/checksums_of_tree.png}{It is very difficult for me to read the tree output and verify all the permissions is right. Let's pipe the tree output to md5sum and sha512 sum so I can just verify the checksum! Isn't that a fun use of the checksums you've just learned about this semester?}{fig:treechecksum}
+
+\clearpage
+
 \subsection{The Files}
-In figures \ref{fig:homework}, \ref{fig:script}, \ref{fig:diary} annd \ref{fig:program} you will find information about the contents of the files.
+In figures \ref{fig:homework}, \ref{fig:script}, \ref{fig:diary} and \ref{fig:program} you will find information about the contents of the files.
 
 \myfig{Images/homework.png}{\directory{/home/jack/Documents/homework.txt}}{fig:homework}
 \myfig{Images/script.png}{\directory{/home/jack/MyCode/script.sh}}{fig:script}
@@ -203,16 +209,19 @@ In figures \ref{fig:homework}, \ref{fig:script}, \ref{fig:diary} annd \ref{fig:p
 
 \section{Install programs}
 
-In this assignment you'll be using the \bashcommand{tree} and \bashcommand{xxd} programs. Install them like:
+In this assignment you'll be using the \bashcommand{tree} program. The \bashcommand{ascii} and \bashcommand{xxd} programs will be a bit confusing for you at this point, but I present them so you see them. We'll discuss them in class and you can use them to help you verify that your file are correct. Install them like:
 
 \begin{lstlisting}[style=term]
-root@droplet$ apt install tree xxd
+root@droplet$ apt install tree xxd ascii
 \end{lstlisting}
 
 \begin{itemize}
 \item \bashcommand{tree} - lets you see your directory structure as a nice graphical tree.
 \item \bashcommand{xxd} - gives a hex dump of a file so you can see the file in hexadecimal. This is an important command you'll use when inspecting files. We present it in this docuument, which is likely your first exposure to the xxd command. 
+\item \bashcommand{ascii -x} - will tell you the hex value for every letter, number, punctuation symbol and more in the ascii text encoding. If you look at the output of \bashcommand{ascii -x} you'll see that the hex value \textbf{49} is the letter \textbf{I} and the hex value \textbf{20} is a blank space. Have a look at figure \ref{fig:asciilookup}
 \end{itemize}
+
+\myfig{Images/asciilookup.png}{See that the first two values in homework.txt are "I" and a SPACE. In the output of \bashcommand{xxd}, you see the first two hex values are "4920", which is exactly the values corresponding to an "I" and a SPACE in \bashcommand{ascii -x}. This will be confusing at first, but with a little time will become very clear and you'll be amazed.}{fig:asciilookup}
 
 \section{Creating the tree}
 
@@ -273,13 +282,15 @@ These permissions are specified in three ways:
 
 So files and directories have 9 permission fields. They have readable, writable and executable for each of owner, group and everyone else. See figures \ref{fig:permission001} and \ref{fig:permission002} to see two examples of permissions. Permissions are show with 9 characters.
 
-\myfig{Images/permissions001.png}{See the circled area. 9 characters indicate read, write an execute for each of owner, group, and everyone else}{fig:permissions001}
+\myfig{Images/permissions001.png}{See the circled area. 9 characters indicate read, write an execute for each of owner, group, and everyone else}{fig:permission001}
 
-\myfig{Images/permissions002.png}{The red circle indicates permissions for owner. Blue indicates group. Green indicates everyone else}{fig:permissions002}
+\myfig{Images/permissions002.png}{The red circle indicates permissions for owner. Blue indicates group. Green indicates everyone else}{fig:permission002}
 
 
 \subsection{chmod}
-
+TODO
 
 \section{The Checksums}
+TODO
+
 \end{document}
