@@ -1,0 +1,383 @@
+\documentclass[12pt,a4]{article}
+\usepackage{lipsum}
+\usepackage{authblk}
+\usepackage[top=2cm, bottom=1.5cm, left=1cm, right=1cm]{geometry}
+\usepackage{xcolor}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage{hyperref}
+\usepackage{emoji}
+
+\usepackage{multicol}
+\usepackage{textcomp}
+\usepackage{graphicx}
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.5,0}
+\definecolor{pred}{rgb}{0.9,0,0}
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+\definecolor{crimson}{rgb}{0.86,0.07,0.23}
+
+\newcommand{\shellname}[1]{\textcolor{black}{\textbf{#1}}}
+\newcommand{\directory}[1]{\textcolor{black}{\textbf{#1}}}
+\newcommand{\bashcommand}[1]{\textcolor{crimson}{\textbf{#1}}}
+\newcommand{\lectnote}[1]{\textcolor{orange}{\texttt{{\small{#1} }}}}
+
+\usepackage{listings}
+
+\lstset{
+  numbers=left,          % Position of line numbers (none, left, right)
+  numberstyle=\tiny,     % Style of the line numbers
+  stepnumber=1,          % Number every line
+  numbersep=15pt,         % Space between line numbers and code
+}
+
+\lstdefinestyle{java}{
+  language=Java,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  basicstyle=\small\ttfamily,
+  numbers=left,
+  stepnumber=1,
+  frame=shadowbox,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\lstdefinestyle{term}{language=bash,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+\lstdefinestyle{sh}{language=bash,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  numbers=left,
+  stepnumber=1,
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\lstdefinestyle{py}{language=python,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  numbers=left,
+  stepnumber=1,
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\lstdefinestyle{txt}{
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  numbers=left,
+  stepnumber=1,
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\usepackage[T1]{fontenc}
+
+\newcommand{\schedule}[2]{\textbf{#1} \textit{#2}}
+
+\usepackage{fancyhdr}
+%
+\pagestyle{fancy}
+%
+\renewenvironment{abstract}{%
+\hfill\begin{minipage}{0.95\textwidth}
+\rule{\textwidth}{1pt}}
+{\par\noindent\rule{\textwidth}{1pt}\end{minipage}}
+%
+\makeatletter
+\renewcommand\@maketitle{%
+\hfill
+
+\begin{minipage}{0.95\textwidth}
+\vskip 1em
+\let\footnote\thanks 
+{\LARGE \@title \par }
+\vskip 0.5em
+%{\large \@author \par}
+%\vskip 0.5em
+{\large \@date \par}
+\end{minipage}
+\vskip 1em \par
+}
+
+\usepackage{mdframed}  % optional, if you want a border
+
+\newcommand{\myfig}[3]{%
+\begin{figure}[h]
+    \centering
+    \begin{mdframed}[linewidth=1pt, linecolor=black]  % optional border
+        \includegraphics[width=\textwidth]{#1}
+    \end{mdframed}
+    \caption{\small \texttt{#2}}
+    \label{#3}
+\end{figure}
+}
+
+\makeatother
+%
+\begin{document}
+%
+%title and author details
+\title{\textbf{Python Crash Course}}
+%\author[1]{Melvyn Ian Drag}
+\date{\today}
+%
+\maketitle
+%
+\begin{abstract}
+Python is a valuable addition to your Linux toolkit. Bash and shell scripting is good for glueing things together and controlling your Linux computer, but a more powerful language like Python is essential to make your computer do interesting things. A major project in this class is that we will make a website using the Django web framework. Before we do that, let's make sure you know the absolute basics of how Python works.
+\end{abstract}
+
+\section{Assignment}
+Recreate the programs from this assignment.
+\begin{enumerate}
+\item Section \ref{sec:datatypes} - data\_types.py
+\item Section \ref{sec:ifelse} - if\_else.py
+\item Section \ref{sec:lists} - list.py
+\item Section \ref{sec:forloops} - for\_loops\_2.py
+\item Section \ref{sec:whileloops} - while\_loops.py
+\item Section \ref{sec:functions} - function\_one.py
+\item Section \ref{sec:functions} - function\_two.py
+\item Section \ref{sec:classes} - point.py
+\item Section \ref{sec:pandas} - datascience.py
+\item Section \ref{sec:numpy} - numpy\_example.py
+\end{enumerate}
+
+If you want to learn more after this assignment, you can go on google or youtube and find a million tutorials.
+
+\section{Quick overview}
+
+\begin{itemize}
+    \item Python is whitespace sensitive
+    \item Python is whitespace sensitive
+    \item Python is whitespace sensitive
+    \item Did I mention that Python is whitespace sensitive?
+\end{itemize}
+
+\textit{Whitespace sensitive} means that Python uses indentation to separate logical blocks of code. 
+
+Compare the Java and Python programs in figure \ref{fig:for_loop_python} and figure \ref{fig:for_loop_java} . {\color{red} You do not need to write these programs.} Notice how both do the same thing, but Java uses curly braces (\{ and \}) whereas Python does not. As such, Python code is often much shorter and more readable than code in other languages.
+\myfig{Images/for_loop_python.png}{Python code is very short and doesn't have any \{ or \}. This program prints 0, 1, 2.}{fig:for_loop_python}
+\myfig{Images/for_loop_java.png}{Whereas the Python code used indentation, Java uses curly braces like \{ and \} to separate blocks of code. As such, Java programs are much bigger than Python programs. This program does the same thing as the Python program: it prints 0, 1, 2.}{fig:for_loop_java}
+
+\clearpage
+\section{Install python}
+It should already be installed on Debian 13. On other distros you might have to do something like this:
+
+\begin{lstlisting}[style=term]
+root@droplet$ apt install python3
+\end{lstlisting}
+
+\section{The Essentials}
+\label{sec:essentials}
+In this section we will look at basic essential Python syntax so you know how the language works.
+
+\subsection{Variables and datatypes}
+\label{sec:datatypes}
+The basic data types in Python are
+\begin{itemize}
+\item \textbf{int} - whole numbers like 1, 4, -100
+\item \textbf{float} - decimal number like 1.32, -0.9
+\item \textbf{string} - text like "hello!"
+\item \textbf{bool} - True or False
+\end{itemize}
+See figure \ref{fig:data_types_code} for a short script that uses these data types. See figure \ref{fig:data_types_run}
+
+\myfig{Images/data_types_code.png}{This little program creates some variables with various data types and prints them out.}{fig:data_types_code}
+\myfig{Images/data_types_run.png}{Use \bashcommand{chmod} to make the program executable. Then you can run it.}{fig:data_types_run}
+
+\subsection{if / else}
+\label{sec:ifelse}
+Python can run different bits of code depending on whether or not a condition is true. See figure \ref{fig:if_else} 
+\myfig{Images/if_else.png}{Note that I ran this program by saying \bashcommand{python3 if\_else.py} instead of running it as an executable program like \bashcommand{./if\_else.py}. You can run python programs either way. If you want to run the program as an executable, you need to make sure you put the shebang line \textbf{\#!/usr/bin/python3} at the top of the file, and you need to use \bashcommand{chmod} to make it executable.}{fig:if_else}
+
+\clearpage
+\subsection{lists}
+\label{sec:lists}
+Python can make lists of things. You might be familiar with Arrays in other progamming languages. It's pretty much the same thing. See figure \ref{fig:list} to see how you make a list of numbers, and how to print out the first element from the list.
+
+After you run this program, you should create your own list with different values. You can put and of the data types we discussed in section \ref{sec:datatypes} like integers, floats, bools, and strings.
+
+\myfig{Images/list.png}{As in many other languages, the first element in the list is the "0th" element, not the "1st". That's why I print out myList[0] instead of myList[1].}{fig:list}
+
+\subsection{Other containers}
+Besides lists, there are other containers like
+\begin{itemize}
+\item tuple
+\item set
+\item dictionary
+\end{itemize}
+Feel free to research these as they are very important.
+
+\subsection{for loop}
+\label{sec:forloops}
+Python has loops that can loop over a range of numbers, or the elements in a list. Have a look at figures \ref{fig:for_loop_python} and \ref{fig:for_loop_python_2} to see two examples of using a for loop.
+
+\myfig{Images/for_loop_2.png}{In this example, we loop over the elements of a list. Compared to a for loop in Java or C++, for loops in Python are very compact and easy to write. Just be careful with the whitespace!}{fig:for_loop_python_2}
+
+\clearpage
+
+\subsection{while loop}
+\label{sec:whileloops}
+ A while loop is a loop that keeps going over and over and over so long as a condition is true. In this example, we start with number 3, and do a countdown until it's zero. Then we say happy new year! Have a look at figure \ref{fig:whileloops}.
+ 
+ \myfig{Images/whileloops.png}{3! 2! 1! Happy New Year!  Should auld aquaintance be forgot...}{fig:whileloops}
+ 
+\subsection{functions}
+\label{sec:functions}
+Functions are the bread and butter of programming. You write little logical blocks inside functions and call them when you want. Functions are important in Python, Bash, Java, and all programming languages I can think of. Functions in python programs come in 2 flavors:
+\begin{enumerate}
+\item They can do something. See figure \ref{fig:functionnoreturn}
+\item They can do something, and then return a value to you. See figure \ref{fig:functionreturn}
+\end{enumerate}
+ Functions in python are defined with the \textbf{def} keyword, and the contents of the function are indented. Python is whitespace sensitive after all. If you want to return a value from a function, you use the \textbf{return} keyword. Have a look at the examples to understand better.
+ 
+ \myfig{Images/functionnoreturn.png}{This function takes a person's name and then says hi and that's it. It doesn't return any values.}{fig:functionnoreturn}
+ \myfig{Images/functionreturn.png}{This function adds 2 numbers and returns the sum.}{fig:functionreturn}
+ 
+\clearpage
+
+\subsection{classes}
+\label{sec:classes}
+Python is an amazing language. It can even do \textbf{object oriented programming} a.k.a \textbf{OOP}, which is a wildly popular programming paradigm. Some languages like Java are strictly object oriented programming languages - everything is a class. Python is more flexible. You can use classes in Python if you want, but it's not requried.
+
+Classes are used for creating more interesting data types, beyond the data types we discussed in section \ref{sec:datatypes}. In figure \ref{fig:point} you see a little class I wrote called \textbf{Point} that represents a coordinate, like the ones you use in math class. We compute the distance between the points using the distance formula from algebra class: $d = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$.
+
+
+ \myfig{Images/point.png}{This is point.py. Can you guess what it prints out? NOTE: The init function has TWO underscores before init and TWO underscores after init. \_\_init\_\_}{fig:point}.
+ 
+ \myfig{Images/pointoutput.png}{Here is the output of point.py}{fig:pointoutput}.
+
+\subsection{And that's it!}
+There is certainly much more to know about Python, but these essential building blocks are the same as in all the languages you've likely used before. If you wrote and ran these examples, you have a little taste of what Python code looks like and how it acts.
+
+\section{Practical Considerations}
+Python is a very beginner friendly language. Except configuring Python can be frustrating. Every operating system and platform tries to make it "easy" for you, and they all fail. 
+
+\begin{center}
+{\color{red}Configuring Python is painful.}
+\end{center}
+
+The real problem is with Python \textit{packages}. In section \ref{sec:essentials} you learned the basics of using Python, but if you want to start writing real software you're going to need to install some packages. We already used a package above in section \ref{sec:classes} when you did \textbf{import math} and then you did the sqrt by calling \textbf{math.sqrt}. The algorithm to compute a square root is very complicated, so we use the math package to do it for us.
+
+But configuring python packages is a very painful and sad experience. Want to see an example? To install python packages you use the \bashcommand{pip} command. In this class we will use the Django package to make a website. Go ahead and try to \bashcommand{python3 -m pip install django}. See figures \ref{fig:nopipondebian} and \ref{fig:piperrordebian} to see the errors you get, along with a description of the errors. Debian deliberately breaks the whole pip experience so you can't get into the messy situation. The proper way to use Python on debian is with virtual environments, and that's the topic of section \ref{sec:venv}.
+
+\myfig{Images/nopipondebian.png}{Debian doesnt give you pip, probably because they know that it's going to cause problems.}{fig:nopipondebian}
+
+\myfig{Images/piperrordebian.png}{But you think you're smarter than debian so you go ahead and \bashcommand{apt install -y python3-pip}. Looks what happens if you try to use it! You get a big long error message and they yell and you and tell you to use a virtual environment. }{fig:piperrordebian}
+
+Python is wonderful. Installing packages in python is a painful experience if you don't use a venv.
+
+\clearpage
+
+\subsection{virtual environments}
+\label{sec:venv}
+Virtual environments give you a little "sandbox" that is separate from the system python. You can install whatever python packages you want in this environment, and they are only installed in THAT environment. This helps prevent errors. Have a look at figure \ref{fig:createandactivatevenv} to see how to create an activate a virtual environment! You can activate your environment with the \bashcommand{source} command and you deactivate it with the \bashcommand{deactivate} command ( see figure \ref{fig:deactivatevenv} to see how to deactivate). If your computer reboots, or you close your ssh connection, you'll need to reactivate the environment. 
+
+\myfig{Images/createandactivatevenv.png}{You create the environment by saying \bashcommand{python3 -m venv NAME}. You activate the environment with \bashcommand{source NAME/bin/activate}. NAME can be whatever you want to name your virtual environment. If I'm working on a django project, usually I give a nice name like \textbf{myDjangoVenv} or something like that. Note that when its activated your prompt changes. In the example it says \textbf{(myFirstVenv)} after it's activated.}{fig:createandactivatevenv}
+
+\myfig{Images/deactivatevenv.png}{Deactivate the venv with the \bashcommand{deactivate} command. Reactivate it with the \bashcommand{source} command.}{fig:deactivatevenv}
+
+Now that you have a venv set up, activate it, and we can start installing and using packages without the headache of using the Debian python packages.
+
+\section{Some Useful Packages}
+You can do virtually anything with Python. Many people are using Python for everything from game development to data science. In this section we'll take a quick look at how you install and use some packages in your virtual environment.
+
+\subsection{Shebang warning!}
+You'll notice that I'm usually calling scripts by saying \bashcommand{python3 SCRIPT\_NAME.py}. This is because the shebang line we used before \directory{\#!/usr/bin/python3} looks for \bashcommand{python3} to be in the \directory{/usr/bin} directory. But we're using a virtual environment now!! We're not using that system python3.
+
+The recommended shebangline to put is: \directory{\#/usr/bin/env python3}. But even using this shebang line can potentially lead to problems if you're not careful. So to keep things easy, we're not putting a shebang line at all. If you want to use the recommended shebang line, then make a script as shown in listing \ref{listing:correctshebang}.
+
+\begin{lstlisting}[style=py,label=listing:correctshebang, caption=Correct shebang line]
+#!/usr/bin/env python3
+
+print("I'm using whatever python3 is in my PATH!")
+print("This could be the system python3, or the python3 from the virtualenv!")
+
+\end{lstlisting}
+
+\subsection{pandas}
+\label{sec:pandas}
+Pandas is a widely used and beloved package for datascience (Pandas, like the bamboo-eating bears). You can use pandas for analyzing large data sets. Install pandas as shown in figure \ref{fig:installpandas}, then create the script shown in figure \ref{fig:pandasscript} and run it as shown in figure \ref{fig:pandasoutput}. Congratulations! You're written your first python program that uses Pandas!
+\myfig{Images/installpandas.png}{How to install pandas}{fig:installpandas}
+
+\myfig{Images/datascience.png}{Script to add up all the calories you consumed based on a dataset of what you ate.}{fig:pandasscript}
+
+\myfig{Images/datascienceoutput.png}{Program output.}{fig:pandasoutput}
+
+\clearpage
+
+\subsection{numpy}
+\label{sec:numpy}
+Numpy is a blazing-fast, powerful package for doing vector and matrix math ( linear algebra ) in Python. Fields like computer graphics and artificial intelligence are almost entirely based on vector and matrix calculations performed at incredible speeds. If you need to implement a fancy algorithm in python, you'll almost certainly use numpy.
+
+It's definitely worth mentioning for the young, aspiring computer scientists in this class: If you're planning on implementing algorithms instead of just consuming them, you'll need to study linear algebra... and taking as many math classes as possible wouldn't hurt. Virtually all of the amazing things you see in video games or AI are the result of huge linear algebra calculations.
+
+Install numpy as shown in figure \ref{fig:installnumpy}, write the program shown in figure \ref{fig:numpyprogram} and then run it to see the output shown in figure \ref{fig:numpyoutput}.
+
+\myfig{Images/install_numpy.png}{Install numpy.}{fig:installnumpy}
+\myfig{Images/numpy_example.png}{A small program to compute the dot product of 2 vectors. The output should be 7.}{fig:numpyprogram}
+\myfig{Images/numpy_example_output.png}{Program output.}{fig:numpyoutput}
+
+
+
+\section{What's Next}
+Previously in this class you made a static website using HTML, CSS and JavaScript. In an upcoming lecture you'll combine this knowledge with what you just learned about Python to make basic websites with Django and the Django Rest Framework. These are \textbf{backend web frameworks} that allow you to quickly make beautiful and useful dynamic websites.
+
+Our goal is simply to expose you to a variety of useful things you can do on Linux. Don't fret if you're not totally confident in what you've just learned. It takes years to master a programming language. Hope to see you back here soon.
+
+\end{document}
