@@ -1,3 +1,16 @@
+
+0. First install dependencies `apt install gnuplot`
+
+0. https://en.wikipedia.org/wiki/Datasaurus_dozen
+
+1. Download the data file
+wget https://github.com/melvyniandrag/LinuxClassRepo/blob/master/FunStuff/DatasaurusDozen.tsv
+
+
+2. First talk about awk.
+Awk works lik
+
+
 awk and the datasaurus dozen
 ```
   320  gnuplot -p -e 'set terminal dumb size 60,60; set datafile separator "\t"; set size ratio 1; plot "< awk -F\"\t\" '\''$1 ~ /^bullseye/ {print} '\'' DatasaurusDozen.tsv" using 2:3 with points'
@@ -157,5 +170,5 @@ END {
     print "Std dev y:", sqrt(vary)
     print "Covariance:", cov
     print "Correlation:", corr
-}'
+}
 ```
