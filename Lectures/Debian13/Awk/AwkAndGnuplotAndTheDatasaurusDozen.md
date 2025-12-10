@@ -1,5 +1,4 @@
 
-0. First install dependencies `apt install gnuplot`
 
 0. https://en.wikipedia.org/wiki/Datasaurus_dozen
 
@@ -10,6 +9,26 @@ wget https://github.com/melvyniandrag/LinuxClassRepo/blob/master/FunStuff/Datasa
 2. First talk about awk.
 Awk works lik
 
+
+0. First install dependencies `apt install gnuplot`
+
+
+1. Intro to gnuplot
+
+$gnuplot
+gnuplot>plot sin(x) 
+# error
+gnuplot>set terminal dumb
+gnuplot>plot sin(x)
+
+
+gnuplot> set datafile separator ","
+gnuplot> set terminal dumb
+gnuplot> plot "datafile.csv" with lines
+gnuplot> plot "datafile.csv" with points
+gnuplot> plot "datafile.csv" with linespoints
+gnuplot> set xrange[0:20]
+gnuplot> set yrange[0:20]
 
 awk and the datasaurus dozen
 ```
