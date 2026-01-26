@@ -1,0 +1,23 @@
+pwd - present working directory
+echo - makes your computer say something
+touch - make a file
+cp copy a file
+cp -r copy a directory
+cp -a copy a file + metadata
+rm - removes files
+rm -rf - force recursive remove
+ls - list whats in a folder
+ls -l - ls with extra info
+ls -R - recursive ls
+ls -ltr ls, with all info, and sorted by reverse time
+mkdir - make a directory
+mkdir -p - make a bunch of directories inside each other
+mv - rename stuff
+cd - change directory
+cd .. - go up one 
+cd ../../ - go up two
+cd .
+cd with no arguments takes you home
+cd $HOME takes you home
+apt install -y tree
+tree
