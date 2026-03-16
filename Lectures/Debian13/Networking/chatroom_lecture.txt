@@ -1,0 +1,23 @@
+server is 
+apt install ncat
+
+ncat -l 5000 --chat
+
+then clients can nc <server ip> 5000
+
+consider this on server
+ncat -lk 5000 --chat | tee chat.log
+
+talk.sh
+run this script on the client:
+(note that I hardcoded the server ip and port.)
+
+echo "give me your name"
+
+read name
+
+echo "hello, ${name}"
+
+while read MESSAGE; do
+        echo "[$name]: $MESSAGE"
+done | nc 167.172.159.73 5000

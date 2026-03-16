@@ -1,0 +1,30 @@
+capture the flag.
+
+/root/hint1:
+There is a file in a hidden folder in /root/hint1 that contains your next hint.
+
+/root/.hidden/hint2
+There is a file called hint3 somewhere on the computer. Use the find command to find it. (They should use find to locate /usr/local/hint3)
+
+/usr/local/hint3:
+You can find the next hint on line 156 of the file /opt/hint4
+
+/opt/hint4
+contains a bunch of paths.
+line 156 contains the path /var/log/secrets/hint5
+
+/var/log/secrets/hint5
+Find the largest number in column 6 of /home/hacker/hint-data.csv.
+Your next hint is in The next hint is in the directory /usr/local/hints/{NUMBER}
+
+/home/hacker/hint-data.csv
+line156: 600
+-> the next hint is in /usr/local/hints/600
+
+/usr/local/hints/600/hint6
+Youre so close! The next hint is on the line that contains the word "HINT" in /home/hacker/hints.log
+
+/home/hacker/hints.log
+contains a line that says "HINT solution is in a comment on the last line of /etc/ssh/sshd_config"
+
+/etc/ssh/sshd_config
