@@ -1,0 +1,5 @@
+rwx for directories
+
+r = list file names
+w = create/edit/rename/delete files
+x = traverse/access directory
