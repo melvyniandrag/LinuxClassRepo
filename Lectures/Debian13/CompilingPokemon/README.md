@@ -61,6 +61,26 @@ This will replace the pikachu sprite with the  monster sprite, then recompile th
 
 Now when you play the game, it's not Pikachu that follows you, but a different pokemon!!!
 
+## Running your own emulator
+The code for that awesome emulator website is online
+https://github.com/thenick775/gbajs3
+
+But that's hard to setup.
+
+You could run mgba on a bunch of platforms.
+https://mgba.io/downloads.html
+
+If you want to install mgba on your debian or ubuntu laptop, you could 
+
+`apt install mgba-qt`
+
+You could install batocera linux on an old pc in your house too
+https://batocera.org/
+I use batocera for my emulator pc at home - its a linux that comes bundled with all kinds of old playstation, nintendo and sega emulators.
+
+
+or you could get an emulator on your phone.
+
 ## More hacking
 The rest is on you! 
 You can pick up a cool book like this one :
@@ -76,3 +96,7 @@ I love gameboy advance because its a beautiful looking console, it's offline, an
 Today to program for PC or Switch or PS5 is complex. Gameboy is complex too but the games are offline, you don't need a subscription, etc..
 
 It's a cool platform.
+
+## Alot of ppl are interested in gameboy
+checkout analogue pocket, it's a cool FPGA based gameboy emulator.
+and checkout Palmer Luckey's gameboys too ( he's the guy who invented Oculus, and now he runs a big military defense contractor company called anduril).
