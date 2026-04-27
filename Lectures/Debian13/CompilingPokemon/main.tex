@@ -1,0 +1,174 @@
+\documentclass[12pt,a4]{article}
+\usepackage{worksheet}
+\usepackage{hyperref}
+\begin{document}
+
+\title{Compile Pokemon Yellow From Source}
+\author{CS 407 Intro To Linux}
+\maketitle
+
+\section{Introduction}
+We've taken a peek at programming in a few languages such as C, Python, bash and Rust. Hopefully you've seen that Linux is a wonderful OS for doing software development! Today we'll do a fun activity! We'll configure a tool chain for compiling assembly language for the gameboy, and then we'll compile Pokemon Yellow! We'll verify the checksum of the ROM we compile to make sure it's legit, and then we'll run it on an emulator on the internet! Then, if you want, you can install an emulator on your phone and play your game there.
+
+Our goals are:
+\begin{enumerate}
+    \item Compile a valid pokemon yellow ROM that is the same as the official Nintendo ROM. The sha1sum will be cc7d03262ebfaf2f06772c1a480c7d9d5f4a38e1
+    \item Then we'll hack the code a bit and you'll make a custom ROM with whatever changes you want to make.
+\end{enumerate}
+
+\section{Why Gameboy?}
+Why not? It's cool. I personally love Gameboy because it's one of the last platforms where you can play a game offline. No updates, no servers, no nonsense! Just you and a game. 
+
+\section{Resources}
+We're going to use
+\begin{enumerate}
+    \item \href{https://github.com/pret/pokeyellow/tree/master}{The pokemon source code.}
+    \item \href{https://rgbds.gbdev.io/install/linux}{The RGBDS toolchain}
+\end{enumerate}
+
+This worksheet will guide you through the relevant parts of these references. Ready? Let's do it!
+
+\section{Install dependencies}
+Let's install some stuff we'll need later.
+
+\begin{lstlisting}[style=Term, label=listing:dependencies, caption={Install this stuff}]
+root@machine$ apt install gcc binutils git make
+\end{lstlisting}
+
+\section{Set up RGBDS}
+I'll be guiding you through instructions from the resources above. If any command I show you here doesnt work, then consult the resources above and let me know so I can update this guide.
+
+\subsection{Install rgbds}
+RGBDS has the assembler, linker, etc. needed to turn the source code into a ROM! First thing you need to do is get the .tar.xz file onto your droplet. You can copy the link from the \href{https://rgbds.gbdev.io/install/linux}{RGBDS website} as shown in figure \ref{fig:copylink}. 
+
+Then, use wget to download the .tar.xz onto your droplet as shown in figure \ref{fig:wget}.
+
+After you've done that we can make a directory called \directory{rgdbs} and extract the .tar.xz into the directory called \directory{rgbds}, as shown in figure \ref{fig:extract}.
+
+Then, we're finally ready to install our rgbds toolchain! Enter the \directory{rgbds} directory and run \bashcommand{./install.sh}. This bash script will take care of the installation. Use \bashcommand{less} to look at the install script if you want! You should see some familiar stuff in there! Have a look at figure \ref{fig:installrgbds} to see the commands you need to type.
+
+\myfig{Images/copylink.png}{Right click on the link to the .tar.xz and copy the link.}{fig:copylink}
+\myfig{Images/wget.png}{Use \bashcommand{wget} to download the .tar.xz. Then use \bashcommand{ls} to see that it downloaded.}{fig:wget}
+\myfig{Images/extract.png}{\bashcommand{mkdir} and \bashcommand{tar -xvf}. Be sure to use the \bashcommand{-C} flag to make sure we extract to the directory we made!}{fig:extract}
+
+\myfig{Images/installrgbds.png}{Follow along with me here to install. After you install, you can run those commands I listed to verify that \bashcommand{rgbasm} is installed. Then you can look in \directory{/usr/local/bin} where you'll see all the stuff we installed.}{fig:installrgbds}
+
+\subsection{Verify RGBDS is installed}
+As mentioned above, you should run \bashcommand{rgbasm -V} ( capital V ) to verify that the assembler was installed.
+
+\clearpage
+
+\section{Download and Build Pokemon Yellow!}
+Now we're ready to download and compile pokemon yellow.
+
+First you'll need to clone the code from github. Go to the repo on github:
+
+\begin{center}
+\href{https://github.com/pret/pokeyellow}{https://github.com/pret/pokeyellow}
+\end{center}
+
+and then click the green button to get the link to HTTPS remote ( not the SSH one! ), as shown in figure \ref{fig:pokemonremote}. After you've done this, clone it to the root user's HOME diretory on your droplet, as shown in figure \ref{fig:clonepokemon}. Then you can enter the repo and build it!
+
+\myfig{Images/pokemonremote.png}{Get the https remote.}{fig:pokemonremote}
+\myfig{Images/clonepokemon.png}{Clone the repository.}{fig:clonepokemon}
+
+As we've seen in the past when we compiled \textit{onetrueawk} from  source, we often use the \bashcommand{make} build system on Linux to build our projects. Take a moment to look at the \textbf{Makefile} in \directory{pokeyellow}. Run \bashcommand{less Makefile} and scroll through there. In this class we don't have time to talk about Makefiles, but they are incredibly important. Type \bashcommand{q} to exit \bashcommand{less} when you're done reading.
+
+When you're ready, go to the directory where the \textbf{Makefile} is and type \bashcommand{make}! Look at figure \ref{fig:build}. After it builds you should have a \textbf{pokeyellow.gbc} and the sha1sum should be correct! See figure \ref{fig:built}. Congratulations! You have an official copy of pokemon yellow!!
+
+\myfig{Images/build.png}{Build the ROM. Be sure to hit [ENTER] after you type make. I didn't hit [ENTER] because then the screen would fill with build output.}{fig:build}
+\myfig{Images/built.png}{Make sure the checksum is correct.}{fig:built}
+
+
+\clearpage
+
+\section{Play Your Game}
+Now you can play your game! Use \bashcommand{sftp} to copy the ROM off of your droplet onto your PC. See figure \ref{fig:sftp} to see how I download the ROM with \bashcommand{sftp}. Then go to 
+
+\begin{center}
+    \href{https://gba.nicholas-vancise.dev/}{https://gba.nicholas-vancise.dev/}
+\end{center}
+
+and upload your ROM. Then you can play it!! Have a look at figure \ref{fig:playing} to see me playing it on my computer using the browser emulator.
+
+The source code for this gbajs3 emulator is \href{https://github.com/thenick775/gbajs3}{freely available on github}, alongside the code for the rgbds toolchain and the pokemon yellow source code. 
+
+\myfig{Images/sftp.png}{Remember our old friend SFTP? Pay attention to the directories!}{fig:sftp}
+
+\myfig{Images/playing.png}{It works!}{fig:playing}
+
+
+\subsection{Other good emulators}
+On my Linux PC I use\textbf{mgba} ( specifically I \bashcommand{apt install mgba-qt} and use that frontend). On my android phone I use \textbf{Pizzaboy pro}. On iOS I use \textbf{delta}. I can't say these emulators are safe or good, they're just what I use and have had a great experience with.
+
+\clearpage
+
+\section{Hack it!}
+\subsection{Important Note About The Emulator!}
+This emulator appears to aggressively save state in the browser. It does autosaves. To get around that, when I want to upload a new ROM ( for example, your hack ) I need to clear all the old state. Before you try to run your hacked rom, try this:
+
+\begin{enumerate}
+    \item Refresh the page. This will stop the old ROM.
+    \item Then click \textbf{File System} on the side, and go through and delete everything that's there. See figure \ref{fig:cleanupemulator}
+\end{enumerate}
+
+\myfig{Images/cleanupemulator.png}{Delete everything from the filesystem.}{fig:cleanupemulator}
+
+Okay, now you're ready to do the hack.
+
+\subsection{Hack \#1 - Change some text}
+
+You can change the text in the game as a first easy quick hack. Have a look at figure \ref{fig:mynameisoak} and see that, when the game starts, Professor Oak introduces himself. With our knowledge of grep and sed, we can find the location in the code where this text is, and change it! Have a look at figure \ref{fig:changeoaktomel}
+
+\myfig{Images/mynameisoak.png}{Hmmm maybe we can change this...}{fig:mynameisoak}
+\myfig{Images/changeoaktomel.png}{I think I WILL BE THE PROFESSOR!}{fig:changeoaktomel}
+
+After you make your changes, you might want to look at them to make sure you didn't do anything wrong. You can use the \bashcommand{git status} command to see what files you changed and use the \bashcommand{git diff} command to see what changes you made. Have a look at figures \ref{fig:gitstatus} and \ref{fig:gitdiff}.
+
+\myfig{Images/gitstatus.png}{What the status of the repo?}{fig:gitstatus}
+\myfig{Images/gitdiff.png}{What changes have I made?}{fig:gitdiff}
+
+If you're happy with your changes, make sure you're in the \directory{pokeyellow} directory and run \bashcommand{make} again. This will rebuild the code. The test out the new \textbf{pokeyellow.gbc} ROM in the emulator!  NOTE! The \bashcommand{sha1sum} for the ROM changed! It is no longer the original checksum, indicating that it's a different ROM. Cool, huh? Have a look at figure \ref{fig:rebuild} to see it rebuild and have a look at figure \ref{fig:hack001} to see it in action on the emulator.
+
+\myfig{Images/rebuild.png}{Run \bashcommand{make} again and then check the \bashcommand{sha1sum}}{fig:rebuild}
+\myfig{Images/hack001.png}{hacked!}{fig:hack001}
+
+
+\clearpage
+
+\subsection{Hack \#2 - Change the pokemon that follows you}
+
+First, be sure to clear the emulator state before you do this hack, otherwise the emulator might keep trying to run the old ROM with the old save state.
+
+The classic cool thing about Pokemon Yellow is that Pikachu follows you around. We can change it, however, so that it's not pikachu that follows you!
+
+There are many sprites in the \directory{gfx/sprites} directory. It would be easiest for you to see all of the sprites if you look on github:
+
+\href{https://github.com/pret/pokeyellow/tree/master/gfx/sprites}{https://github.com/pret/pokeyellow/tree/master/gfx/sprites}
+
+You cannot use any random image for this hack!!! Be sure to use the \textbf{monster.png} image as shown in figure \ref{fig:changepikachu}. Follow along with the steps in figure \ref{fig:changepikachu} to change the pikachu sprite to the monster  sprite. The rebuild the game and play your ROM for a few minutes until you receive pikachu from professor oak. Then you will see that pikachu is not following you, but a monster is!
+
+\myfig{Images/changepikachu.png}{Change Pikachu}{fig:changepikachu}
+
+TODO: Improve this section. Sorry, ran out of time, didn't have time take a bunch of screenshots!
+
+TODO: Provide students with a save state that has pikachu following them so they dont have to play the game up until the time when you have a pikachu. This probably takes 5-10 minutes in game to get to this point.
+
+\clearpage
+
+\section{Conclusions}
+Linux is an amazing platform for any sort of software project you want to do! Hope this lab was an exciting and eye-opening experience. You've applied your knowledge of Linux and the bash shell to do a really interesting project that you likely would not have been able to do a few months ago!
+
+All of the stuff we've done today was done as hobby projects by talented and inspired people. Think about what had to happen to make this lab possible:
+\begin{itemize}
+    \item \textit{pret} on github had to decompile the pokemon game into assembly
+    \item People had to figure out how gameboy worked and design the assembler \bashcommand{rgbasm}
+    \item People like endrift had to design the mGBA emulator
+    \item People like Nick Van Cise had to get a website working and get the mGBA emulator in the browser!
+    \item etc. etc. etc. So much amazing work by so many amazing people.
+\end{itemize}
+
+
+\subsection{Want More?}
+Check out the \href{https://github.com/pret}{pret account on github.} There's source code for many pokemon games. I'm currently playing Emerald. Also check out this amazing book that was just published this year about \href{https://nostarch.com/game-boy-coding-adventure}{Gameboy Assembly Programming.}
+\end{document}

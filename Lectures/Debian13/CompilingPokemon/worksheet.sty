@@ -1,0 +1,183 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{worksheet}
+
+\RequirePackage[english]{babel}
+\RequirePackage{url}
+\RequirePackage[top=2cm, bottom=1.5cm, left=1cm, right=1cm]{geometry}
+\RequirePackage[T1]{fontenc}     % modern 8-bit font encoding
+\RequirePackage[utf8]{inputenc}  % allow UTF-8 characters in the source
+\RequirePackage{authblk}
+\RequirePackage{color}
+\RequirePackage{fullpage}
+\RequirePackage{graphicx}
+\RequirePackage{hyperref}
+\RequirePackage{lipsum}
+\RequirePackage{listings}
+\RequirePackage{mdframed}  % optional, if you want a border
+\RequirePackage{multicol}
+\RequirePackage{textcomp} 
+\RequirePackage{upquote}
+\RequirePackage{xcolor}
+
+
+\newcommand{\shellname}[1]{\textcolor{black}{\textbf{#1}}}
+\newcommand{\directory}[1]{\textcolor{black}{\textbf{#1}}}
+\newcommand{\bashcommand}[1]{\textcolor{crimson}{\textbf{#1}}}
+\newcommand{\lectnote}[1]{\textcolor{orange}{\texttt{{\small{#1} }}}}
+
+
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.5,0}
+\definecolor{pred}{rgb}{0.9,0,0}
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+\definecolor{crimson}{rgb}{0.86,0.07,0.23}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{purple}{rgb}{0.5,0,0.5}
+\definecolor{darkgray}{rgb}{0.1,0.1,0.1}
+
+\lstset{
+  numbers=left,          % Position of line numbers (none, left, right)
+  numberstyle=\tiny,     % Style of the line numbers
+  stepnumber=1,          % Number every line
+  numbersep=15pt,         % Space between line numbers and code
+}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break, let},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstdefinestyle{java}{
+  language=Java,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  basicstyle=\small\ttfamily,
+  numbers=left,
+  stepnumber=1,
+  frame=shadowbox,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\lstdefinestyle{term}{language=bash,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+\lstdefinestyle{sh}{language=bash,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  numbers=left,
+  stepnumber=1,
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\lstdefinestyle{py}{language=python,
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  numbers=left,
+  stepnumber=1,
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\lstdefinestyle{txt}{
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  breakatwhitespace=true,
+  numbers=left,
+  stepnumber=1,
+  basicstyle=\small\ttfamily,
+  frame=single,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  upquote=true
+}
+
+\newcommand{\myfig}[3]{%
+\begin{figure}[h]
+    \centering
+    \begin{mdframed}[linewidth=1pt, linecolor=black]  % optional border
+        \includegraphics[width=\textwidth]{#1}
+    \end{mdframed}
+    \caption{\small \texttt{#2}}
+    \label{#3}
+\end{figure}
+}
+
+\newcommand{\myfigtwo}[3]{%
+\begin{figure}[h]
+    \centering
+    \begin{mdframed}[linewidth=1pt, linecolor=black]  % optional border
+        \includegraphics[width=0.5\textwidth]{#1}
+    \end{mdframed}
+    \caption{\small \texttt{#2}}
+    \label{#3}
+\end{figure}
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+
+
+\endinput
