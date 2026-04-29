@@ -12,19 +12,27 @@
 typedef struct {
     char question[256];
     char choices[NUM_CHOICES][128];
-    int correct;
+    char correct;
 } Question;
 
 Question questions[MAX_QUESTIONS];
 int question_count = 0;
-int answers[QUIZ_SIZE];
+char answers[QUIZ_SIZE];
 
+
+/***
+ * remove newline character.
+ */
 void trim_newline(char *s) {
     s[strcspn(s, "\n")] = 0;
 }
 
-/* ---------------- FILE LOADING ---------------- */
-
+/***
+ * Load a file that contains data for a question
+ *
+ * parameters:
+ * path - path to the question file
+ */
 void load_file(const char *path) {
     FILE *fp = fopen(path, "r");
     if (!fp) return;
@@ -46,10 +54,9 @@ void load_file(const char *path) {
             strcpy(q.choices[i], line);
         }
 
-        // ANSWER (0-3)
-        if (!fgets(line, sizeof(line), fp)) return;
-        trim_newline(line);
-        q.correct = atoi(line);
+        // Read the correct answer as a char
+	if (!fgets(line, sizeof(line), fp)) return;
+        q.correct = line[0];
 
         questions[question_count++] = q;
     }
@@ -57,7 +64,9 @@ void load_file(const char *path) {
     fclose(fp);
 }
 
-/* Load all .txt files in questions/ directory */
+/***
+ * Load all .txt files in questions/ directory
+ */
 void load_all_questions(const char *dir) {
     DIR *d = opendir(dir);
     if (!d) {
@@ -78,8 +87,8 @@ void load_all_questions(const char *dir) {
     closedir(d);
 }
 
-/* ---------------- SHUFFLE ---------------- */
-
+/***
+ */
 void shuffle_questions() {
     srand(time(NULL));
 
@@ -92,14 +101,14 @@ void shuffle_questions() {
     }
 }
 
-/* ---------------- QUIZ UI ---------------- */
-
+/***
+ * Run the quiz
+ */
 void run_quiz() {
     int score = 0;
 
     for (int i = 0; i < QUIZ_SIZE; i++) {
         clear();
-
         Question *q = &questions[i];
 
         mvprintw(2, 2, "Question %d/%d", i + 1, QUIZ_SIZE);
@@ -111,39 +120,37 @@ void run_quiz() {
 
         mvprintw(12, 2, "Press 1-4 to answer");
 
-        int ch;
+        char ch;
         while (1) {
             ch = getch();
             if (ch >= '1' && ch <= '4') {
-                answers[i] = ch - '1';
+                answers[i] = ch;
                 if (answers[i] == q->correct)
                     score++;
-                break;
+                break; // only break if the student thas selected a valid index.
             }
         }
     }
 
-    /* ---------------- RESULTS ---------------- */
-
+    // print resutlts 
     clear();
     mvprintw(2, 2, "Quiz Complete!");
-    mvprintw(4, 2, "Score: %d / %d", score, QUIZ_SIZE);
+    mvprintw(4, 2, "Score: %d / %d [%0.2f]%%", score, QUIZ_SIZE, (float)score * 100.0f/ (float)QUIZ_SIZE);
 
     for (int i = 0; i < QUIZ_SIZE; i++) {
         mvprintw(6 + i, 2,
-            "Q%d: your=%d correct=%d",
+            "Q%d: your=%c correct=%c",
             i + 1,
             answers[i],
             questions[i].correct
         );
     }
-
+    // TODO put in a percentage of results, do: 100 * right / total
     mvprintw(14, 2, "Press any key to exit...");
     refresh();
     getch();
 }
 
-/* ---------------- MAIN ---------------- */
 
 int main() {
     initscr();
